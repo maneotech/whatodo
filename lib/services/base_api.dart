@@ -31,15 +31,16 @@ class BaseAPI {
    * GOOGLE API BELOW
    */
 
-  static Future<Response> findPlaces() async {
+  static Future<Response> nearbySearch() async {
 
-    String input="restaurant";
-    String inputtype = "textquery";
-    String fields = "formatted_address,name,geometry";
-    String location = "43.529743,5.447427";
-    String radius = "16000";
+    String keyword="restaurant";
+    String radius = "10000";
+    String lat = "43.529743";
+    String lng = "5.447427";
+    String location = "$lat,$lng";
+
     String url =
-        "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=$input&inputtype=$inputtype&fields=$fields&location=$location&radius=$radius&key=$googleApiKey";
+        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?keyword=$keyword&location=$location&radius=$radius&key=$googleApiKey";
 
 
 
