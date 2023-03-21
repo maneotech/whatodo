@@ -4,6 +4,8 @@ import 'package:whatodo/components/activity_container.dart';
 import 'package:whatodo/constants/constant.dart';
 import 'package:whatodo/providers/location.dart';
 import 'package:whatodo/repositories/shared_pref.dart';
+import 'package:whatodo/screens/opening.dart';
+import 'package:whatodo/screens/place_result.dart';
 
 import '../components/action_button.dart';
 import '../components/activity_header_text.dart';
@@ -122,88 +124,108 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             InputContainer(
-              title: "Heure",
-              color: Constants.secondaryColor,
-              textController: controllerHours,
-              type: InputContainerType.number,
-            ),
-            const Padding(
-              padding: EdgeInsets.only(
-                left: 10,
-                right: 10,
-              ),
-              child: Text(
-                ":",
-                style: Constants.normalBlackTextStyle,
-              ),
-            ),
+                title: "Heure",
+                color: Constants.secondaryColor,
+                textController: controllerHours,
+                type: InputContainerType.number,
+                width: 80),
+            getSeparator(":"),
             InputContainer(
-              title: "Minutes",
-              color: Constants.thirdColor,
-              textController: controllerMinutes,
-              type: InputContainerType.number,
-            ),
+                title: "Minutes",
+                color: Constants.thirdColor,
+                textController: controllerMinutes,
+                type: InputContainerType.number,
+                width: 80),
           ],
         ),
         const ActivityHeaderText(text: "Localisation"),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            InputContainer(
-              title: "Ma position actuelle",
-              color: Constants.thirdColor,
-              textController: controllerAddress,
-              type: InputContainerType.address,
+            Expanded(
+              child: InputContainer(
+                  title: "Ma position actuelle",
+                  color: Constants.thirdColor,
+                  textController: controllerAddress,
+                  type: InputContainerType.address,
+                  width: null),
             ),
-            const Padding(
-              padding: EdgeInsets.only(
-                left: 10,
-                right: 10,
-              ),
-              child: Text(
-                ":",
-                style: Constants.normalBlackTextStyle,
-              ),
-            ),
+            getSeparator("OU"),
             GestureDetector(
               onTap: () => getLocation(),
               child: const InputContainer(
-                title: "Cliquer ici",
-                color: Constants.primaryColor,
-                textController: null,
-                type: InputContainerType.icon,
-              ),
+                  title: "Cliquer ici",
+                  color: Constants.primaryColor,
+                  textController: null,
+                  type: InputContainerType.icon,
+                  width: 80),
             ),
           ],
         ),
-        ActionButton(onTap: () => test(), title: "C'est parti!")
+        ActionButton(onTap: () => goToOpening(), title: "C'est parti!")
       ]),
     );
   }
 
+  Column getSeparator(String text) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: Constants.heightContainer,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 10,
+              right: 10,
+            ),
+            child: Center(
+              child: Text(
+                text,
+                style: Constants.normalBlackTextStyle,
+              ),
+            ),
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.only(top: 10),
+          child: Text("", style: Constants.normalBlackTextStyle),
+        )
+      ],
+    );
+  }
+
   getLocation() async {
-    LocationProvider locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    LocationProvider locationProvider =
+        Provider.of<LocationProvider>(context, listen: false);
     bool getPosition = await locationProvider.getCurrentPosition();
-    
-    if (getPosition){
 
+    if (getPosition) {
+      controllerAddress.text = locationProvider.currentAddress!;
+    } else {
+      //toast
     }
-    else {
-      
-    }
-
   }
 
   onTapContainer(int index) {}
 
-  test() async {
-    try {
+  goToOpening() async{
+    //var search = await BaseAPI.nearbySearch();
+    //print(search.body);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const PlaceResultScreen()/* const OpeningScreen()*/),
+    );
+
+    /*try {
       var res = await BaseAPI.nearbySearch();
       var body = res.body;
       print(res.body);
       print(res);
     } catch (e) {
       print(e);
-    }
+    }*/
   }
 
   disconnect() async {

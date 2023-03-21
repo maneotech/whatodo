@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 
 class LocationProvider with ChangeNotifier {
   double? _lat;
   double? _lng;
+  String? _currentAddress;
 
   double? get lat => _lat;
   double? get lng => _lng;
+  String? get currentAddress => _currentAddress;
 
   Future<bool> getCurrentPosition() async {
     final hasPermission = await _handleLocationPermission();
     if (!hasPermission) return false;
 
+    bool result = false;
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((Position position) {
+        .then((Position position) async {
       _lat = position.latitude;
       _lng = position.longitude;
-      return true;
+
+      result = await _getAddressFromLatLng();
+      
     }).catchError((e) {
       print(e);
-      return false;
+      result = false;
     });
 
-    return false;
+    return result;
   }
 
   Future<bool> _handleLocationPermission() async {
@@ -57,5 +63,26 @@ class LocationProvider with ChangeNotifier {
     }
 
     return true;
+  }
+
+  Future<bool> _getAddressFromLatLng() async {
+    bool result = false;
+
+    if (lat != null && lng != null) {
+      await placemarkFromCoordinates(lat!, lng!)
+          .then((List<Placemark> placemarks) {
+        Placemark place = placemarks[0];
+        _currentAddress =
+            '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode}';
+          
+        result = true;
+      }).catchError((e) {
+        result = false;
+      });
+    } else {
+      result = false;
+    }
+
+    return result;
   }
 }

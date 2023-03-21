@@ -9,6 +9,7 @@ class InputContainer extends StatelessWidget {
   final Color color;
   final TextEditingController? textController;
   final InputContainerType type;
+  final double? width;
 
   const InputContainer(
       {super.key,
@@ -16,15 +17,15 @@ class InputContainer extends StatelessWidget {
       required this.color,
       required this.textController,
       required this.type,
-      });
+      required this.width});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          height: 80,
-          width: 100,
+          height: Constants.heightContainer,
+          width: width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: color,
@@ -42,11 +43,17 @@ class InputContainer extends StatelessWidget {
   Widget getChild() {
     switch (type) {
       case InputContainerType.address:
-        return TextFormField(
-          controller: textController,
-          style: Constants.timeNumbersTextStyle,
-          decoration:
-              const InputDecoration(border: InputBorder.none, counterText: ""),
+        return Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: TextFormField(
+            textAlign: TextAlign.center,
+            controller: textController,
+            style: Constants.addressTextStyle,
+            minLines: 2,
+            maxLines: 6,
+            decoration: const InputDecoration(
+                border: InputBorder.none, counterText: ""),
+          ),
         );
 
       case InputContainerType.number:

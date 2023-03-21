@@ -16,11 +16,23 @@ class Constants {
   static const TextStyle normalBlackTextStyle =
       TextStyle(fontSize: 12.0, color: Colors.black, fontFamily: "Hellix");
 
-  static const TextStyle activityHeaderTextStyle =
-      TextStyle(fontSize: 15.0, color: Colors.black, fontFamily: "Hellix", fontWeight: FontWeight.w500);
+  static const TextStyle activityHeaderTextStyle = TextStyle(
+      fontSize: 15.0,
+      color: Colors.black,
+      fontFamily: "Hellix",
+      fontWeight: FontWeight.w500);
 
-  static const TextStyle timeNumbersTextStyle =
-      TextStyle(fontSize: 20.0, color: Colors.white, fontFamily: "Hellix", fontWeight: FontWeight.w700);
+  static const TextStyle timeNumbersTextStyle = TextStyle(
+      fontSize: 20.0,
+      color: Colors.white,
+      fontFamily: "Hellix",
+      fontWeight: FontWeight.w700);
+
+  static const TextStyle addressTextStyle = TextStyle(
+      fontSize: 13.0,
+      color: Colors.white,
+      fontFamily: "Hellix",
+      fontWeight: FontWeight.w700);
 
   static const EdgeInsets paddingButtons = EdgeInsets.all(10.0);
   static const EdgeInsets paddingLogin =
@@ -32,8 +44,12 @@ class Constants {
   static const Color thirdColor = Color(0xff10AC70);
   static const Color lightOutlinedGreenColor = Color(0xff1DD193);
 
-  
+  static const double heightContainer = 80.0;
+
   static const String loginImage = "assets/images/login.jpg";
+
+  static const String openingImage = "assets/images/opening.jpg";
+  static const String successSound = "assets/sounds/success.wav";
 
   static const String barIcon = "assets/icons/bar.png";
   static const String bicycleIcon = "assets/icons/bicycle.png";
@@ -46,4 +62,5 @@ class Constants {
   static const String shoppingIcon = "assets/icons/shopping.png";
   static const String sportIcon = "assets/icons/sport.png";
   static const String walkIcon = "assets/icons/walk.png";
+  static const String timeIcon = "assets/icons/time.png";
 }

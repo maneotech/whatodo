@@ -7,21 +7,30 @@ class ActivityContainer extends StatefulWidget {
   final String title;
   final Color color;
   final String iconPath;
-  final Function onTap;
+  final Function? onTap;
+  final bool isActive;
 
   const ActivityContainer(
       {super.key,
       required this.title,
       required this.color,
       required this.iconPath,
-      required this.onTap});
+      required this.onTap,
+      this.isActive = false});
 
   @override
   State<ActivityContainer> createState() => _ActivityContainerState();
 }
 
 class _ActivityContainerState extends State<ActivityContainer> {
-  bool isActive = false;
+  late bool isActive;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    isActive = widget.isActive;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +63,12 @@ class _ActivityContainerState extends State<ActivityContainer> {
   }
 
   onTouchContainer() {
-    setState(() {
-      isActive = !isActive;
-    });
-    widget.onTap();
+    if (widget.onTap != null) {
+      setState(() {
+        isActive = !isActive;
+      });
+      widget.onTap!();
+    }
   }
 
   Widget getContent() {
