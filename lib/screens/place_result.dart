@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:whatodo/components/activity_header_text.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:whatodo/utils/enum_filters.dart';
 
 import '../components/action_button.dart';
 import '../components/activity_container.dart';
 import '../constants/constant.dart';
+import '../models/result_place.dart';
+import '../services/activity.dart';
+import '../utils/map_style.dart';
 
 class PlaceResultScreen extends StatefulWidget {
-  const PlaceResultScreen({super.key});
+  final ResultPlaceModel resultPlaceModel;
+
+  const PlaceResultScreen({super.key, required this.resultPlaceModel});
 
   @override
   State<PlaceResultScreen> createState() => _PlaceResultScreenState();
@@ -16,9 +22,10 @@ class PlaceResultScreen extends StatefulWidget {
 class _PlaceResultScreenState extends State<PlaceResultScreen> {
   late GoogleMapController mapController;
 
-  final LatLng _center = const LatLng(43.529743, 5.447427);
+  final LatLng _pin = const LatLng(43.4925947, 5.3544352);
 
   void _onMapCreated(GoogleMapController controller) {
+    controller.setMapStyle(Utils.mapStyles);
     mapController = controller;
   }
 
@@ -28,19 +35,8 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
       body: Column(
         children: [
           getTitleBox(),
-          Expanded(
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                Container(
-                  child: getGoogleMap(),
-                ),
-                Container(
-                  child: getInformationBox(),
-                )
-              ],
-            ),
-          ),
+          Expanded(child: getGoogleMap()),
+          getInformationBox(),
         ],
       ),
     );
@@ -49,17 +45,38 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
   SizedBox getTitleBox() {
     return SizedBox(
       height: 50,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-        Text(""),
-        const Text("Promenade de la torse",
-            style: Constants.timeNumbersTextStyle),
-        Row(
-          children: const [
-            Text("5"),
-            Icon(Icons.star),
-          ],
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Expanded(
+            child: Padding(
+          padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+          child: Image.asset(
+            Constants.loginImage,
+            width: 20,
+          ),
+        )),
+        Expanded(
+          flex: 2,
+          child: Center(
+            child: Text(widget.resultPlaceModel.name,
+                style: Constants.titlePlaceTextStyle),
+          ),
+        ),
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: const [
+                  Text("5"),
+                  Icon(Icons.star),
+                ],
+              ),
+              Text("${widget.resultPlaceModel.rating.toString()} avis",
+                  style: Constants.rankingNumberTextStyle)
+            ],
+          ),
         ),
       ]),
     );
@@ -69,9 +86,18 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
     return GoogleMap(
       onMapCreated: _onMapCreated,
       initialCameraPosition: CameraPosition(
-        target: _center,
+        target: _pin,
         zoom: 17.0,
       ),
+      markers: <Marker>{getMarker()},
+      mapToolbarEnabled: false,
+    );
+  }
+
+  Marker getMarker() {
+    return Marker(
+      markerId: const MarkerId('ChIJ5QKV1wrtyRIRnHlvG28H1nA'),
+      position: _pin,
     );
   }
 
@@ -96,26 +122,25 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
               crossAxisCount: 3,
               crossAxisSpacing: 10.0,
               mainAxisSpacing: 10.0,
-              children: const [
+              children: [
                 ActivityContainer(
-                  title: "5 minutes à pied",
+                  title:
+                      "${widget.resultPlaceModel.travellingDuration.toString()} minutes à pied",
                   color: Constants.primaryColor,
                   iconPath: Constants.walkIcon,
                   onTap: null,
                   isActive: true,
                 ),
                 ActivityContainer(
-                    title: "Gratuit",
+                    title:
+                        widget.resultPlaceModel.isFree ? "Gratuit" : "Payant",
                     color: Constants.thirdColor,
-                    iconPath: Constants.freeIcon,
+                    iconPath: widget.resultPlaceModel.isFree
+                        ? Constants.freeIcon
+                        : Constants.notFreeIcon,
                     isActive: true,
                     onTap: null),
-                ActivityContainer(
-                    title: "Ouverture : de 8h à 15h",
-                    color: Constants.secondaryColor,
-                    iconPath: Constants.timeIcon,
-                    isActive: true,
-                    onTap: null),
+                getActivityContainer(),
               ],
             ),
             Row(
@@ -129,5 +154,30 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
         ),
       ),
     );
+  }
+
+  ActivityContainer getActivityContainer() {
+    switch (widget.resultPlaceModel.activityType) {
+      case ActivityType.culturel:
+        return ActivityService.getCulturelBloc(null);
+
+      case ActivityType.bar:
+        return ActivityService.getBarBloc(null);
+
+      case ActivityType.restaurant:
+        return ActivityService.getRestaurantBloc(null);
+
+      case ActivityType.sport:
+        return ActivityService.getSportBloc(null);
+
+      case ActivityType.shopping:
+        return ActivityService.getShoppingBloc(null);
+
+      case ActivityType.grocery:
+        return ActivityService.getGroceryBloc(null);
+
+      default:
+        return ActivityService.getCulturelBloc(null);
+    }
   }
 }

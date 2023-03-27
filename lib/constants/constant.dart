@@ -16,6 +16,9 @@ class Constants {
   static const TextStyle normalBlackTextStyle =
       TextStyle(fontSize: 12.0, color: Colors.black, fontFamily: "Hellix");
 
+  static const TextStyle rankingNumberTextStyle =
+      TextStyle(fontSize: 10, color: Colors.black, fontStyle: FontStyle.italic, fontFamily: "Hellix");
+
   static const TextStyle activityHeaderTextStyle = TextStyle(
       fontSize: 15.0,
       color: Colors.black,
@@ -27,6 +30,13 @@ class Constants {
       color: Colors.white,
       fontFamily: "Hellix",
       fontWeight: FontWeight.w700);
+
+  static const TextStyle titlePlaceTextStyle = TextStyle(
+      fontSize: 20.0,
+      color: Colors.black,
+      fontFamily: "Hellix",
+      fontWeight: FontWeight.w700);
+
 
   static const TextStyle addressTextStyle = TextStyle(
       fontSize: 13.0,

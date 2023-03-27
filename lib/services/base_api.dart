@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:whatodo/models/request_place.dart';
 import 'package:whatodo/models/user_login.dart';
 
 import '../models/user.dart';
@@ -11,6 +12,9 @@ class BaseAPI {
   static String api = "$base/api";
   static Uri signupPath = Uri.parse("$api/user/register");
   static Uri loginPath = Uri.parse("$api/user/login");
+
+  static Uri getPlacePath = Uri.parse("$api/place");
+
   static String googleApiKey = "AIzaSyBv2zOoqxBElmBJH4jFBieXnoDXqy_YRkw";
   // more routes
   static Map<String, String> headers = {
@@ -27,22 +31,24 @@ class BaseAPI {
         .post(loginPath, headers: headers, body: jsonEncode(userLogin));
   }
 
+  static Future<Response> getRequestedPlace(RequestPlace requestPlace) async {
+    return await http.Client()
+        .post(loginPath, headers: headers, body: jsonEncode(requestPlace));
+  }
+
   /**
    * GOOGLE API BELOW
    */
 
   static Future<Response> nearbySearch() async {
-
-    String keyword="restaurant";
+    String type = "restaurant";
     String radius = "10000";
     String lat = "43.529743";
     String lng = "5.447427";
     String location = "$lat,$lng";
 
     String url =
-        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?keyword=$keyword&location=$location&radius=$radius&key=$googleApiKey";
-
-
+        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?type=$type&location=$location&radius=$radius&key=$googleApiKey";
 
     String proxyServerUrl = 'https://cors-anywhere.herokuapp.com/';
     String encodedUrl = Uri.encodeFull(url);
