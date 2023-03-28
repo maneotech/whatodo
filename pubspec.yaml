@@ -52,6 +52,7 @@ dependencies:
   audioplayers: ^3.0.1
   google_maps_flutter: ^2.2.5
   google_maps_flutter_web: ^0.4.0+7
+  video_player: ^2.6.0
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +81,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/sounds/
+    - assets/videos/
   fonts:
     - family: Hellix
       fonts:

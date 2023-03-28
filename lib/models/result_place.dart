@@ -7,7 +7,7 @@ import '../utils/enum_filters.dart';
 class ResultPlaceModel {
   String id;
   String name;
-  bool isFree;
+  String address;
   double rating;
   LatLng location;
   List<String> types;
@@ -22,7 +22,7 @@ class ResultPlaceModel {
   ResultPlaceModel(
     this.id,
     this.name,
-    this.isFree,
+    this.address,
     this.rating,
     this.location,
     this.types,
@@ -41,7 +41,7 @@ class ResultPlaceModel {
     return ResultPlaceModel(
       json['id'],
       json['name'],
-      json['isFree'],
+      json['address'],
       json['rating'],
       json['location'],
       json['types'],

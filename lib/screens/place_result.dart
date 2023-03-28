@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whatodo/components/activity_header_text.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:whatodo/components/information_bloc.dart';
 import 'package:whatodo/utils/enum_filters.dart';
 
 import '../components/action_button.dart';
@@ -36,7 +37,7 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
         children: [
           getTitleBox(),
           Expanded(child: getGoogleMap()),
-          getInformationBox(),
+          InformationBloc(resultPlaceModel: widget.resultPlaceModel),
         ],
       ),
     );
@@ -99,85 +100,5 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
       markerId: const MarkerId('ChIJ5QKV1wrtyRIRnHlvG28H1nA'),
       position: _pin,
     );
-  }
-
-  Padding getInformationBox() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 7.0, right: 7.0, bottom: 30.0),
-      child: Container(
-        height: 280,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(children: [
-            Row(
-              children: const [ActivityHeaderText(text: "Informations")],
-            ),
-            GridView.count(
-              shrinkWrap: true,
-              crossAxisCount: 3,
-              crossAxisSpacing: 10.0,
-              mainAxisSpacing: 10.0,
-              children: [
-                ActivityContainer(
-                  title:
-                      "${widget.resultPlaceModel.travellingDuration.toString()} minutes à pied",
-                  color: Constants.primaryColor,
-                  iconPath: Constants.walkIcon,
-                  onTap: null,
-                  isActive: true,
-                ),
-                ActivityContainer(
-                    title:
-                        widget.resultPlaceModel.isFree ? "Gratuit" : "Payant",
-                    color: Constants.thirdColor,
-                    iconPath: widget.resultPlaceModel.isFree
-                        ? Constants.freeIcon
-                        : Constants.notFreeIcon,
-                    isActive: true,
-                    onTap: null),
-                getActivityContainer(),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(child: ActionButton(onTap: () => null, title: "Oui")),
-                const Padding(padding: EdgeInsets.only(left: 10, right: 10)),
-                Expanded(child: ActionButton(onTap: () => null, title: "Non"))
-              ],
-            )
-          ]),
-        ),
-      ),
-    );
-  }
-
-  ActivityContainer getActivityContainer() {
-    switch (widget.resultPlaceModel.activityType) {
-      case ActivityType.culturel:
-        return ActivityService.getCulturelBloc(null);
-
-      case ActivityType.bar:
-        return ActivityService.getBarBloc(null);
-
-      case ActivityType.restaurant:
-        return ActivityService.getRestaurantBloc(null);
-
-      case ActivityType.sport:
-        return ActivityService.getSportBloc(null);
-
-      case ActivityType.shopping:
-        return ActivityService.getShoppingBloc(null);
-
-      case ActivityType.grocery:
-        return ActivityService.getGroceryBloc(null);
-
-      default:
-        return ActivityService.getCulturelBloc(null);
-    }
-  }
+  }  
 }

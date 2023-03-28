@@ -27,7 +27,6 @@ class _ActivityContainerState extends State<ActivityContainer> {
 
   @override
   void initState() {
-    // TODO: implement initState
     isActive = widget.isActive;
     super.initState();
   }
@@ -64,6 +63,7 @@ class _ActivityContainerState extends State<ActivityContainer> {
 
   onTouchContainer() {
     if (widget.onTap != null) {
+      print(widget.onTap);
       setState(() {
         isActive = !isActive;
       });

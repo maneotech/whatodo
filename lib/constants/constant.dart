@@ -16,8 +16,11 @@ class Constants {
   static const TextStyle normalBlackTextStyle =
       TextStyle(fontSize: 12.0, color: Colors.black, fontFamily: "Hellix");
 
-  static const TextStyle rankingNumberTextStyle =
-      TextStyle(fontSize: 10, color: Colors.black, fontStyle: FontStyle.italic, fontFamily: "Hellix");
+  static const TextStyle rankingNumberTextStyle = TextStyle(
+      fontSize: 10,
+      color: Colors.black,
+      fontStyle: FontStyle.italic,
+      fontFamily: "Hellix");
 
   static const TextStyle activityHeaderTextStyle = TextStyle(
       fontSize: 15.0,
@@ -37,7 +40,6 @@ class Constants {
       fontFamily: "Hellix",
       fontWeight: FontWeight.w700);
 
-
   static const TextStyle addressTextStyle = TextStyle(
       fontSize: 13.0,
       color: Colors.white,
@@ -49,6 +51,7 @@ class Constants {
       EdgeInsets.only(left: 40.0, right: 40.0, top: 40.0);
   static const EdgeInsets paddingTop = EdgeInsets.only(top: 40.0);
 
+  static const EdgeInsets paddingActivityTitle= EdgeInsets.only(top: 10.0, bottom: 5.0);
   static const Color primaryColor = Color.fromRGBO(255, 105, 61, 1.0);
   static const Color secondaryColor = Color(0xff7925E9);
   static const Color thirdColor = Color(0xff10AC70);
@@ -73,4 +76,8 @@ class Constants {
   static const String sportIcon = "assets/icons/sport.png";
   static const String walkIcon = "assets/icons/walk.png";
   static const String timeIcon = "assets/icons/time.png";
+  static const String tokenIcon = "assets/icons/token.png";
+  static const String helpIcon = "assets/icons/help.png";
+
+  static const String sampleVideo = "https://assets.mixkit.co/videos/preview/mixkit-winter-fashion-cold-looking-woman-concept-video-39874-large.mp4";
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whatodo/providers/auth.dart';
 import 'package:whatodo/providers/location.dart';
-import 'package:whatodo/screens/historyScreen.dart';
+import 'package:whatodo/screens/history_screen.dart';
 import 'package:whatodo/screens/home.dart';
 import 'package:whatodo/screens/login.dart';
 
@@ -132,9 +132,7 @@ class _RootScreensState extends State<RootScreens> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*appBar: AppBarComponent(
-        isCustomPage: (currentPage == 1 ? true : false),
-      ),*/
+      appBar: const AppBarComponent(),
       body: Padding(
         padding: const EdgeInsets.only(
           left: 20,

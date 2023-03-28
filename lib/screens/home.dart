@@ -50,23 +50,16 @@ class _HomeScreenState extends State<HomeScreen> {
   setActivityBlocs() {
     activityBlocs = [
       ActivityService.getCulturelBloc(
-        () => onTapActivity(ActivityType.culturel),
-      ),
+          () => onTapActivity(ActivityType.culturel), false),
       ActivityService.getSportBloc(
-        () => onTapActivity(ActivityType.sport),
-      ),
+          () => onTapActivity(ActivityType.sport), false),
       ActivityService.getRestaurantBloc(
-        () => onTapActivity(ActivityType.restaurant),
-      ),
-      ActivityService.getBarBloc(
-        () => onTapActivity(ActivityType.bar),
-      ),
+          () => onTapActivity(ActivityType.restaurant), false),
+      ActivityService.getBarBloc(() => onTapActivity(ActivityType.bar), false),
       ActivityService.getShoppingBloc(
-        () => onTapActivity(ActivityType.shopping),
-      ),
+          () => onTapActivity(ActivityType.shopping), false),
       ActivityService.getGroceryBloc(
-        () => onTapActivity(ActivityType.grocery),
-      ),
+          () => onTapActivity(ActivityType.grocery), false),
     ];
   }
 
@@ -109,20 +102,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        TextButton(
-          child: Text("Se déconnecter"),
-          onPressed: () => disconnect(),
-        ),
         Text("Hello John! Enjoy your"),
         Text("new adventure"),
-        const ActivityHeaderText(text: "Activités"),
+        getTitleSectionRow("Activités", selectedActivities, 6),
         GridView.count(
             shrinkWrap: true,
             crossAxisCount: 3,
             crossAxisSpacing: 10.0,
             mainAxisSpacing: 10.0,
             children: activityBlocs),
-        const ActivityHeaderText(text: "Tarif"),
+        getTitleSectionRow("Tarif", selectedPrices, 2),
         GridView.count(
           shrinkWrap: true,
           crossAxisCount: 3,
@@ -130,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisSpacing: 10.0,
           children: priceBlocs,
         ),
-        const ActivityHeaderText(text: "Moyen de se déplacer"),
+        getTitleSectionRow("Moyen de se déplacer", selectedMovingTypes, 3),
         GridView.count(
           shrinkWrap: true,
           crossAxisCount: 3,
@@ -138,7 +127,10 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisSpacing: 10.0,
           children: movingBlocs,
         ),
-        const ActivityHeaderText(text: "Durée de déplacement"),
+        const Padding(
+          padding: Constants.paddingActivityTitle,
+          child: ActivityHeaderText(text: "Durée de déplacement"),
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -158,7 +150,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: 80),
           ],
         ),
-        const ActivityHeaderText(text: "Localisation"),
+        const Padding(
+          padding: Constants.paddingActivityTitle,
+          child: ActivityHeaderText(text: "Localisation"),
+        ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -185,6 +180,22 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         ActionButton(onTap: () => goToOpening(), title: "C'est parti!")
       ]),
+    );
+  }
+
+  Padding getTitleSectionRow(String title, List list, int numberMax) {
+    String selectedText = list.length < 2 ? "sélectionnée" : "sélectionnées";
+
+    return Padding(
+      padding: Constants.paddingActivityTitle,
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ActivityHeaderText(text: title),
+            Text("${list.length}/$numberMax $selectedText",
+                style: Constants.rankingNumberTextStyle)
+          ]),
     );
   }
 
@@ -229,27 +240,33 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   onTapActivity(ActivityType activity) {
-    if (selectedActivities.contains(activity)) {
-      selectedActivities.remove(activity);
-    } else {
-      selectedActivities.add(activity);
-    }
+    setState(() {
+      if (selectedActivities.contains(activity)) {
+        selectedActivities.remove(activity);
+      } else {
+        selectedActivities.add(activity);
+      }
+    });
   }
 
-  onTapPurchase(PriceType PriceType) {
-    if (selectedPrices.contains(PriceType)) {
-      selectedPrices.remove(PriceType);
-    } else {
-      selectedPrices.add(PriceType);
-    }
+  onTapPurchase(PriceType priceType) {
+    setState(() {
+      if (selectedPrices.contains(priceType)) {
+        selectedPrices.remove(priceType);
+      } else {
+        selectedPrices.add(priceType);
+      }
+    });
   }
 
   onTapMoving(MovingType movingType) {
-    if (selectedMovingTypes.contains(movingType)) {
-      selectedMovingTypes.remove(movingType);
-    } else {
-      selectedMovingTypes.add(movingType);
-    }
+    setState(() {
+      if (selectedMovingTypes.contains(movingType)) {
+        selectedMovingTypes.remove(movingType);
+      } else {
+        selectedMovingTypes.add(movingType);
+      }
+    });
   }
 
   goToOpening() async {
@@ -311,9 +328,5 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return true;
-  }
-
-  disconnect() async {
-    await Provider.of<AuthProvider>(context, listen: false).logout();
   }
 }

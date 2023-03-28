@@ -94,7 +94,9 @@ class _OpeningScreenState extends State<OpeningScreen> {
     );
 
     await Future.delayed(
-        const Duration(milliseconds: minimumTimeToWait), () {});
+      const Duration(milliseconds: minimumTimeToWait),
+      () {},
+    );
   }
 
   playSound() {
