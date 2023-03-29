@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:whatodo/constants/constant.dart';
 import 'package:whatodo/screens/ad_video_player.dart';
 
+import '../screens/add_user.dart';
 import '../screens/help_screen.dart';
 
 class AppBarComponent extends StatefulWidget implements PreferredSizeWidget {
@@ -47,6 +48,19 @@ class _AppBarComponentState extends State<AppBarComponent> {
               ],
             ),
           ),
+          GestureDetector(
+            onTap: () => showSponsorship(),
+            child: Row(
+              children: const [
+                Icon(Icons.add_circle, color: Colors.black),
+                Padding(
+                  padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                  child: Text("+1 Jeton",
+                      style: Constants.activityHeaderTextStyle),
+                )
+              ],
+            ),
+          ),
           if (Navigator.of(context).canPop() == false)
             GestureDetector(
               onTap: () => goToHelpScreen(),
@@ -54,6 +68,15 @@ class _AppBarComponentState extends State<AppBarComponent> {
                   color: Colors.black),
             )
         ],
+      ),
+    );
+  }
+
+  showSponsorship(){
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => const AddUserScreen(),
       ),
     );
   }
