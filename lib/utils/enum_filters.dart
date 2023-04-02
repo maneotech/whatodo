@@ -4,7 +4,7 @@ enum ActivityType {
   restaurant,
   bar,
   shopping,
-  grocery,
+  snacking,
 }
 
 enum PriceType {

@@ -34,13 +34,15 @@ class HistoryBloc extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      ActivityHeaderText(text: resultPlaceModel.name),
+                      Expanded(child: ActivityHeaderText(text: resultPlaceModel.name)),
                       Column()
                     ],
                   ),
-                  Text(
-                    resultPlaceModel.address,
-                    style: Constants.normalBlackTextStyle,
+                  Expanded(
+                    child: Text(
+                      resultPlaceModel.address,
+                      style: Constants.normalBlackTextStyle,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
@@ -52,19 +54,19 @@ class HistoryBloc extends StatelessWidget {
                       children: [
                         ActivityContainer(
                           title:
-                              "${resultPlaceModel.travellingDuration.toString()} minutes à pied",
+                              "${resultPlaceModel.generatedOptions.travellingDuration.toString()} minutes à pied",
                           color: Constants.primaryColor,
                           iconPath: Constants.walkIcon,
                           onTap: null,
                           isActive: true,
                         ),
                         ActivityContainer(
-                            title: resultPlaceModel.priceType == PriceType.free
+                            title: resultPlaceModel.generatedOptions.priceType == PriceType.free
                                 ? "Gratuit"
                                 : "Payant",
                             color: Constants.thirdColor,
                             iconPath:
-                                resultPlaceModel.priceType == PriceType.free
+                                resultPlaceModel.generatedOptions.priceType == PriceType.free
                                     ? Constants.freeIcon
                                     : Constants.notFreeIcon,
                             isActive: true,
@@ -96,7 +98,7 @@ class HistoryBloc extends StatelessWidget {
 
 
   ActivityContainer getActivityContainer() {
-    switch (resultPlaceModel.activityType) {
+    switch (resultPlaceModel.generatedOptions.activityType) {
       case ActivityType.culturel:
         return ActivityService.getCulturelBloc(null, true);
 
@@ -112,8 +114,8 @@ class HistoryBloc extends StatelessWidget {
       case ActivityType.shopping:
         return ActivityService.getShoppingBloc(null, true);
 
-      case ActivityType.grocery:
-        return ActivityService.getGroceryBloc(null, true);
+      case ActivityType.snacking:
+        return ActivityService.getSnackingBloc(null, true);
 
       default:
         return ActivityService.getCulturelBloc(null, true);

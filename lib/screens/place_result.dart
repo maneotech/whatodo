@@ -23,11 +23,19 @@ class PlaceResultScreen extends StatefulWidget {
 class _PlaceResultScreenState extends State<PlaceResultScreen> {
   late GoogleMapController mapController;
 
-  final LatLng _pin = const LatLng(43.4925947, 5.3544352);
+  late LatLng _pin;
 
   void _onMapCreated(GoogleMapController controller) {
     controller.setMapStyle(Utils.mapStyles);
     mapController = controller;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _pin = LatLng(
+        widget.resultPlaceModel.latitude, widget.resultPlaceModel.longitude);
   }
 
   @override
@@ -47,14 +55,13 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
     return SizedBox(
       height: 50,
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Expanded(
-            child: Padding(
-          padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-          child: Image.asset(
-            Constants.loginImage,
-            width: 20,
-          ),
-        )),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(widget.resultPlaceModel.rating.toString()),
+            const Icon(Icons.star),
+          ],
+        ),
         Expanded(
           flex: 2,
           child: Center(
@@ -62,23 +69,8 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
                 style: Constants.titlePlaceTextStyle),
           ),
         ),
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: const [
-                  Text("5"),
-                  Icon(Icons.star),
-                ],
-              ),
-              Text("${widget.resultPlaceModel.rating.toString()} avis",
-                  style: Constants.rankingNumberTextStyle)
-            ],
-          ),
-        ),
+        Text("${widget.resultPlaceModel.userRatingsTotals.toString()} avis",
+            style: Constants.rankingNumberTextStyle),
       ]),
     );
   }
@@ -88,7 +80,7 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
       onMapCreated: _onMapCreated,
       initialCameraPosition: CameraPosition(
         target: _pin,
-        zoom: 17.0,
+        zoom: 16.0,
       ),
       markers: <Marker>{getMarker()},
       mapToolbarEnabled: false,
@@ -100,5 +92,5 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
       markerId: const MarkerId('ChIJ5QKV1wrtyRIRnHlvG28H1nA'),
       position: _pin,
     );
-  }  
+  }
 }

@@ -14,7 +14,7 @@ class ActivityService {
   static ActivityContainer getSportBloc(Function? callback, bool isActive) {
     return ActivityContainer(
       title: "Sport",
-      color: Constants.secondaryColor,
+      color: Constants.thirdColor,
       iconPath: Constants.sportIcon,
       isActive: isActive,
       onTap: callback != null ? () => callback() : null,
@@ -35,7 +35,7 @@ class ActivityService {
   static ActivityContainer getBarBloc(Function? callback, bool isActive) {
     return ActivityContainer(
       title: "Bar",
-      color: Constants.thirdColor,
+      color: Constants.secondaryColor,
       iconPath: Constants.barIcon,
       isActive: isActive,
       onTap: callback != null ? () => callback() : null,
@@ -45,18 +45,18 @@ class ActivityService {
   static ActivityContainer getShoppingBloc(Function? callback, bool isActive) {
     return ActivityContainer(
       title: "Shopping",
-      color: Constants.primaryColor,
+      color: Constants.secondaryColor,
       iconPath: Constants.shoppingIcon,
       isActive: isActive,
       onTap: callback != null ? () => callback() : null,
     );
   }
 
-  static ActivityContainer getGroceryBloc(Function? callback, bool isActive) {
+  static ActivityContainer getSnackingBloc(Function? callback, bool isActive) {
     return ActivityContainer(
-      title: "Alimentation",
-      color: Constants.secondaryColor,
-      iconPath: Constants.groceryIcon,
+      title: "Petite faim",
+      color: Constants.primaryColor,
+      iconPath: Constants.snackingIcon,
       isActive: isActive,
       onTap: callback != null ? () => callback() : null,
     );

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:whatodo/models/result_place.dart';
+import 'package:whatodo/services/base_api.dart';
+import 'package:whatodo/services/toast.dart';
 
 import '../constants/constant.dart';
 import '../services/activity.dart';
@@ -18,7 +22,7 @@ class InformationBloc extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 7.0, right: 7.0, bottom: 30.0),
       child: Container(
-        height: 280,
+        height: 250,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -26,7 +30,7 @@ class InformationBloc extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Column(children: [
+          child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
             Row(
               children: const [
                 ActivityHeaderText(text: "Informations"),
@@ -39,45 +43,76 @@ class InformationBloc extends StatelessWidget {
               mainAxisSpacing: 10.0,
               children: [
                 ActivityContainer(
-                  title:
-                      "${resultPlaceModel.travellingDuration.toString()} minutes à pied",
-                  color: Constants.primaryColor,
-                  iconPath: Constants.walkIcon,
-                  onTap: null,
-                  isActive: true,
-                ),
-                ActivityContainer(
-                    title: resultPlaceModel.priceType == PriceType.free
+                    title: resultPlaceModel.generatedOptions.priceType ==
+                            PriceType.free
                         ? "Gratuit"
                         : "Payant",
                     color: Constants.thirdColor,
-                    iconPath: resultPlaceModel.priceType == PriceType.free
+                    iconPath: resultPlaceModel.generatedOptions.priceType ==
+                            PriceType.free
                         ? Constants.freeIcon
                         : Constants.notFreeIcon,
                     isActive: true,
                     onTap: null),
                 getActivityContainer(),
+                ActivityContainer(
+                  title: "Voir dans Maps",
+                  color: Constants.primaryColor,
+                  iconPath: Constants.mapIcon,
+                  isActive: true,
+                  onTap: () => openMap(),
+                )
               ],
             ),
-            getYesNoButtons()
+            getYesNoButtons(context)
           ]),
         ),
       ),
     );
   }
 
-  Row getYesNoButtons() {
+  Future<void> openMap() async {
+    String placeId = resultPlaceModel.placeId;
+    String googleUrl =
+        'https://www.google.com/maps/search/?api=1&query=Google&query_place_id=$placeId';
+
+    if (await canLaunchUrl(Uri.parse(googleUrl))) {
+      await launchUrl(Uri.parse(googleUrl));
+    } else {
+      ToastService.showError("Impossible d'ouvrir la map");
+    }
+  }
+
+  Row getYesNoButtons(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: ActionButton(onTap: () => null, title: "Oui")),
+        Expanded(
+            child:
+                ActionButton(onTap: () => acceptPlace(context), title: "Oui")),
         const Padding(padding: EdgeInsets.only(left: 10, right: 10)),
-        Expanded(child: ActionButton(onTap: () => null, title: "Non"))
+        Expanded(
+            child:
+                ActionButton(onTap: () => refusePlace(context), title: "Non"))
       ],
     );
   }
 
+  refusePlace(BuildContext context) {
+    Navigator.of(context).popUntil(ModalRoute.withName('/'));
+  }
+
+  acceptPlace(BuildContext context) async {
+    var res = await BaseAPI.acceptPlace(resultPlaceModel.id);
+
+    if (res.statusCode == 200) {
+      ToastService.showSuccess("Ce lieu a été ajouté à votre historique");
+    } else {
+      ToastService.showError("Une erreur est survenue, merci de réessayer");
+    }
+  }
+
   ActivityContainer getActivityContainer() {
-    switch (resultPlaceModel.activityType) {
+    switch (resultPlaceModel.generatedOptions.activityType) {
       case ActivityType.culturel:
         return ActivityService.getCulturelBloc(null, true);
 
@@ -93,8 +128,8 @@ class InformationBloc extends StatelessWidget {
       case ActivityType.shopping:
         return ActivityService.getShoppingBloc(null, true);
 
-      case ActivityType.grocery:
-        return ActivityService.getGroceryBloc(null, true);
+      case ActivityType.snacking:
+        return ActivityService.getSnackingBloc(null, true);
 
       default:
         return ActivityService.getCulturelBloc(null, true);

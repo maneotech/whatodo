@@ -49,17 +49,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   setActivityBlocs() {
     activityBlocs = [
-      ActivityService.getCulturelBloc(
-          () => onTapActivity(ActivityType.culturel), false),
-      ActivityService.getSportBloc(
-          () => onTapActivity(ActivityType.sport), false),
+      ActivityService.getSnackingBloc(
+          () => onTapActivity(ActivityType.snacking), false),
+      ActivityService.getBarBloc(() => onTapActivity(ActivityType.bar), false),
       ActivityService.getRestaurantBloc(
           () => onTapActivity(ActivityType.restaurant), false),
-      ActivityService.getBarBloc(() => onTapActivity(ActivityType.bar), false),
+      ActivityService.getSportBloc(
+          () => onTapActivity(ActivityType.sport), false),
+      ActivityService.getCulturelBloc(
+          () => onTapActivity(ActivityType.culturel), false),
       ActivityService.getShoppingBloc(
           () => onTapActivity(ActivityType.shopping), false),
-      ActivityService.getGroceryBloc(
-          () => onTapActivity(ActivityType.grocery), false),
     ];
   }
 
@@ -270,23 +270,25 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   goToOpening() async {
-    if (checkAtLeastOneActivity() && checkPrice() && checkTime()) {
-      LatLng latLng = LatLng(
-        Provider.of<LocationProvider>(context, listen: false).lat!,
-        Provider.of<LocationProvider>(context, listen: false).lng!,
-      );
+    double? lat = Provider.of<LocationProvider>(context, listen: false).lat;
+    double? lng = Provider.of<LocationProvider>(context, listen: false).lng;
 
-      String currentAddress =
-          Provider.of<LocationProvider>(context, listen: false).currentAddress!;
+    if (checkAtLeastOneActivity() &&
+        checkPrice() &&
+        checkTime() &&
+        checkLat(lat, lng)) {
+      /*  String currentAddress =
+          Provider.of<LocationProvider>(context, listen: false).currentAddress!;*/
 
       RequestPlace requestPlace = RequestPlace(
-          selectedActivities,
-          selectedPrices,
-          selectedMovingTypes,
-          latLng,
-          currentAddress,
-          int.parse(controllerHours.text),
-          int.parse(controllerMinutes.text));
+        selectedActivities,
+        selectedPrices,
+        selectedMovingTypes,
+        lat!,
+        lng!,
+        int.parse(controllerHours.text),
+        int.parse(controllerMinutes.text),
+      );
 
       if (context.mounted) {
         Navigator.push(
@@ -328,5 +330,14 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return true;
+  }
+
+  bool checkLat(double? lat, double? lng) {
+    if ((lat == null || lng == null)) {
+      ToastService.showError("Veuillez ajouter votre position");
+      return false;
+    } else {
+      return true;
+    }
   }
 }

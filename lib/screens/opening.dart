@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:whatodo/screens/place_result.dart';
+import 'package:whatodo/services/toast.dart';
 
 import '../constants/constant.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -62,22 +63,10 @@ class _OpeningScreenState extends State<OpeningScreen> {
     playSound();
     // during play sound, start Timer and then call API Request
 
-    /*BaseAPI.getRequestedPlace().then((value) => 
-      value.body
-    );*/
-
     // if Timer is over and also API Request is done, then forward data to next page
     const int minimumTimeToWait = 2500;
     const oneSec = Duration(milliseconds: 500);
     int start = 0;
-
-    BaseAPI.getRequestedPlace(widget.requestPlace).then((value) {
-      //if not error
-      _resultPlaceModel = ResultPlaceModel.fromReqBody(value.body);
-      if (_timer.isActive && _resultPlaceModel != null) {
-        goToPlaceResultScreen(_resultPlaceModel!);
-      }
-    });
 
     _timer = Timer.periodic(
       oneSec,
@@ -93,10 +82,21 @@ class _OpeningScreenState extends State<OpeningScreen> {
       },
     );
 
-    await Future.delayed(
-      const Duration(milliseconds: minimumTimeToWait),
-      () {},
-    );
+    var res = await BaseAPI.getRequestedPlace(widget.requestPlace);
+    if (res.statusCode == 200) {
+      //if not error
+      _resultPlaceModel = ResultPlaceModel.fromReqBody(res.body);
+      if (_timer.isActive == false && _resultPlaceModel != null) {
+        goToPlaceResultScreen(_resultPlaceModel!);
+      }
+    } else {
+      ToastService.showError(
+          "Une erreur est survenue. Votre token n'a pas été débité. Merci de réessayer");
+
+      if (mounted) {
+        Navigator.pop(context);
+      }
+    }
   }
 
   playSound() {

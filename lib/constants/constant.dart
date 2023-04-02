@@ -71,13 +71,14 @@ class Constants {
   static const String freeIcon = "assets/icons/free.png";
   static const String notFreeIcon = "assets/icons/notfree.png";
   static const String restaurantIcon = "assets/icons/restaurant.png";
-  static const String groceryIcon = "assets/icons/grocery.png";
+  static const String snackingIcon = "assets/icons/snacking.png";
   static const String shoppingIcon = "assets/icons/shopping.png";
   static const String sportIcon = "assets/icons/sport.png";
   static const String walkIcon = "assets/icons/walk.png";
   static const String timeIcon = "assets/icons/time.png";
   static const String tokenIcon = "assets/icons/token.png";
   static const String helpIcon = "assets/icons/help.png";
+  static const String mapIcon = "assets/icons/map.png";
 
   static const String sampleVideo = "https://assets.mixkit.co/videos/preview/mixkit-winter-fashion-cold-looking-woman-concept-video-39874-large.mp4";
 }

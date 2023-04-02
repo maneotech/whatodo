@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:whatodo/services/base_api.dart';
 
 import '../constants/constant.dart';
 import '../repositories/shared_pref.dart';
 
 class AuthProvider with ChangeNotifier {
-  String _jwt = "sdf";
+  String _jwt = "s";
   String get jwt => _jwt;
 
   init() async {
@@ -16,7 +17,7 @@ class AuthProvider with ChangeNotifier {
     String? jsonString = await sharedPref.read(Constants.sharedPrefKeyJwt);
 
     if (jsonString != null && jsonString.isNotEmpty) {
-      _jwt = jsonString;
+      setJwt(jsonString);
       notifyListeners();
     }
   }
@@ -26,7 +27,7 @@ class AuthProvider with ChangeNotifier {
     if (jwt.isNotEmpty) {
       SharedPref sharedPref = SharedPref();
       await sharedPref.save(Constants.sharedPrefKeyJwt, jwt);
-      _jwt = jwt;
+      setJwt(jwt);
       notifyListeners();
     }
   }
@@ -34,7 +35,12 @@ class AuthProvider with ChangeNotifier {
   Future<void> logout() async {
     SharedPref sharedPref = SharedPref();
     await sharedPref.save(Constants.sharedPrefKeyJwt, "");
-    _jwt = "";
+    setJwt("");
     notifyListeners();
+  }
+
+  setJwt(String jwt){
+    _jwt = jwt;
+    BaseAPI.bearerToken = jwt;
   }
 }

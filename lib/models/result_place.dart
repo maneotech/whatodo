@@ -1,57 +1,53 @@
 import 'dart:convert';
 
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import '../utils/enum_filters.dart';
+import 'generated_options._place.dart';
 
 class ResultPlaceModel {
   String id;
+  String placeId;
   String name;
   String address;
   double rating;
-  LatLng location;
+  double latitude;
+  double longitude;
   List<String> types;
-  String logoUrl;
-  List<String> picturesUrl;
   int userRatingsTotals;
-  ActivityType activityType;
-  PriceType priceType;
-  MovingType movingType;
-  double travellingDuration;
+  GeneratedOptions generatedOptions;
 
   ResultPlaceModel(
     this.id,
+    this.placeId,
     this.name,
     this.address,
     this.rating,
-    this.location,
+    this.latitude,
+    this.longitude,
     this.types,
-    this.logoUrl,
-    this.picturesUrl,
     this.userRatingsTotals,
-    this.activityType,
-    this.priceType,
-    this.movingType,
-    this.travellingDuration,
+    this.generatedOptions,
   );
 
   factory ResultPlaceModel.fromReqBody(String body) {
     Map<String, dynamic> json = jsonDecode(body);
 
-    return ResultPlaceModel(
-      json['id'],
-      json['name'],
-      json['address'],
-      json['rating'],
-      json['location'],
-      json['types'],
-      json['logoUrl'],
-      json['picturesUrl'],
-      json['userRatingsTotals'],
-      json['activityType'],
-      json['priceType'],
-      json['movingType'],
-      json['travellingDuration'],
+    GeneratedOptions generatedOptions = GeneratedOptions(
+      ActivityType.values[json['generatedOptions']['activityType']],
+      MovingType.values[json['generatedOptions']['movingType']],
+      PriceType.values[json['generatedOptions']['priceType']],
+      5,
     );
+
+    return ResultPlaceModel(
+        json['_id'],
+        json['place']['place_id'],
+        json['place']['name'],
+        json['place']['vicinity'],
+        json['place']['rating'],
+        json['place']['geometry']['location']['lat'],
+        json['place']['geometry']['location']['lng'],
+        List<String>.from(json['place']['types']),
+        json['place']['user_ratings_total'],
+        generatedOptions);
   }
 }

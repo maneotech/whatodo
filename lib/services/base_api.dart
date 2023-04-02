@@ -13,12 +13,19 @@ class BaseAPI {
   static Uri signupPath = Uri.parse("$api/user/register");
   static Uri loginPath = Uri.parse("$api/user/login");
 
-  static Uri getPlacePath = Uri.parse("$api/place");
+  static Uri getPlacePath = Uri.parse("$api/place/one");
+  static Uri acceptPlacePath = Uri.parse("$api/place/accept");
+  static Uri acceptedPlacesPath = Uri.parse("$api/place/accepted");
+  static Uri refusePlacesPath = Uri.parse("$api/place/refuse");
 
   static String googleApiKey = "AIzaSyBv2zOoqxBElmBJH4jFBieXnoDXqy_YRkw";
+  static String bearerToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDI2OWI2ODgyNThlZGRhZTNkZGVlZTYiLCJ0b2tlbklkIjoiNjQyOTM5OTdmODI4N2RkNjYyNmE4MjExIiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTY4MDQyMzMxOX0.6hwsAg7UYX4R2OLNUC__7soeEzuuegZqYuZXEZLRRo0";
+
   // more routes
   static Map<String, String> headers = {
-    "Content-Type": "application/json; charset=UTF-8"
+    'Content-Type': "application/json; charset=UTF-8",
+    'Authorization': "Bearer $bearerToken"
   };
 
   static Future<Response> signUpWithEmail(UserModel user) async {
@@ -32,28 +39,26 @@ class BaseAPI {
   }
 
   static Future<Response> getRequestedPlace(RequestPlace requestPlace) async {
-    return await http.Client()
-        .post(loginPath, headers: headers, body: jsonEncode(requestPlace));
+    var json = jsonEncode(requestPlace);
+    return await http.Client().post(getPlacePath, headers: headers, body: json);
   }
 
-  /**
-   * GOOGLE API BELOW
-   */
+  static Future<Response> acceptPlace(String placeId) async {
+    var body = {placeId: placeId};
+    var json = jsonEncode(body);
 
-  static Future<Response> nearbySearch() async {
-    String type = "restaurant";
-    String radius = "10000";
-    String lat = "43.529743";
-    String lng = "5.447427";
-    String location = "$lat,$lng";
+    return await http.Client()
+        .post(acceptPlacePath, headers: headers, body: json);
+  }
 
-    String url =
-        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?type=$type&location=$location&radius=$radius&key=$googleApiKey";
+  static Future<Response> getAcceptedPlaces() async {
+    return await http.Client().get(acceptedPlacesPath, headers: headers);
+  }
 
-    String proxyServerUrl = 'https://cors-anywhere.herokuapp.com/';
-    String encodedUrl = Uri.encodeFull(url);
-    String fullUrl = '$proxyServerUrl$encodedUrl';
-    Uri findPlacesPath = Uri.parse(fullUrl);
-    return await http.Client().get(findPlacesPath);
+  static Future<Response> refusePlace(String docId) async {
+    var body = {'docId': docId};
+    var json = jsonEncode(body);
+    return await http.Client()
+        .post(refusePlacesPath, headers: headers, body: json);
   }
 }
