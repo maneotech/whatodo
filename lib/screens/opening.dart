@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
+import 'package:whatodo/providers/user.dart';
 import 'package:whatodo/screens/place_result.dart';
 import 'package:whatodo/services/toast.dart';
 
@@ -10,6 +12,7 @@ import 'package:audioplayers/audioplayers.dart';
 
 import '../models/request_place.dart';
 import '../models/result_place.dart';
+import '../providers/auth.dart';
 import '../services/base_api.dart';
 
 class OpeningScreen extends StatefulWidget {
@@ -85,6 +88,10 @@ class _OpeningScreenState extends State<OpeningScreen> {
     var res = await BaseAPI.getRequestedPlace(widget.requestPlace);
     if (res.statusCode == 200) {
       //if not error
+      if (mounted) {
+        await Provider.of<UserProvider>(context, listen: false).spendOneToken();
+      }
+
       _resultPlaceModel = ResultPlaceModel.fromReqBody(res.body);
       if (_timer.isActive == false && _resultPlaceModel != null) {
         goToPlaceResultScreen(_resultPlaceModel!);

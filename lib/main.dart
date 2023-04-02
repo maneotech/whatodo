@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whatodo/providers/auth.dart';
 import 'package:whatodo/providers/location.dart';
+import 'package:whatodo/providers/user.dart';
 import 'package:whatodo/screens/history_screen.dart';
 import 'package:whatodo/screens/home.dart';
 import 'package:whatodo/screens/login.dart';
@@ -20,6 +21,7 @@ void main() {
       ChangeNotifierProvider(create: (context) => LocaleProvider()),
       ChangeNotifierProvider(create: (context) => AuthProvider()),
       ChangeNotifierProvider(create: (context) => LocationProvider()),
+      ChangeNotifierProvider(create: (context) => UserProvider()),
     ],
     child: const MyApp(),
   ));

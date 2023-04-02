@@ -5,7 +5,7 @@ import '../constants/constant.dart';
 import '../repositories/shared_pref.dart';
 
 class AuthProvider with ChangeNotifier {
-  String _jwt = "s";
+  String _jwt = "";
   String get jwt => _jwt;
 
   init() async {

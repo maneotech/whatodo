@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:whatodo/constants/constant.dart';
+import 'package:whatodo/providers/user.dart';
 import 'package:whatodo/screens/ad_video_player.dart';
 
 import '../screens/add_user.dart';
@@ -26,12 +28,17 @@ class _AppBarComponentState extends State<AppBarComponent> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
-            children: const [
-              ImageIcon(AssetImage(Constants.tokenIcon), color: Colors.black),
+            children: [
+              const ImageIcon(AssetImage(Constants.tokenIcon),
+                  color: Colors.black),
               Padding(
-                padding: EdgeInsets.only(left: 5.0, right: 5.0),
-                child:
-                    Text("5 Jetons", style: Constants.activityHeaderTextStyle),
+                padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+                child: Consumer<UserProvider>(
+                  builder: (context, value, child) {
+                    return Text("${value.token} Jetons",
+                        style: Constants.activityHeaderTextStyle);
+                  },
+                ),
               )
             ],
           ),
@@ -72,7 +79,7 @@ class _AppBarComponentState extends State<AppBarComponent> {
     );
   }
 
-  showSponsorship(){
+  showSponsorship() {
     Navigator.push(
       context,
       MaterialPageRoute(

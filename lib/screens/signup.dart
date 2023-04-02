@@ -12,7 +12,7 @@ import 'package:whatodo/services/form_validation.dart';
 import 'package:whatodo/services/toast.dart';
 
 import '../components/color_ button.dart';
-import '../models/user.dart';
+import '../models/request_user.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -97,7 +97,7 @@ class _ScreenState extends State<SignupScreen> {
 
   signupWithEmail() async {
     if (FormValidation.isFormValid(controllerFirstname.text, controllerEmail.text, controllerPassword.text)) {
-      UserModel user = UserModel(controllerFirstname.text, controllerEmail.text,
+      UserRequestModel user = UserRequestModel(controllerFirstname.text, controllerEmail.text,
           controllerPassword.text);
       var res = await BaseAPI.signUpWithEmail(user);
       if (res.statusCode == 200) {

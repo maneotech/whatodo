@@ -106,6 +106,9 @@ class InformationBloc extends StatelessWidget {
 
     if (res.statusCode == 200) {
       ToastService.showSuccess("Ce lieu a été ajouté à votre historique");
+      if (context.mounted) {
+        Navigator.of(context).popUntil(ModalRoute.withName('/'));
+      }
     } else {
       ToastService.showError("Une erreur est survenue, merci de réessayer");
     }

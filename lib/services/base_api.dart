@@ -5,7 +5,7 @@ import 'package:http/http.dart';
 import 'package:whatodo/models/request_place.dart';
 import 'package:whatodo/models/user_login.dart';
 
-import '../models/user.dart';
+import '../models/request_user.dart';
 
 class BaseAPI {
   static String base = "http://localhost:3010";
@@ -19,8 +19,8 @@ class BaseAPI {
   static Uri refusePlacesPath = Uri.parse("$api/place/refuse");
 
   static String googleApiKey = "AIzaSyBv2zOoqxBElmBJH4jFBieXnoDXqy_YRkw";
-  static String bearerToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDI2OWI2ODgyNThlZGRhZTNkZGVlZTYiLCJ0b2tlbklkIjoiNjQyOTM5OTdmODI4N2RkNjYyNmE4MjExIiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTY4MDQyMzMxOX0.6hwsAg7UYX4R2OLNUC__7soeEzuuegZqYuZXEZLRRo0";
+  static String bearerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDI2OWI2ODgyNThlZGRhZTNkZGVlZTYiLCJ0b2tlbklkIjoiNjQyOWZjMWU2ZWQzYzQ5MTgzNGRkYjRjIiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTY4MDQ3MzExOH0.cy_3u4rzt0Nii41ZDGUPsihTSJsSj5Op-fL5K8IMsMc"
+;
 
   // more routes
   static Map<String, String> headers = {
@@ -28,7 +28,7 @@ class BaseAPI {
     'Authorization': "Bearer $bearerToken"
   };
 
-  static Future<Response> signUpWithEmail(UserModel user) async {
+  static Future<Response> signUpWithEmail(UserRequestModel user) async {
     return await http.Client()
         .post(signupPath, headers: headers, body: jsonEncode(user));
   }
@@ -43,8 +43,8 @@ class BaseAPI {
     return await http.Client().post(getPlacePath, headers: headers, body: json);
   }
 
-  static Future<Response> acceptPlace(String placeId) async {
-    var body = {placeId: placeId};
+  static Future<Response> acceptPlace(String docId) async {
+    var body = {'docId': docId};
     var json = jsonEncode(body);
 
     return await http.Client()

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whatodo/components/signin_picture_title.dart';
 import 'package:whatodo/providers/auth.dart';
+import 'package:whatodo/providers/user.dart';
 import 'package:whatodo/screens/login.dart';
 import 'package:whatodo/screens/signup.dart';
 
@@ -83,6 +84,8 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
 
           await Provider.of<AuthProvider>(context, listen: false)
               .saveJwtToDisk(responseUser.data.token);
+
+          await Provider.of<UserProvider>(context, listen: false).setUser(responseUser.user);
         } else {
           ToastService.showError("Une erreur est survenue. Veuillez réessayer");
         }
