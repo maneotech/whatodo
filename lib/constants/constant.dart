@@ -79,6 +79,4 @@ class Constants {
   static const String tokenIcon = "assets/icons/token.png";
   static const String helpIcon = "assets/icons/help.png";
   static const String mapIcon = "assets/icons/map.png";
-
-  static const String sampleVideo = "https://assets.mixkit.co/videos/preview/mixkit-winter-fashion-cold-looking-woman-concept-video-39874-large.mp4";
 }

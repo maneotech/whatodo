@@ -1,9 +1,16 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:whatodo/components/ad_timer.dart';
+import 'package:whatodo/models/ad.video.model.dart';
+import 'package:whatodo/providers/locale.dart';
 import 'package:whatodo/screens/home.dart';
+import 'package:whatodo/services/base_api.dart';
 import 'package:whatodo/services/toast.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../constants/constant.dart';
 
@@ -17,39 +24,42 @@ class AdVideoPlayer extends StatefulWidget {
 class _AdVideoPlayerState extends State<AdVideoPlayer> {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
-  late Timer _timer;
-
-  int _timeRemaining = 30;
+  late Future<AdVideoModel?> _futureVideo;
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
-    _controller = VideoPlayerController.network(
-      Constants.sampleVideo,
-    );
 
+    _futureVideo = getVideo();
+  }
+
+  Future<AdVideoModel?> getVideo() async {
+    String platform = "web";
+     if (!kIsWeb) {
+      platform = Platform.isIOS ? 'ios' : 'android';
+    }
+    String lang =
+        Provider.of<LocaleProvider>(context, listen: false).locale.languageCode;
+
+    final response = await BaseAPI.startVideo(platform, lang);
+    if (response.statusCode == 200) {
+      return AdVideoModel.fromReqBody(response.body);
+    } else {
+      ToastService.showError("Une erreur est survenue, merci de réessayer");
+      if (mounted) {
+        Navigator.of(context).popUntil(ModalRoute.withName('/'));
+      }
+      return null;
+    }
+  }
+
+  setPlayer(String urlSrc) {
+    _controller = VideoPlayerController.asset(urlSrc);
     _initializeVideoPlayerFuture = _controller.initialize();
-    // Use the controller to loop the video.
-    _controller.setLooping(true);
-
-    setTimer();
+    _controller.setLooping(false);
   }
 
-  setTimer() {
-    const oneSec = Duration(milliseconds: 1000);
-    _timer = Timer.periodic(
-      oneSec,
-      (Timer timer) {
-        if (_timeRemaining <= 0) {
-          stopPub();
-        } else {
-          setState(() {
-            _timeRemaining -= 1;
-          });
-        }
-      },
-    );
-  }
+  
 
   stopPub() {
     Navigator.of(context).pop();
@@ -57,14 +67,7 @@ class _AdVideoPlayerState extends State<AdVideoPlayer> {
 
   @override
   void dispose() {
-    _controller.pause();
     _controller.dispose();
-    _timer.cancel();
-    
-    if (_timeRemaining > 1){
-      ToastService.showError("Il faut regarder la vidéo en entière pour bénéficier d'un jeton gratuit");
-    }
-
     super.dispose();
   }
 
@@ -73,27 +76,34 @@ class _AdVideoPlayerState extends State<AdVideoPlayer> {
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      child: Stack(
-        children: [
-          getContent(),
-          Positioned(
-            top: 0,
-            left: 0,
-            child: Container(
-              alignment: Alignment.center,
-              height: 40,
-              width: 80,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.0),
-
-                color: Colors.grey,
-              ),
-              child: Text(_timeRemaining.toString(),
-                  style: Constants.activityHeaderTextStyle),
-            ),
-          )
-        ],
+      child: FutureBuilder<AdVideoModel?>(
+        future: _futureVideo,
+        builder: (BuildContext context, AsyncSnapshot<AdVideoModel?> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+            final url = snapshot.data!.urlSrc.toString();
+            const sample = "https://assets.mixkit.co/videos/preview/mixkit-winter-fashion-cold-looking-woman-concept-video-39874-large.mp4";
+            setPlayer(sample);
+            return getContainer();
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
+    );
+  }
+
+  Stack getContainer() {
+    return Stack(
+      children: [
+        getContent(),
+        Positioned(
+          top: 0,
+          left: 0,
+          child: AdTimer(callback: () => stopPub())
+        )
+      ],
     );
   }
 

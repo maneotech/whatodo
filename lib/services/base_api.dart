@@ -18,9 +18,12 @@ class BaseAPI {
   static Uri acceptedPlacesPath = Uri.parse("$api/place/accepted");
   static Uri refusePlacesPath = Uri.parse("$api/place/refuse");
 
+  static Uri startVideoUrl = Uri.parse("$api/ad/video/start");
+
+
   static String googleApiKey = "AIzaSyBv2zOoqxBElmBJH4jFBieXnoDXqy_YRkw";
-  static String bearerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDI2OWI2ODgyNThlZGRhZTNkZGVlZTYiLCJ0b2tlbklkIjoiNjQyOWZjMWU2ZWQzYzQ5MTgzNGRkYjRjIiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTY4MDQ3MzExOH0.cy_3u4rzt0Nii41ZDGUPsihTSJsSj5Op-fL5K8IMsMc"
-;
+  static String bearerToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDI2OWI2ODgyNThlZGRhZTNkZGVlZTYiLCJ0b2tlbklkIjoiNjQyYzYxOTA3OWQxYTIzMzIyNzA0Yzg5IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTY4MDYzMDE2MH0.14J1wPDXK1WPdZnndoVKBD0C_B7Ecowx1Unf_LWU8NE";
 
   // more routes
   static Map<String, String> headers = {
@@ -38,6 +41,7 @@ class BaseAPI {
         .post(loginPath, headers: headers, body: jsonEncode(userLogin));
   }
 
+  /***************** PLACE **************** */
   static Future<Response> getRequestedPlace(RequestPlace requestPlace) async {
     var json = jsonEncode(requestPlace);
     return await http.Client().post(getPlacePath, headers: headers, body: json);
@@ -60,5 +64,14 @@ class BaseAPI {
     var json = jsonEncode(body);
     return await http.Client()
         .post(refusePlacesPath, headers: headers, body: json);
+  }
+
+  /********************************* AD ***************/
+  static Future<Response> startVideo(String platform, String language) async {
+    var body = {'platform': platform, 'language': language};
+    var json = jsonEncode(body);
+
+    return await http.Client()
+        .post(startVideoUrl, headers: headers, body: json);
   }
 }
