@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:whatodo/components/app_bar.dart';
+import 'package:whatodo/services/base_api.dart';
 import 'package:whatodo/services/toast.dart';
 
 import '../components/action_button.dart';
 import '../components/signup_textinput.dart';
 import '../constants/constant.dart';
+import '../models/response/response_error.dart';
 
 class AddUserScreen extends StatefulWidget {
   const AddUserScreen({super.key});
@@ -50,7 +52,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
     );
   }
 
-  invitUser() {
+  invitUser() async {
     String email = controllerEmail.text;
     if (email.isEmpty) {
       ToastService.showError("Veuillez saisir l'email de votre ami");
@@ -62,8 +64,25 @@ class _AddUserScreenState extends State<AddUserScreen> {
       ToastService.showError("L'email saisi n'est pas conforme");
       return;
     } else {
-      ToastService.showSuccess(
-          "Inscription de votre ami en attente. Vous serez notifié lorsque votre ami sera inscrit.");
+      final res = await BaseAPI.createSponsorship(email);
+      if (res.statusCode == 200) {
+        ToastService.showSuccess(
+            "Inscription de votre ami en attente. Vous serez notifié lorsque votre ami sera inscrit.");
+      } else {
+        if (res.body.isNotEmpty) {
+          var body = ResponseError.fromReqBody(res.body);
+          if (body.error == 755) {
+            ToastService.showError(
+                "Cet email est déjà associé à un parrainage");
+          } else {
+            ToastService.showError(
+                "Une erreur interne est survenue, merci de réessayer");
+          }
+        } else {
+          ToastService.showError(
+              "Une erreur interne est survenue, merci de réessayer");
+        }
+      }
     }
   }
 }

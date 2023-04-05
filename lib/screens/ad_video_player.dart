@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:whatodo/components/ad_timer.dart';
 import 'package:whatodo/models/ad.video.model.dart';
@@ -13,6 +14,7 @@ import 'package:whatodo/services/toast.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../constants/constant.dart';
+import '../providers/user.dart';
 
 class AdVideoPlayer extends StatefulWidget {
   const AdVideoPlayer({super.key});
@@ -24,18 +26,51 @@ class AdVideoPlayer extends StatefulWidget {
 class _AdVideoPlayerState extends State<AdVideoPlayer> {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
-  late Future<AdVideoModel?> _futureVideo;
+  late Future<AdVideoDocument?> _futureVideo;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
 
     _futureVideo = getVideo();
   }
 
-  Future<AdVideoModel?> getVideo() async {
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: FutureBuilder<AdVideoDocument?>(
+        future: _futureVideo,
+        builder:
+            (BuildContext context, AsyncSnapshot<AdVideoDocument?> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
+            final url = snapshot.data!.adContent.urlSrc.toString();
+            const sample =
+                "https://assets.mixkit.co/videos/preview/mixkit-winter-fashion-cold-looking-woman-concept-video-39874-large.mp4";
+            setPlayer(sample);
+            return getContainer(
+                snapshot.data!.id, snapshot.data!.adContent.redirectTo);
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  Future<AdVideoDocument?> getVideo() async {
     String platform = "web";
-     if (!kIsWeb) {
+    if (!kIsWeb) {
       platform = Platform.isIOS ? 'ios' : 'android';
     }
     String lang =
@@ -43,7 +78,7 @@ class _AdVideoPlayerState extends State<AdVideoPlayer> {
 
     final response = await BaseAPI.startVideo(platform, lang);
     if (response.statusCode == 200) {
-      return AdVideoModel.fromReqBody(response.body);
+      return AdVideoDocument.fromReqBody(response.body);
     } else {
       ToastService.showError("Une erreur est survenue, merci de réessayer");
       if (mounted) {
@@ -59,55 +94,53 @@ class _AdVideoPlayerState extends State<AdVideoPlayer> {
     _controller.setLooping(false);
   }
 
-  
+  stopPub(String docId) async {
+    final res = await BaseAPI.endVideo(docId);
+    if (res.statusCode == 200) {
+      if (mounted) {
+        await Provider.of<UserProvider>(context, listen: false).earnOneToken();
+        await Provider.of<UserProvider>(context, listen: false).setGetHomeResponse(false);
 
-  stopPub() {
-    Navigator.of(context).pop();
+      } else {
+        ToastService.showError("Une erreur est survenue. Merci de réessayer");
+      }
+    } else {
+      ToastService.showError("Une erreur est survenue. Merci de réessayer");
+    }
+
+    if (mounted) {
+      Navigator.of(context).pop();
+    }
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  clickVideo(String docId, String redirectTo) async {
+    await BaseAPI.clickVideo(docId);
+    if (await canLaunchUrl(Uri.parse(redirectTo))) {
+      await launchUrl(Uri.parse(redirectTo));
+    }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: FutureBuilder<AdVideoModel?>(
-        future: _futureVideo,
-        builder: (BuildContext context, AsyncSnapshot<AdVideoModel?> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-            final url = snapshot.data!.urlSrc.toString();
-            const sample = "https://assets.mixkit.co/videos/preview/mixkit-winter-fashion-cold-looking-woman-concept-video-39874-large.mp4";
-            setPlayer(sample);
-            return getContainer();
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    );
-  }
-
-  Stack getContainer() {
+  Stack getContainer(String docId, String redirectTo) {
     return Stack(
       children: [
-        getContent(),
+        GestureDetector(
+          onTap: () => clickVideo(docId, redirectTo),
+          child: AbsorbPointer(
+            child: getContent(docId, redirectTo),
+          ),
+        ),
         Positioned(
           top: 0,
           left: 0,
-          child: AdTimer(callback: () => stopPub())
-        )
+          child: AdTimer(
+            endCallback: () => stopPub(docId),
+          ),
+        ),
       ],
     );
   }
 
-  FutureBuilder getContent() {
+  FutureBuilder getContent(String docId, String redirectTo) {
     return FutureBuilder(
       future: _initializeVideoPlayerFuture,
       builder: (context, snapshot) {
@@ -115,6 +148,7 @@ class _AdVideoPlayerState extends State<AdVideoPlayer> {
           // If the VideoPlayerController has finished initialization, use
           // the data it provides to limit the aspect ratio of the video.
           _controller.play();
+
           return AspectRatio(
             aspectRatio: _controller.value.aspectRatio,
             // Use the VideoPlayer widget to display the video.

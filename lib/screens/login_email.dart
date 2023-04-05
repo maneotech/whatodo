@@ -9,6 +9,7 @@ import 'package:whatodo/screens/signup.dart';
 import '../components/color_ button.dart';
 import '../components/signup_textinput.dart';
 import '../constants/constant.dart';
+import '../models/home_response.dart';
 import '../models/response/response_error.dart';
 import '../models/response/response_user.dart';
 import '../models/user_login.dart';
@@ -85,7 +86,8 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
           await Provider.of<AuthProvider>(context, listen: false)
               .saveJwtToDisk(responseUser.data.token);
 
-          await Provider.of<UserProvider>(context, listen: false).setUser(responseUser.user);
+          await Provider.of<UserProvider>(context, listen: false)
+              .setUser(responseUser.user);
         } else {
           ToastService.showError("Une erreur est survenue. Veuillez réessayer");
         }

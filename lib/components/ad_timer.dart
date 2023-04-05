@@ -6,9 +6,9 @@ import '../constants/constant.dart';
 import '../services/toast.dart';
 
 class AdTimer extends StatefulWidget {
-  final Function callback;
+  final Function endCallback;
 
-  const AdTimer({super.key, required this.callback});
+  const AdTimer({super.key, required this.endCallback});
 
   @override
   State<AdTimer> createState() => _AdTimerState();
@@ -16,7 +16,7 @@ class AdTimer extends StatefulWidget {
 
 class _AdTimerState extends State<AdTimer> {
   late Timer _timer;
-  int _timeRemaining = 30;
+  int _timeRemaining = 10;
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _AdTimerState extends State<AdTimer> {
       oneSec,
       (Timer timer) {
         if (_timeRemaining <= 0) {
-          widget.callback();
+          widget.endCallback();
         } else {
           setState(() {
             _timeRemaining -= 1;

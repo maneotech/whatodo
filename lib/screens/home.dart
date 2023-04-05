@@ -3,17 +3,20 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:whatodo/components/activity_container.dart';
 import 'package:whatodo/constants/constant.dart';
+import 'package:whatodo/models/home_response.dart';
 import 'package:whatodo/models/request_place.dart';
 import 'package:whatodo/providers/location.dart';
 import 'package:whatodo/repositories/shared_pref.dart';
 import 'package:whatodo/screens/opening.dart';
 import 'package:whatodo/screens/place_result.dart';
+import 'package:whatodo/services/alert.dart';
 import 'package:whatodo/services/toast.dart';
 
 import '../components/action_button.dart';
 import '../components/activity_header_text.dart';
 import '../components/input_container.dart';
 import '../providers/auth.dart';
+import '../providers/user.dart';
 import '../services/activity.dart';
 import '../services/base_api.dart';
 import '../utils/enum_filters.dart';
@@ -41,61 +44,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    super.initState();
     setActivityBlocs();
     setPriceBlocs();
     setMovingBlocs();
-    super.initState();
-  }
-
-  setActivityBlocs() {
-    activityBlocs = [
-      ActivityService.getSnackingBloc(
-          () => onTapActivity(ActivityType.snacking), false),
-      ActivityService.getBarBloc(() => onTapActivity(ActivityType.bar), false),
-      ActivityService.getRestaurantBloc(
-          () => onTapActivity(ActivityType.restaurant), false),
-      ActivityService.getSportBloc(
-          () => onTapActivity(ActivityType.sport), false),
-      ActivityService.getCulturelBloc(
-          () => onTapActivity(ActivityType.culturel), false),
-      ActivityService.getShoppingBloc(
-          () => onTapActivity(ActivityType.shopping), false),
-    ];
-  }
-
-  setPriceBlocs() {
-    priceBlocs = [
-      ActivityContainer(
-          title: "Gratuit",
-          color: Constants.primaryColor,
-          iconPath: Constants.freeIcon,
-          onTap: () => onTapPurchase(PriceType.free)),
-      ActivityContainer(
-          title: "Payant",
-          color: Constants.secondaryColor,
-          iconPath: Constants.notFreeIcon,
-          onTap: () => onTapPurchase(PriceType.notFree)),
-    ];
-  }
-
-  setMovingBlocs() {
-    movingBlocs = [
-      ActivityContainer(
-          title: "En voiture",
-          color: Constants.thirdColor,
-          iconPath: Constants.carIcon,
-          onTap: () => onTapMoving(MovingType.byCar)),
-      ActivityContainer(
-          title: "A vélo",
-          color: Constants.secondaryColor,
-          iconPath: Constants.bicycleIcon,
-          onTap: () => onTapMoving(MovingType.byBicycle)),
-      ActivityContainer(
-          title: "A pied",
-          color: Constants.primaryColor,
-          iconPath: Constants.walkIcon,
-          onTap: () => onTapMoving(MovingType.byWalk)),
-    ];
+    getHome();
   }
 
   @override
@@ -181,6 +134,83 @@ class _HomeScreenState extends State<HomeScreen> {
         ActionButton(onTap: () => goToOpening(), title: "C'est parti!")
       ]),
     );
+  }
+
+  getHome() async {
+    var homeResponse = await BaseAPI.getHome();
+    if (homeResponse.statusCode == 200 && mounted) {
+      var homeModel = HomeResponse.fromReqBody(homeResponse.body);
+      checkForHomeInfos(homeModel);
+    }
+  }
+
+  checkForHomeInfos(HomeResponse homeModel) async {
+    await Provider.of<UserProvider>(context, listen: false)
+        .setGetHomeResponse(homeModel.enableAdVideo);
+
+    if (homeModel.lastSponsorshipEmail != null &&
+        homeModel.lastSponsorshipEmail!.isNotEmpty &&
+        mounted) {
+      AlertService.showAlertDialogOneButton(
+          context,
+          "Super!",
+          "Bravo!",
+          "L'utilisateur ${homeModel.lastSponsorshipEmail} s'est bien inscrit, tu gagnes 1 token!",
+          () => Navigator.of(context).pop());
+
+      await BaseAPI.sponsorshipHasBeenNotified(homeModel.lastSponsorshipEmail!);
+    }
+  }
+
+  setActivityBlocs() {
+    activityBlocs = [
+      ActivityService.getSnackingBloc(
+          () => onTapActivity(ActivityType.snacking), false),
+      ActivityService.getBarBloc(() => onTapActivity(ActivityType.bar), false),
+      ActivityService.getRestaurantBloc(
+          () => onTapActivity(ActivityType.restaurant), false),
+      ActivityService.getSportBloc(
+          () => onTapActivity(ActivityType.sport), false),
+      ActivityService.getCulturelBloc(
+          () => onTapActivity(ActivityType.culturel), false),
+      ActivityService.getShoppingBloc(
+          () => onTapActivity(ActivityType.shopping), false),
+    ];
+  }
+
+  setPriceBlocs() {
+    priceBlocs = [
+      ActivityContainer(
+          title: "Gratuit",
+          color: Constants.primaryColor,
+          iconPath: Constants.freeIcon,
+          onTap: () => onTapPurchase(PriceType.free)),
+      ActivityContainer(
+          title: "Payant",
+          color: Constants.secondaryColor,
+          iconPath: Constants.notFreeIcon,
+          onTap: () => onTapPurchase(PriceType.notFree)),
+    ];
+  }
+
+  setMovingBlocs() {
+    movingBlocs = [
+      ActivityContainer(
+          title: "En voiture",
+          color: Constants.thirdColor,
+          iconPath: Constants.carIcon,
+          onTap: () => onTapMoving(MovingType.byCar)),
+      ActivityContainer(
+          title: "A vélo",
+          color: Constants.secondaryColor,
+          iconPath: Constants.bicycleIcon,
+          onTap: () => onTapMoving(MovingType.byBicycle)),
+      ActivityContainer(
+          title: "A pied",
+          color: Constants.primaryColor,
+          iconPath: Constants.walkIcon,
+          onTap: () => onTapMoving(MovingType.byWalk)),
+    ];
   }
 
   Padding getTitleSectionRow(String title, List list, int numberMax) {

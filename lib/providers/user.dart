@@ -10,6 +10,9 @@ class UserProvider with ChangeNotifier {
   int _token = 0;
   int get token => _token;
 
+  bool _enableAdVideo = true;
+  bool get enableAdVideo => _enableAdVideo;
+
   init() async {}
 
   setUser(UserModel userModel) {
@@ -31,6 +34,17 @@ class UserProvider with ChangeNotifier {
     } else {
       _token = 0;
     }
+
+    notifyListeners();
+  }
+
+  earnOneToken() {
+    _token += 1;
+    notifyListeners();
+  }
+
+  setGetHomeResponse(bool enableAdVideo) {
+    _enableAdVideo = enableAdVideo;
 
     notifyListeners();
   }

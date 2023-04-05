@@ -19,7 +19,13 @@ class BaseAPI {
   static Uri refusePlacesPath = Uri.parse("$api/place/refuse");
 
   static Uri startVideoUrl = Uri.parse("$api/ad/video/start");
+  static Uri endVideoUrl = Uri.parse("$api/ad/video/end");
+  static Uri clickVideoUrl = Uri.parse("$api/ad/video/click");
 
+  static Uri getHomeUrl = Uri.parse("$api/home/info");
+
+  static Uri sponsorshipNotifiedUrl = Uri.parse("$api/ad/sponsorship/notify");
+  static Uri createSponsorshipUrl = Uri.parse("$api/ad/sponsorship/create");
 
   static String googleApiKey = "AIzaSyBv2zOoqxBElmBJH4jFBieXnoDXqy_YRkw";
   static String bearerToken =
@@ -74,4 +80,41 @@ class BaseAPI {
     return await http.Client()
         .post(startVideoUrl, headers: headers, body: json);
   }
+
+  static Future<Response> endVideo(String docId) async {
+    var body = {'docId': docId};
+    var json = jsonEncode(body);
+
+    return await http.Client().post(endVideoUrl, headers: headers, body: json);
+  }
+
+  static Future<Response> clickVideo(String docId) async {
+    var body = {'docId': docId};
+    var json = jsonEncode(body);
+
+    return await http.Client()
+        .post(clickVideoUrl, headers: headers, body: json);
+  }
+
+  /* ************** HOME ***************/
+  static Future<Response> getHome() async {
+    return await http.Client().get(getHomeUrl, headers: headers);
+  }
+
+  /* ************** SPONSORHIP ***************/
+  static Future<Response> sponsorshipHasBeenNotified(String lastSponsorshipEmail) async {
+    var body = {'lastSponsorshipEmail': lastSponsorshipEmail};
+    var json = jsonEncode(body);
+
+    return await http.Client().post(sponsorshipNotifiedUrl, headers: headers, body: json);
+  }
+
+  static Future<Response> createSponsorship(String email) async {
+    var body = {'email': email};
+    var json = jsonEncode(body);
+
+    return await http.Client().post(createSponsorshipUrl, headers: headers, body: json);
+  }
+
+  
 }

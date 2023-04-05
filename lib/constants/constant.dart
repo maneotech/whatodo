@@ -46,6 +46,12 @@ class Constants {
       fontFamily: "Hellix",
       fontWeight: FontWeight.w700);
 
+    static TextStyle lockedTextStyle = TextStyle(
+      fontSize: 15.0,
+      color: Colors.black.withOpacity(0.5),
+      fontFamily: "Hellix",
+      fontStyle: FontStyle.italic);
+
   static const EdgeInsets paddingButtons = EdgeInsets.all(10.0);
   static const EdgeInsets paddingLogin =
       EdgeInsets.only(left: 40.0, right: 40.0, top: 40.0);

@@ -44,15 +44,14 @@ class _AppBarComponentState extends State<AppBarComponent> {
           ),
           GestureDetector(
             onTap: () => showAd(),
-            child: Row(
-              children: const [
-                Icon(Icons.tv, color: Colors.black),
-                Padding(
-                  padding: EdgeInsets.only(left: 5.0, right: 5.0),
-                  child: Text("+1 Jeton",
-                      style: Constants.activityHeaderTextStyle),
-                )
-              ],
+            child: Consumer<UserProvider>(
+              builder: (context, value, child) {
+                if (value.enableAdVideo) {
+                  return getEnableVideoAd();
+                } else {
+                  return getDisableVideoAd();
+                }
+              },
             ),
           ),
           GestureDetector(
@@ -79,6 +78,30 @@ class _AppBarComponentState extends State<AppBarComponent> {
     );
   }
 
+  Row getDisableVideoAd() {
+    return Row(
+      children: [
+        const Icon(Icons.tv, color: Colors.grey),
+        Padding(
+          padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+          child: Text("+1 Jeton", style: Constants.lockedTextStyle),
+        )
+      ],
+    );
+  }
+
+  Row getEnableVideoAd() {
+    return Row(
+      children: const [
+        Icon(Icons.tv, color: Colors.black),
+        Padding(
+          padding: EdgeInsets.only(left: 5.0, right: 5.0),
+          child: Text("+1 Jeton", style: Constants.activityHeaderTextStyle),
+        )
+      ],
+    );
+  }
+
   showSponsorship() {
     Navigator.push(
       context,
@@ -89,12 +112,16 @@ class _AppBarComponentState extends State<AppBarComponent> {
   }
 
   showAd() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) => const AdVideoPlayer(),
-      ),
-    );
+    bool canStartAd =
+        Provider.of<UserProvider>(context, listen: false).enableAdVideo;
+    if (canStartAd) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => const AdVideoPlayer(),
+        ),
+      );
+    }
   }
 
   goToHelpScreen() {

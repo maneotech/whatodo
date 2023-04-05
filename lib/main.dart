@@ -141,7 +141,9 @@ class _RootScreensState extends State<RootScreens> {
           right: 20,
         ),
         child: DefaultTextStyle(
-            style: Constants.defaultTextStyle, child: pages[currentPage]),
+          style: Constants.defaultTextStyle,
+          child: pages[currentPage],
+        ),
       ),
       bottomNavigationBar: CustomBottomBar(
         onDestinationSelected: (int index) => onDestinationSelected(index),
