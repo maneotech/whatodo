@@ -22,6 +22,12 @@ class Constants {
       fontStyle: FontStyle.italic,
       fontFamily: "Hellix");
 
+  static const TextStyle discountTextStyle = TextStyle(
+      fontSize: 10,
+      color: Colors.black,
+      fontWeight: FontWeight.w700,
+      fontFamily: "Hellix");
+
   static const TextStyle activityHeaderTextStyle = TextStyle(
       fontSize: 15.0,
       color: Colors.black,
@@ -46,18 +52,25 @@ class Constants {
       fontFamily: "Hellix",
       fontWeight: FontWeight.w700);
 
-    static TextStyle lockedTextStyle = TextStyle(
+  static TextStyle lockedTextStyle = TextStyle(
       fontSize: 15.0,
       color: Colors.black.withOpacity(0.5),
       fontFamily: "Hellix",
       fontStyle: FontStyle.italic);
+
+  static TextStyle bigTextStyle = const TextStyle(
+      fontSize: 20.0,
+      color: Colors.black,
+      fontFamily: "Hellix",
+      fontWeight: FontWeight.w500);
 
   static const EdgeInsets paddingButtons = EdgeInsets.all(10.0);
   static const EdgeInsets paddingLogin =
       EdgeInsets.only(left: 40.0, right: 40.0, top: 40.0);
   static const EdgeInsets paddingTop = EdgeInsets.only(top: 40.0);
 
-  static const EdgeInsets paddingActivityTitle= EdgeInsets.only(top: 10.0, bottom: 5.0);
+  static const EdgeInsets paddingActivityTitle =
+      EdgeInsets.only(top: 10.0, bottom: 5.0);
   static const Color primaryColor = Color.fromRGBO(255, 105, 61, 1.0);
   static const Color secondaryColor = Color(0xff7925E9);
   static const Color thirdColor = Color(0xff10AC70);

@@ -37,28 +37,6 @@ class _ActivityContainerState extends State<ActivityContainer> {
       onTap: () => onTouchContainer(),
       child: getContent(),
     );
-
-    /*Container(
-        decoration: getGradientBackground(),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.title,
-                style: Constants.activityTitleTextStyle,
-              ),
-              Container(
-                alignment: Alignment.bottomRight,
-                child: ImageIcon(AssetImage(widget.iconPath),
-                    size: 32, color: Colors.white),
-              )
-            ],
-          ),
-        ),
-      ),*/
   }
 
   onTouchContainer() {
@@ -92,11 +70,13 @@ class _ActivityContainerState extends State<ActivityContainer> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            widget.title,
-            style: isActive
-                ? Constants.activityTitleTextStyle
-                : Constants.normalBlackTextStyle,
+          Expanded(
+            child: Text(
+              widget.title,
+              style: isActive
+                  ? Constants.activityTitleTextStyle
+                  : Constants.normalBlackTextStyle,
+            ),
           ),
           Container(
             alignment: Alignment.bottomRight,

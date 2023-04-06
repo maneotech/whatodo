@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:whatodo/constants/constant.dart';
 import 'package:whatodo/providers/user.dart';
 import 'package:whatodo/screens/ad_video_player.dart';
+import 'package:whatodo/screens/purchase_screen.dart';
 
 import '../screens/add_user.dart';
 import '../screens/help_screen.dart';
@@ -27,20 +28,23 @@ class _AppBarComponentState extends State<AppBarComponent> {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              const ImageIcon(AssetImage(Constants.tokenIcon),
-                  color: Colors.black),
-              Padding(
-                padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-                child: Consumer<UserProvider>(
-                  builder: (context, value, child) {
-                    return Text("${value.token} Jetons",
-                        style: Constants.activityHeaderTextStyle);
-                  },
-                ),
-              )
-            ],
+          GestureDetector(
+            onTap: () => goToPurchaseScreen(),
+            child: Row(
+              children: [
+                const ImageIcon(AssetImage(Constants.tokenIcon),
+                    color: Colors.black),
+                Padding(
+                  padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+                  child: Consumer<UserProvider>(
+                    builder: (context, value, child) {
+                      return Text("${value.token} Jetons",
+                          style: Constants.activityHeaderTextStyle);
+                    },
+                  ),
+                )
+              ],
+            ),
           ),
           GestureDetector(
             onTap: () => showAd(),
@@ -129,6 +133,15 @@ class _AppBarComponentState extends State<AppBarComponent> {
       context,
       MaterialPageRoute(
         builder: (context) => const HelpScreen(),
+      ),
+    );
+  }
+
+  goToPurchaseScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const PurchaseScreen(),
       ),
     );
   }
