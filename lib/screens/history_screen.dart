@@ -2,16 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:whatodo/components/history_bloc.dart';
-import 'package:whatodo/components/information_bloc.dart';
-import 'package:whatodo/models/generated_options._place.dart';
 import 'package:whatodo/models/result_place.dart';
-import 'package:whatodo/screens/place_result.dart';
 import 'package:whatodo/services/alert.dart';
 import 'package:whatodo/services/base_api.dart';
 import 'package:whatodo/services/toast.dart';
-import 'package:whatodo/utils/enum_filters.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});

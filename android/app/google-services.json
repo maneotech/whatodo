@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "850608197135",
+    "project_id": "whatodo-568a5",
+    "storage_bucket": "whatodo-568a5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:850608197135:android:ecba2060491829e0959d7a",
+        "android_client_info": {
+          "package_name": "com.maneotech.whatodo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "850608197135-2u176hlq7rti26641mt2vji2urj2hoba.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maneotech.whatodo",
+            "certificate_hash": "4eca788b0ae0b5b1262aa98f4a44cf026907762c"
+          }
+        },
+        {
+          "client_id": "850608197135-pm6l15v7rfaf68ckhsggplvk5n9r0p29.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsF7_VTui0zw027PTjltgezaMk3GrCSMY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "850608197135-1kgu7uinmhuocd016ft702n490q68if3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

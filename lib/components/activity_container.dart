@@ -7,8 +7,9 @@ class ActivityContainer extends StatefulWidget {
   final String title;
   final Color color;
   final String iconPath;
-  final Function? onTap;
   final bool isActive;
+  final Function? onTap;
+  final bool? changeColorOnTap;
 
   const ActivityContainer(
       {super.key,
@@ -16,7 +17,8 @@ class ActivityContainer extends StatefulWidget {
       required this.color,
       required this.iconPath,
       required this.onTap,
-      this.isActive = false});
+      this.isActive = false,
+      this.changeColorOnTap = false});
 
   @override
   State<ActivityContainer> createState() => _ActivityContainerState();
@@ -40,13 +42,14 @@ class _ActivityContainerState extends State<ActivityContainer> {
   }
 
   onTouchContainer() {
-    if (widget.onTap != null) {
+    if (widget.changeColorOnTap != null && widget.changeColorOnTap == true) {
       print(widget.onTap);
       setState(() {
         isActive = !isActive;
       });
-      widget.onTap!();
     }
+
+    widget.onTap!();
   }
 
   Widget getContent() {

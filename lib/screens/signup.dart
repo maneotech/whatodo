@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:provider/provider.dart';
 import 'package:whatodo/components/signup_textinput.dart';
 import 'package:whatodo/constants/constant.dart';
 import 'package:whatodo/models/response/response_error.dart';
-import 'package:whatodo/providers/auth.dart';
 import 'package:whatodo/screens/login.dart';
 import 'package:whatodo/screens/login_email.dart';
 import 'package:whatodo/services/base_api.dart';

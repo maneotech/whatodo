@@ -16,10 +16,10 @@ class AuthProvider with ChangeNotifier {
     SharedPref sharedPref = SharedPref();
     String? jsonString = await sharedPref.read(Constants.sharedPrefKeyJwt);
 
-    if (jsonString != null && jsonString.isNotEmpty) {
+    /*if (jsonString != null && jsonString.isNotEmpty) {
       setJwt(jsonString);
       notifyListeners();
-    }
+    }*/
   }
   
 

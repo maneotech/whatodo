@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:whatodo/components/activity_container.dart';
 import 'package:whatodo/constants/constant.dart';
 import 'package:whatodo/models/home_response.dart';
 import 'package:whatodo/models/request_place.dart';
 import 'package:whatodo/providers/location.dart';
-import 'package:whatodo/repositories/shared_pref.dart';
 import 'package:whatodo/screens/opening.dart';
-import 'package:whatodo/screens/place_result.dart';
 import 'package:whatodo/services/alert.dart';
 import 'package:whatodo/services/toast.dart';
 
 import '../components/action_button.dart';
 import '../components/activity_header_text.dart';
 import '../components/input_container.dart';
-import '../providers/auth.dart';
 import '../providers/user.dart';
 import '../services/activity.dart';
 import '../services/base_api.dart';
@@ -165,16 +161,16 @@ class _HomeScreenState extends State<HomeScreen> {
   setActivityBlocs() {
     activityBlocs = [
       ActivityService.getSnackingBloc(
-          () => onTapActivity(ActivityType.snacking), false),
-      ActivityService.getBarBloc(() => onTapActivity(ActivityType.bar), false),
+          () => onTapActivity(ActivityType.snacking), false, changeColorOnTap: true),
+      ActivityService.getBarBloc(() => onTapActivity(ActivityType.bar), false, changeColorOnTap: true),
       ActivityService.getRestaurantBloc(
-          () => onTapActivity(ActivityType.restaurant), false),
+          () => onTapActivity(ActivityType.restaurant), false, changeColorOnTap: true),
       ActivityService.getSportBloc(
-          () => onTapActivity(ActivityType.sport), false),
+          () => onTapActivity(ActivityType.sport), false, changeColorOnTap: true),
       ActivityService.getCulturelBloc(
-          () => onTapActivity(ActivityType.culturel), false),
+          () => onTapActivity(ActivityType.culturel), false, changeColorOnTap: true),
       ActivityService.getShoppingBloc(
-          () => onTapActivity(ActivityType.shopping), false),
+          () => onTapActivity(ActivityType.shopping), false, changeColorOnTap: true),
     ];
   }
 
@@ -184,11 +180,13 @@ class _HomeScreenState extends State<HomeScreen> {
           title: "Gratuit",
           color: Constants.primaryColor,
           iconPath: Constants.freeIcon,
+          changeColorOnTap: true,
           onTap: () => onTapPurchase(PriceType.free)),
       ActivityContainer(
           title: "Payant",
           color: Constants.secondaryColor,
           iconPath: Constants.notFreeIcon,
+          changeColorOnTap: true,
           onTap: () => onTapPurchase(PriceType.notFree)),
     ];
   }
@@ -199,16 +197,19 @@ class _HomeScreenState extends State<HomeScreen> {
           title: "En voiture",
           color: Constants.thirdColor,
           iconPath: Constants.carIcon,
+          changeColorOnTap: true,
           onTap: () => onTapMoving(MovingType.byCar)),
       ActivityContainer(
           title: "A vélo",
           color: Constants.secondaryColor,
           iconPath: Constants.bicycleIcon,
+          changeColorOnTap: true,
           onTap: () => onTapMoving(MovingType.byBicycle)),
       ActivityContainer(
           title: "A pied",
           color: Constants.primaryColor,
           iconPath: Constants.walkIcon,
+          changeColorOnTap: true,
           onTap: () => onTapMoving(MovingType.byWalk)),
     ];
   }

@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:whatodo/components/activity_header_text.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:whatodo/components/information_bloc.dart';
-import 'package:whatodo/utils/enum_filters.dart';
 
-import '../components/action_button.dart';
-import '../components/activity_container.dart';
 import '../constants/constant.dart';
 import '../models/result_place.dart';
-import '../services/activity.dart';
 import '../utils/map_style.dart';
 
 class PlaceResultScreen extends StatefulWidget {
@@ -32,7 +27,6 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _pin = LatLng(
         widget.resultPlaceModel.latitude, widget.resultPlaceModel.longitude);

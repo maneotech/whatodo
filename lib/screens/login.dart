@@ -1,20 +1,21 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:whatodo/screens/login_email.dart';
-import 'package:whatodo/screens/signup.dart';
+import 'package:whatodo/services/base_api.dart';
+import 'package:whatodo/services/login_service.dart';
+import 'package:whatodo/services/toast.dart';
 
 import '../components/signin_button.dart';
 import '../components/signin_picture_title.dart';
-import '../constants/constant.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
-GoogleSignIn _googleSignIn = GoogleSignIn(
-  // Optional clientId
-  // clientId: '479882132969-9i9aqik3jfjd7qhci1nqf0bm2g71rm1u.apps.googleusercontent.com',
-  scopes: <String>[
-    'email',
-  ],
-);
+import '../models/request_user.dart';
+import '../models/user.dart';
+
+GoogleSignIn _googleSignIn = GoogleSignIn();
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -24,50 +25,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginState extends State<LoginScreen> {
-  GoogleSignInAccount? _currentGoogleUser;
-
-  @override
-  void initState() {
-    super.initState();
-    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
-      setState(() {
-        _currentGoogleUser = account;
-      });
-    });
-    _googleSignIn.signInSilently();
-  }
-
-  Future<void> _handleSignInGoogle() async {
-    try {
-      await _googleSignIn.signIn();
-    } catch (error) {
-      print(error);
-    }
-  }
-
-  Future<void> _handleSignInApple() async {}
-
-  Future<void> _handleSignInFacebook() async {
-    final LoginResult result = await FacebookAuth.instance
-        .login(); // by default we request the email and the public profile
-// or FacebookAuth.i.login()
-    if (result.status == LoginStatus.success) {
-      // you are logged
-      final AccessToken accessToken = result.accessToken!;
-      print(accessToken);
-    } else {
-      print(result.status);
-      print(result.message);
-    }
-  }
-
-  _handleSignInEmail() {
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => const LoginEmailScreen()));
-  }
-
   @override
   Widget build(BuildContext context) {
     List<Widget> buttons = [
@@ -75,10 +32,12 @@ class _LoginState extends State<LoginScreen> {
         button: Buttons.facebook,
         onPressed: _handleSignInFacebook,
       ),
-      SignInButton(
-        button: Buttons.apple,
-        onPressed: _handleSignInApple,
-      ),
+      if (!kIsWeb)
+        if (Platform.isIOS)
+          SignInButton(
+            button: Buttons.apple,
+            onPressed: _handleSignInApple,
+          ),
       SignInButton(
         button: Buttons.google,
         onPressed: _handleSignInGoogle,
@@ -90,5 +49,72 @@ class _LoginState extends State<LoginScreen> {
     ];
 
     return SignInPictureTitle(widgets: buttons);
+  }
+
+  Future<void> _handleSignInGoogle() async {
+    try {
+      var result = await _googleSignIn.signIn();
+      if (result != null) {
+        final GoogleSignInAuthentication googleAuth =
+            await result.authentication;
+
+        String token = googleAuth.accessToken.toString();
+        String firstname = result.displayName!.split(' ').first;
+        String email = result.email;
+
+        UserRequestModel userModel = UserRequestModel(firstname, email, token);
+
+        loginWithThirdPart(userModel, UserThirdPart.google);
+
+      } else {
+        ToastService.showError("Une erreur est survenue. Merci de réessayer");
+      }
+    } catch (error) {
+      ToastService.showError("Une erreur est survenue. Merci de réessayer");
+    }
+  }
+
+  Future<void> _handleSignInApple() async {}
+
+  Future<void> _handleSignInFacebook() async {
+    final LoginResult result = await FacebookAuth.instance.login();
+
+    if (result.status == LoginStatus.success) {
+      final AccessToken accessToken = result.accessToken!;
+      final userData = await FacebookAuth.instance.getUserData(
+        fields: "first_name,email",
+      );
+
+      final String firstname = userData["first_name"];
+      final String email = userData["email"];
+      final String token = accessToken.token;
+
+      UserRequestModel userModel = UserRequestModel(firstname, email, token);
+
+      loginWithThirdPart(userModel, UserThirdPart.facebook);
+    } else {
+      ToastService.showError("Une erreur est survenue, merci de réessayer");
+    }
+  }
+
+  loginWithThirdPart(
+      UserRequestModel userModel, UserThirdPart thirdPart) async {
+    if (thirdPart == UserThirdPart.apple) {
+      var response = await BaseAPI.signInWithApple(userModel);
+      LoginService.handleLoginResponse(response, context);
+    } else if (thirdPart == UserThirdPart.facebook) {
+      var response = await BaseAPI.signInWithFacebook(userModel);
+      LoginService.handleLoginResponse(response, context);
+    } else {
+      var response = await BaseAPI.signInWithGoogle(userModel);
+      LoginService.handleLoginResponse(response, context);
+    }
+  }
+
+  _handleSignInEmail() {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => const LoginEmailScreen()));
   }
 }

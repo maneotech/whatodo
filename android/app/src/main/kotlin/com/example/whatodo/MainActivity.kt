@@ -1,4 +1,4 @@
-package com.example.whatodo
+package com.maneotech.whatodo
 
 import io.flutter.embedding.android.FlutterActivity
 

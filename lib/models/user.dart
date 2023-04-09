@@ -15,3 +15,9 @@ class UserModel {
     );
   }
 }
+
+enum UserThirdPart {
+  facebook,
+  google,
+  apple
+}

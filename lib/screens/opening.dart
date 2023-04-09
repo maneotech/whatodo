@@ -12,7 +12,6 @@ import 'package:audioplayers/audioplayers.dart';
 
 import '../models/request_place.dart';
 import '../models/result_place.dart';
-import '../providers/auth.dart';
 import '../services/base_api.dart';
 
 class OpeningScreen extends StatefulWidget {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:whatodo/components/action_button.dart';
 import 'package:whatodo/components/app_bar.dart';
+import 'package:whatodo/services/toast.dart';
 
-import '../components/activity_container.dart';
 import '../components/price_container.dart';
 import '../constants/constant.dart';
-import '../services/activity.dart';
 
 class PurchaseScreen extends StatelessWidget {
   const PurchaseScreen({super.key});
@@ -19,7 +19,9 @@ class PurchaseScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text("Fais toi plaisir en pensant à ton bien être.",
+            Text("Fais toi plaisir en pensant à ton",
+                style: Constants.bigTextStyle),
+            Text("bien être.",
                 style: Constants.bigTextStyle),
             Padding(
               padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
@@ -32,8 +34,8 @@ class PurchaseScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 60, bottom: 10),
-              child:
-                  Text("Promotion 24h seulement !!!", style: Constants.bigTextStyle),
+              child: Text("Nos deux grosses promotions, bientôt indisponible !!",
+                  style: Constants.bigTextStyle),
             ),
             SizedBox(
               height: 125,
@@ -50,11 +52,11 @@ class PurchaseScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                  onPressed: () => {},
+                  onPressed: () => launchTerms(),
                   child: const Text("CGU"),
                 ),
                 TextButton(
-                  onPressed: () => {},
+                  onPressed: () => launchPolicy(),
                   child: const Text("Politique de confidentialité"),
                 ),
               ],
@@ -63,6 +65,24 @@ class PurchaseScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  launchPolicy() async {
+    if (await canLaunchUrl(Uri.parse(Constants.policyUrl))) {
+      await launchUrl(Uri.parse(Constants.policyUrl));
+    } else {
+      ToastService.showError(
+          "Une erreur interne est survenue, merci de réessayer");
+    }
+  }
+
+  launchTerms() async {
+    if (await canLaunchUrl(Uri.parse(Constants.termsUrl))) {
+      await launchUrl(Uri.parse(Constants.termsUrl));
+    } else {
+      ToastService.showError(
+          "Une erreur interne est survenue, merci de réessayer");
+    }
   }
 
   getFirstPriceBlocs() {

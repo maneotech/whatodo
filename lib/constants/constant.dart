@@ -98,4 +98,7 @@ class Constants {
   static const String tokenIcon = "assets/icons/token.png";
   static const String helpIcon = "assets/icons/help.png";
   static const String mapIcon = "assets/icons/map.png";
+
+  static const String termsUrl = "https://maneotech.fr/terms-of-service.html";
+  static const String policyUrl = "https://maneotech.fr/policy.html";
 }

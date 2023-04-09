@@ -8,10 +8,13 @@ import 'package:whatodo/models/user_login.dart';
 import '../models/request_user.dart';
 
 class BaseAPI {
-  static String base = "http://localhost:3010";
+  static String base = "http://192.168.0.15:3010";
   static String api = "$base/api";
   static Uri signupPath = Uri.parse("$api/user/register");
   static Uri loginPath = Uri.parse("$api/user/login");
+  static Uri loginFacebookPath = Uri.parse("$api/user/login/facebook");
+  static Uri loginGooglePath = Uri.parse("$api/user/login/google");
+  static Uri loginApplePath = Uri.parse("$api/user/login/apple");
 
   static Uri getPlacePath = Uri.parse("$api/place/one");
   static Uri acceptPlacePath = Uri.parse("$api/place/accept");
@@ -37,6 +40,7 @@ class BaseAPI {
     'Authorization': "Bearer $bearerToken"
   };
 
+  /* ************** SIGNIN / LOGIN ***************/
   static Future<Response> signUpWithEmail(UserRequestModel user) async {
     return await http.Client()
         .post(signupPath, headers: headers, body: jsonEncode(user));
@@ -47,7 +51,22 @@ class BaseAPI {
         .post(loginPath, headers: headers, body: jsonEncode(userLogin));
   }
 
-  /***************** PLACE **************** */
+  static Future<Response> signInWithGoogle(UserRequestModel userLogin) async {
+    return await http.Client()
+        .post(loginGooglePath, headers: headers, body: jsonEncode(userLogin));
+  }
+
+  static Future<Response> signInWithFacebook(UserRequestModel userLogin) async {
+    return await http.Client()
+        .post(loginFacebookPath, headers: headers, body: jsonEncode(userLogin));
+  }
+
+  static Future<Response> signInWithApple(UserRequestModel userLogin) async {
+    return await http.Client()
+        .post(loginApplePath, headers: headers, body: jsonEncode(userLogin));
+  }
+
+  /* **************** PLACE **************** */
   static Future<Response> getRequestedPlace(RequestPlace requestPlace) async {
     var json = jsonEncode(requestPlace);
     return await http.Client().post(getPlacePath, headers: headers, body: json);
@@ -72,7 +91,7 @@ class BaseAPI {
         .post(refusePlacesPath, headers: headers, body: json);
   }
 
-  /********************************* AD ***************/
+  /* ******************************** AD ***************/
   static Future<Response> startVideo(String platform, String language) async {
     var body = {'platform': platform, 'language': language};
     var json = jsonEncode(body);
@@ -102,19 +121,20 @@ class BaseAPI {
   }
 
   /* ************** SPONSORHIP ***************/
-  static Future<Response> sponsorshipHasBeenNotified(String lastSponsorshipEmail) async {
+  static Future<Response> sponsorshipHasBeenNotified(
+      String lastSponsorshipEmail) async {
     var body = {'lastSponsorshipEmail': lastSponsorshipEmail};
     var json = jsonEncode(body);
 
-    return await http.Client().post(sponsorshipNotifiedUrl, headers: headers, body: json);
+    return await http.Client()
+        .post(sponsorshipNotifiedUrl, headers: headers, body: json);
   }
 
   static Future<Response> createSponsorship(String email) async {
     var body = {'email': email};
     var json = jsonEncode(body);
 
-    return await http.Client().post(createSponsorshipUrl, headers: headers, body: json);
+    return await http.Client()
+        .post(createSponsorshipUrl, headers: headers, body: json);
   }
-
-  
 }
