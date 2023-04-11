@@ -8,12 +8,9 @@ import 'package:video_player/video_player.dart';
 import 'package:whatodo/components/ad_timer.dart';
 import 'package:whatodo/models/ad.video.model.dart';
 import 'package:whatodo/providers/locale.dart';
-import 'package:whatodo/screens/home.dart';
 import 'package:whatodo/services/base_api.dart';
 import 'package:whatodo/services/toast.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
-import '../constants/constant.dart';
 import '../providers/user.dart';
 
 class AdVideoPlayer extends StatefulWidget {
@@ -24,10 +21,9 @@ class AdVideoPlayer extends StatefulWidget {
 }
 
 class _AdVideoPlayerState extends State<AdVideoPlayer> {
-  late VideoPlayerController _controller;
+  VideoPlayerController? _controller;
   late Future<void> _initializeVideoPlayerFuture;
   late Future<AdVideoDocument?> _futureVideo;
-
   @override
   void initState() {
     super.initState();
@@ -37,7 +33,9 @@ class _AdVideoPlayerState extends State<AdVideoPlayer> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    if (_controller != null) {
+      _controller!.dispose();
+    }
     super.dispose();
   }
 
@@ -53,9 +51,7 @@ class _AdVideoPlayerState extends State<AdVideoPlayer> {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
             final url = snapshot.data!.adContent.urlSrc.toString();
-            const sample =
-                "https://assets.mixkit.co/videos/preview/mixkit-winter-fashion-cold-looking-woman-concept-video-39874-large.mp4";
-            setPlayer(sample);
+            setPlayer(url);
             return getContainer(
                 snapshot.data!.id, snapshot.data!.adContent.redirectTo);
           } else {
@@ -90,8 +86,8 @@ class _AdVideoPlayerState extends State<AdVideoPlayer> {
 
   setPlayer(String urlSrc) {
     _controller = VideoPlayerController.asset(urlSrc);
-    _initializeVideoPlayerFuture = _controller.initialize();
-    _controller.setLooping(false);
+    _initializeVideoPlayerFuture = _controller!.initialize();
+    _controller!.setLooping(false);
   }
 
   stopPub(String docId) async {
@@ -99,8 +95,8 @@ class _AdVideoPlayerState extends State<AdVideoPlayer> {
     if (res.statusCode == 200) {
       if (mounted) {
         await Provider.of<UserProvider>(context, listen: false).earnOneToken();
-        await Provider.of<UserProvider>(context, listen: false).setGetHomeResponse(false);
-
+        await Provider.of<UserProvider>(context, listen: false)
+            .setGetHomeResponse(false);
       } else {
         ToastService.showError("Une erreur est survenue. Merci de réessayer");
       }
@@ -147,16 +143,17 @@ class _AdVideoPlayerState extends State<AdVideoPlayer> {
         if (snapshot.connectionState == ConnectionState.done) {
           // If the VideoPlayerController has finished initialization, use
           // the data it provides to limit the aspect ratio of the video.
-          _controller.play();
+          _controller!.play();
 
           return AspectRatio(
-            aspectRatio: _controller.value.aspectRatio,
+            aspectRatio: _controller!.value.aspectRatio,
             // Use the VideoPlayer widget to display the video.
-            child: VideoPlayer(_controller),
+            child: VideoPlayer(_controller!),
           );
         } else {
           // If the VideoPlayerController is still initializing, show a
           // loading spinner.
+
           return const Center(
             child: CircularProgressIndicator(),
           );

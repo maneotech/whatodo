@@ -6,11 +6,12 @@ import 'package:whatodo/models/request_place.dart';
 import 'package:whatodo/models/user_login.dart';
 
 import '../models/request_user.dart';
+import '../providers/auth.dart';
 
 class BaseAPI {
 
   //static String base = "http://192.168.0.15:3010";
-  static String base = "http://149.202.43.107:3010";
+  static String base = "https://api.dev.whatodo.maneotech.fr";
 
   static String api = "$base/api";
   static Uri signupPath = Uri.parse("$api/user/register");
@@ -34,45 +35,39 @@ class BaseAPI {
   static Uri createSponsorshipUrl = Uri.parse("$api/ad/sponsorship/create");
 
   static String googleApiKey = "AIzaSyBv2zOoqxBElmBJH4jFBieXnoDXqy_YRkw";
-  static String bearerToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDI2OWI2ODgyNThlZGRhZTNkZGVlZTYiLCJ0b2tlbklkIjoiNjQyYzYxOTA3OWQxYTIzMzIyNzA0Yzg5IiwidHlwZSI6Im5vcm1hbCIsImlhdCI6MTY4MDYzMDE2MH0.14J1wPDXK1WPdZnndoVKBD0C_B7Ecowx1Unf_LWU8NE";
 
-  // more routes
-  static Map<String, String> headers = {
-    'Content-Type': "application/json; charset=UTF-8",
-    'Authorization': "Bearer $bearerToken"
-  };
+
 
   /* ************** SIGNIN / LOGIN ***************/
   static Future<Response> signUpWithEmail(UserRequestModel user) async {
     return await http.Client()
-        .post(signupPath, headers: headers, body: jsonEncode(user));
+        .post(signupPath, headers: AuthProvider.getHeaders(), body: jsonEncode(user));
   }
 
   static Future<Response> signInWithEmail(UserLoginModel userLogin) async {
     return await http.Client()
-        .post(loginPath, headers: headers, body: jsonEncode(userLogin));
+        .post(loginPath, headers: AuthProvider.getHeaders(), body: jsonEncode(userLogin));
   }
 
   static Future<Response> signInWithGoogle(UserRequestModel userLogin) async {
     return await http.Client()
-        .post(loginGooglePath, headers: headers, body: jsonEncode(userLogin));
+        .post(loginGooglePath, headers: AuthProvider.getHeaders(), body: jsonEncode(userLogin));
   }
 
   static Future<Response> signInWithFacebook(UserRequestModel userLogin) async {
     return await http.Client()
-        .post(loginFacebookPath, headers: headers, body: jsonEncode(userLogin));
+        .post(loginFacebookPath, headers: AuthProvider.getHeaders(), body: jsonEncode(userLogin));
   }
 
   static Future<Response> signInWithApple(UserRequestModel userLogin) async {
     return await http.Client()
-        .post(loginApplePath, headers: headers, body: jsonEncode(userLogin));
+        .post(loginApplePath, headers: AuthProvider.getHeaders(), body: jsonEncode(userLogin));
   }
 
   /* **************** PLACE **************** */
   static Future<Response> getRequestedPlace(RequestPlace requestPlace) async {
     var json = jsonEncode(requestPlace);
-    return await http.Client().post(getPlacePath, headers: headers, body: json);
+    return await http.Client().post(getPlacePath, headers: AuthProvider.getHeaders(), body: json);
   }
 
   static Future<Response> acceptPlace(String docId) async {
@@ -80,18 +75,18 @@ class BaseAPI {
     var json = jsonEncode(body);
 
     return await http.Client()
-        .post(acceptPlacePath, headers: headers, body: json);
+        .post(acceptPlacePath, headers: AuthProvider.getHeaders(), body: json);
   }
 
   static Future<Response> getAcceptedPlaces() async {
-    return await http.Client().get(acceptedPlacesPath, headers: headers);
+    return await http.Client().get(acceptedPlacesPath, headers: AuthProvider.getHeaders());
   }
 
   static Future<Response> refusePlace(String docId) async {
     var body = {'docId': docId};
     var json = jsonEncode(body);
     return await http.Client()
-        .post(refusePlacesPath, headers: headers, body: json);
+        .post(refusePlacesPath, headers: AuthProvider.getHeaders(), body: json);
   }
 
   /* ******************************** AD ***************/
@@ -100,14 +95,14 @@ class BaseAPI {
     var json = jsonEncode(body);
 
     return await http.Client()
-        .post(startVideoUrl, headers: headers, body: json);
+        .post(startVideoUrl, headers: AuthProvider.getHeaders(), body: json);
   }
 
   static Future<Response> endVideo(String docId) async {
     var body = {'docId': docId};
     var json = jsonEncode(body);
 
-    return await http.Client().post(endVideoUrl, headers: headers, body: json);
+    return await http.Client().post(endVideoUrl, headers: AuthProvider.getHeaders(), body: json);
   }
 
   static Future<Response> clickVideo(String docId) async {
@@ -115,12 +110,12 @@ class BaseAPI {
     var json = jsonEncode(body);
 
     return await http.Client()
-        .post(clickVideoUrl, headers: headers, body: json);
+        .post(clickVideoUrl, headers: AuthProvider.getHeaders(), body: json);
   }
 
   /* ************** HOME ***************/
   static Future<Response> getHome() async {
-    return await http.Client().get(getHomeUrl, headers: headers);
+    return await http.Client().get(getHomeUrl, headers: AuthProvider.getHeaders());
   }
 
   /* ************** SPONSORHIP ***************/
@@ -130,7 +125,7 @@ class BaseAPI {
     var json = jsonEncode(body);
 
     return await http.Client()
-        .post(sponsorshipNotifiedUrl, headers: headers, body: json);
+        .post(sponsorshipNotifiedUrl, headers: AuthProvider.getHeaders(), body: json);
   }
 
   static Future<Response> createSponsorship(String email) async {
@@ -138,6 +133,6 @@ class BaseAPI {
     var json = jsonEncode(body);
 
     return await http.Client()
-        .post(createSponsorshipUrl, headers: headers, body: json);
+        .post(createSponsorshipUrl, headers: AuthProvider.getHeaders(), body: json);
   }
 }

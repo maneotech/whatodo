@@ -8,6 +8,8 @@ class AuthProvider with ChangeNotifier {
   String _jwt = "";
   String get jwt => _jwt;
 
+  static String bearerToken = "";
+
   init() async {
     await getJwtFromDisk();
   }
@@ -16,12 +18,11 @@ class AuthProvider with ChangeNotifier {
     SharedPref sharedPref = SharedPref();
     String? jsonString = await sharedPref.read(Constants.sharedPrefKeyJwt);
 
-    /*if (jsonString != null && jsonString.isNotEmpty) {
+    if (jsonString != null && jsonString.isNotEmpty) {
       setJwt(jsonString);
       notifyListeners();
-    }*/
+    }
   }
-  
 
   Future<void> saveJwtToDisk(String jwt) async {
     if (jwt.isNotEmpty) {
@@ -39,8 +40,15 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  setJwt(String jwt){
+  setJwt(String jwt) {
     _jwt = jwt;
-    BaseAPI.bearerToken = jwt;
+    AuthProvider.bearerToken = jwt;
+  }
+
+  static Map<String, String> getHeaders() {
+    return {
+      'Content-Type': "application/json; charset=UTF-8",
+      'Authorization': "Bearer ${AuthProvider.bearerToken}"
+    };
   }
 }
