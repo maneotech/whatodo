@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>850608197135-8eofgni5m5v0nl28p2fo0f6of6e76otr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.850608197135-8eofgni5m5v0nl28p2fo0f6of6e76otr</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>850608197135-2u176hlq7rti26641mt2vji2urj2hoba.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAz6A6ZTpzz7rkLvQK9uuSiZdnaT3u40vk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>850608197135</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.maneotech.whatodo</string>
+	<key>PROJECT_ID</key>
+	<string>whatodo-568a5</string>
+	<key>STORAGE_BUCKET</key>
+	<string>whatodo-568a5.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:850608197135:ios:333352e16f4704e2959d7a</string>
+</dict>
+</plist>

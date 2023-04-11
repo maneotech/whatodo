@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:whatodo/screens/login_email.dart';
 import 'package:whatodo/services/base_api.dart';
 import 'package:whatodo/services/login_service.dart';
@@ -65,16 +66,38 @@ class _LoginState extends State<LoginScreen> {
         UserRequestModel userModel = UserRequestModel(firstname, email, token);
 
         loginWithThirdPart(userModel, UserThirdPart.google);
-
       } else {
+        print("result error: ");
+        print(result);
+
         ToastService.showError("Une erreur est survenue. Merci de réessayer");
       }
     } catch (error) {
+      print(error);
       ToastService.showError("Une erreur est survenue. Merci de réessayer");
     }
   }
 
-  Future<void> _handleSignInApple() async {}
+  Future<void> _handleSignInApple() async {
+    try {
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+
+      print(credential);
+      String firstname = credential.givenName!;
+      String email = credential.email!;
+      String token = credential.identityToken!;
+      UserRequestModel userModel = UserRequestModel(firstname, email, token);
+
+      loginWithThirdPart(userModel, UserThirdPart.google);
+    } catch (error) {
+      ToastService.showError("Une erreur est survenue. Merci de réessayer");
+    }
+  }
 
   Future<void> _handleSignInFacebook() async {
     final LoginResult result = await FacebookAuth.instance.login();

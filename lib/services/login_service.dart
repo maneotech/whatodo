@@ -9,31 +9,33 @@ import '../providers/auth.dart';
 import '../providers/user.dart';
 
 class LoginService {
-  static handleLoginResponse(Response res, BuildContext context) async{
+  static handleLoginResponse(Response res, BuildContext context) async {
     if (res.statusCode == 200) {
-        if (context.mounted) {
-          ResponseUser responseUser = ResponseUser.fromReqBody(res.body);
+      if (context.mounted) {
+        ResponseUser responseUser = ResponseUser.fromReqBody(res.body);
 
-          //fix notify listener not called
-          Navigator.pushReplacementNamed(context, '/');
-          //end of fix
+        //fix notify listener not called
+        Navigator.pushReplacementNamed(context, '/');
+        //end of fix
 
-          await Provider.of<AuthProvider>(context, listen: false)
-              .saveJwtToDisk(responseUser.data.token);
+        await Provider.of<AuthProvider>(context, listen: false)
+            .saveJwtToDisk(responseUser.data.token);
 
-          await Provider.of<UserProvider>(context, listen: false)
-              .setUser(responseUser.user);
-        } else {
-          ToastService.showError("Une erreur est survenue. Veuillez réessayer");
-        }
+        await Provider.of<UserProvider>(context, listen: false)
+            .setUser(responseUser.user);
       } else {
-        ResponseError body = ResponseError.fromReqBody(res.body);
-        if (body.error == 102) {
-          ToastService.showError("Email ou mot de passe incorrect");
-        } else {
-          ToastService.showError(
-              "Une erreur interne est survenue. Veuillez réessayer.");
-        }
+        ToastService.showError("Une erreur est survenue. Veuillez réessayer");
       }
+    } else {
+      ResponseError body = ResponseError.fromReqBody(res.body);
+      if (body.error == 102) {
+        ToastService.showError("Email ou mot de passe incorrect");
+      } else if (body.error == 58) {
+        ToastService.showError("Cet email est déjà inscrit");
+      } else {
+        ToastService.showError(
+            "Une erreur interne est survenue. Veuillez réessayer.");
+      }
+    }
   }
 }
