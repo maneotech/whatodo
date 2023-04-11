@@ -8,7 +8,10 @@ import 'package:whatodo/models/user_login.dart';
 import '../models/request_user.dart';
 
 class BaseAPI {
-  static String base = "http://192.168.0.15:3010";
+
+  //static String base = "http://192.168.0.15:3010";
+  static String base = "http://149.202.43.107:3010";
+
   static String api = "$base/api";
   static Uri signupPath = Uri.parse("$api/user/register");
   static Uri loginPath = Uri.parse("$api/user/login");
