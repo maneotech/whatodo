@@ -52,7 +52,7 @@ class _AdVideoPlayerState extends State<AdVideoPlayer> {
               snapshot.hasData) {
             final url = snapshot.data!.adContent.urlSrc.toString();
             setPlayer(url);
-            return getContainer(
+            return getContent(
                 snapshot.data!.id, snapshot.data!.adContent.redirectTo);
           } else {
             return const Center(
@@ -85,7 +85,7 @@ class _AdVideoPlayerState extends State<AdVideoPlayer> {
   }
 
   setPlayer(String urlSrc) {
-    _controller = VideoPlayerController.asset(urlSrc);
+    _controller = VideoPlayerController.network(urlSrc);
     _initializeVideoPlayerFuture = _controller!.initialize();
     _controller!.setLooping(false);
   }
@@ -116,26 +116,6 @@ class _AdVideoPlayerState extends State<AdVideoPlayer> {
     }
   }
 
-  Stack getContainer(String docId, String redirectTo) {
-    return Stack(
-      children: [
-        GestureDetector(
-          onTap: () => clickVideo(docId, redirectTo),
-          child: AbsorbPointer(
-            child: getContent(docId, redirectTo),
-          ),
-        ),
-        Positioned(
-          top: 0,
-          left: 0,
-          child: AdTimer(
-            endCallback: () => stopPub(docId),
-          ),
-        ),
-      ],
-    );
-  }
-
   FutureBuilder getContent(String docId, String redirectTo) {
     return FutureBuilder(
       future: _initializeVideoPlayerFuture,
@@ -145,15 +125,28 @@ class _AdVideoPlayerState extends State<AdVideoPlayer> {
           // the data it provides to limit the aspect ratio of the video.
           _controller!.play();
 
-          return AspectRatio(
-            aspectRatio: _controller!.value.aspectRatio,
-            // Use the VideoPlayer widget to display the video.
-            child: VideoPlayer(_controller!),
+          return Stack(
+            children: [
+              GestureDetector(
+                onTap: () => clickVideo(docId, redirectTo),
+                child: AbsorbPointer(
+                  child: AspectRatio(
+                    aspectRatio: _controller!.value.aspectRatio,
+                    // Use the VideoPlayer widget to display the video.
+                    child: VideoPlayer(_controller!),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 0,
+                left: 0,
+                child: AdTimer(
+                  endCallback: () => stopPub(docId),
+                ),
+              ),
+            ],
           );
         } else {
-          // If the VideoPlayerController is still initializing, show a
-          // loading spinner.
-
           return const Center(
             child: CircularProgressIndicator(),
           );

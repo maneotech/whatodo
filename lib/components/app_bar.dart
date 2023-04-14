@@ -25,9 +25,11 @@ class _AppBarComponentState extends State<AppBarComponent> {
       backgroundColor: Colors.transparent,
       elevation: 0,
       foregroundColor: Colors.black,
+      automaticallyImplyLeading: false,
       title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: getAlignment(),
         children: [
+          if (ModalRoute.of(context)?.canPop == true) getBackButton(),
           GestureDetector(
             onTap: () => goToPurchaseScreen(),
             child: Row(
@@ -46,31 +48,33 @@ class _AppBarComponentState extends State<AppBarComponent> {
               ],
             ),
           ),
-          GestureDetector(
-            onTap: () => showAd(),
-            child: Consumer<UserProvider>(
-              builder: (context, value, child) {
-                if (value.enableAdVideo) {
-                  return getEnableVideoAd();
-                } else {
-                  return getDisableVideoAd();
-                }
-              },
+          if (ModalRoute.of(context)?.canPop == false)
+            GestureDetector(
+              onTap: () => showAd(),
+              child: Consumer<UserProvider>(
+                builder: (context, value, child) {
+                  if (value.enableAdVideo) {
+                    return getEnableVideoAd();
+                  } else {
+                    return getDisableVideoAd();
+                  }
+                },
+              ),
             ),
-          ),
-          GestureDetector(
-            onTap: () => showSponsorship(),
-            child: Row(
-              children: const [
-                Icon(Icons.add_circle, color: Colors.black),
-                Padding(
-                  padding: EdgeInsets.only(left: 5.0, right: 5.0),
-                  child: Text("+1 Jeton",
-                      style: Constants.activityHeaderTextStyle),
-                )
-              ],
+          if (ModalRoute.of(context)?.canPop == false)
+            GestureDetector(
+              onTap: () => showSponsorship(),
+              child: Row(
+                children: const [
+                  Icon(Icons.add_circle, color: Colors.black),
+                  Padding(
+                    padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                    child: Text("+1 Jeton",
+                        style: Constants.activityHeaderTextStyle),
+                  )
+                ],
+              ),
             ),
-          ),
           if (Navigator.of(context).canPop() == false)
             GestureDetector(
               onTap: () => goToHelpScreen(),
@@ -92,6 +96,10 @@ class _AppBarComponentState extends State<AppBarComponent> {
         )
       ],
     );
+  }
+
+  MainAxisAlignment getAlignment() {
+      return ModalRoute.of(context)?.canPop == true ? MainAxisAlignment.start : MainAxisAlignment.spaceBetween;
   }
 
   Row getEnableVideoAd() {
@@ -137,12 +145,29 @@ class _AppBarComponentState extends State<AppBarComponent> {
     );
   }
 
-  goToPurchaseScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const PurchaseScreen(),
+  getBackButton() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 10.0),
+      child: GestureDetector(
+        onTap: () => Navigator.of(context).pop(),
+        child: const SizedBox(
+          width: 25,
+          child: Icon(Icons.arrow_back),
+        ),
       ),
     );
+  }
+
+  goToPurchaseScreen() {
+    String? currentRoute = ModalRoute.of(context)?.settings.name;
+
+    if (currentRoute != Constants.purchaseRouteName) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const PurchaseScreen(),
+            settings: const RouteSettings(name: Constants.purchaseRouteName)),
+      );
+    }
   }
 }

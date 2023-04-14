@@ -14,15 +14,14 @@ class PurchaseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppBarComponent(),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text("Fais toi plaisir en pensant à ton",
                 style: Constants.bigTextStyle),
-            Text("bien être.",
-                style: Constants.bigTextStyle),
+            Text("bien être.", style: Constants.bigTextStyle),
             Padding(
               padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
               child: SizedBox(
@@ -33,8 +32,9 @@ class PurchaseScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 60, bottom: 10),
-              child: Text("Nos deux grosses promotions, bientôt indisponible !!",
+              padding: const EdgeInsets.only(top: 40, bottom: 10),
+              child: Text(
+                  "Offre de lancement, nos deux meilleures promotions, -15% et -30%, bientôt indisponible.",
                   style: Constants.bigTextStyle),
             ),
             SizedBox(
@@ -44,7 +44,7 @@ class PurchaseScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 60.0),
+              padding: const EdgeInsets.only(top: 20.0),
               child: ActionButton(
                   title: "Restaurer les achats précédents", onTap: () => null),
             ),

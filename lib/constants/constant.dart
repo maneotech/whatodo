@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 class Constants {
   static const String sharedPrefKeyLanguage = "language";
   static const String sharedPrefKeyJwt = "jwt";
+  static const String sharedPrefKeyLat = "lat";
+  static const String sharedPrefKeyLng = "lng";
+  static const String sharedPrefKeyAddress = "address";
 
   static const TextStyle defaultTextStyle = TextStyle(
       fontSize: 15.0, fontWeight: FontWeight.normal, color: Colors.black);
@@ -70,7 +73,7 @@ class Constants {
   static const EdgeInsets paddingTop = EdgeInsets.only(top: 40.0);
 
   static const EdgeInsets paddingActivityTitle =
-      EdgeInsets.only(top: 10.0, bottom: 5.0);
+      EdgeInsets.only(top: 20.0, bottom: 5.0);
   static const Color primaryColor = Color.fromRGBO(255, 105, 61, 1.0);
   static const Color secondaryColor = Color(0xff7925E9);
   static const Color thirdColor = Color(0xff10AC70);
@@ -81,7 +84,7 @@ class Constants {
   static const String loginImage = "assets/images/login.jpg";
 
   static const String openingImage = "assets/images/opening.jpg";
-  static const String successSound = "assets/sounds/success.wav";
+  static const String successSound = "sounds/success.wav";
 
   static const String barIcon = "assets/icons/bar.png";
   static const String bicycleIcon = "assets/icons/bicycle.png";
@@ -101,4 +104,6 @@ class Constants {
 
   static const String termsUrl = "https://maneotech.fr/terms-of-service.html";
   static const String policyUrl = "https://maneotech.fr/policy.html";
+
+  static const String purchaseRouteName = "shop";
 }

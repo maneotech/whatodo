@@ -77,40 +77,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
     } else {
       throw Exception();
     }
-
-    /* for (var acceptedPlace in acceptedPlaces) {
-              setState(() {
-                previousPlaces.add(acceptedPlace);
-              }); 
-      }
-
-    ResultPlaceModel resultPlaceModel = ResultPlaceModel(
-        "qsd",
-        "ok",
-        "Parc Jourdan",
-        "345 rue X - Aix-en-Provence 13100, France",
-        4.5,
-        54,
-        54,
-        [],
-        300,
-        GeneratedOptions(
-            ActivityType.bar, MovingType.byBicycle, PriceType.free, 10));
-
-    ResultPlaceModel resultPlaceModel2 = ResultPlaceModel(
-        "sqd",
-        "ok",
-        "Parc Jourdan",
-        "345 rue X - Aix-en-Provence 13100, France",
-        4.5,
-        54,
-        54,
-        [],
-        300,
-        GeneratedOptions(
-            ActivityType.bar, MovingType.byBicycle, PriceType.free, 10));
-    previousPlaces.add(resultPlaceModel);
-    previousPlaces.add(resultPlaceModel2);*/
   }
 
   List<HistoryBloc> getInformationBlocs(List<ResultPlaceModel> previousPlaces) {

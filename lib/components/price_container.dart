@@ -46,14 +46,12 @@ class _PriceContainerState extends State<PriceContainer> {
             padding: const EdgeInsets.only(left: 5.0, right: 10.0, top: 10.0),
             child: Column(
               children: [
-                Expanded(
-                  child: ActivityContainer(
-                      title: widget.title,
-                      color: widget.color,
-                      iconPath: widget.iconPath,
-                      isActive: true,
-                      onTap: widget.onTap),
-                ),
+                ActivityContainer(
+                    title: widget.title,
+                    color: widget.color,
+                    iconPath: widget.iconPath,
+                    isActive: true,
+                    onTap: widget.onTap),
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0),
                   child: Text(

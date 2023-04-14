@@ -22,7 +22,7 @@ class InformationBloc extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 7.0, right: 7.0, bottom: 30.0),
       child: Container(
-        height: 250,
+        height: 260,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -36,33 +36,32 @@ class InformationBloc extends StatelessWidget {
                 ActivityHeaderText(text: "Informations"),
               ],
             ),
-            GridView.count(
-              shrinkWrap: true,
-              crossAxisCount: 3,
-              crossAxisSpacing: 10.0,
-              mainAxisSpacing: 10.0,
-              children: [
-                ActivityContainer(
-                    title: resultPlaceModel.generatedOptions.priceType ==
-                            PriceType.free
-                        ? "Gratuit"
-                        : "Payant",
-                    color: Constants.thirdColor,
-                    iconPath: resultPlaceModel.generatedOptions.priceType ==
-                            PriceType.free
-                        ? Constants.freeIcon
-                        : Constants.notFreeIcon,
+            SizedBox(
+              height: 95,
+              child: Row(
+                children: [
+                  ActivityContainer(
+                      title: resultPlaceModel.generatedOptions.priceType ==
+                              PriceType.free
+                          ? "Gratuit"
+                          : "Payant",
+                      color: Constants.thirdColor,
+                      iconPath: resultPlaceModel.generatedOptions.priceType ==
+                              PriceType.free
+                          ? Constants.freeIcon
+                          : Constants.notFreeIcon,
+                      isActive: true,
+                      onTap: null),
+                  getActivityContainer(),
+                  ActivityContainer(
+                    title: "Voir dans Maps",
+                    color: Constants.primaryColor,
+                    iconPath: Constants.mapIcon,
                     isActive: true,
-                    onTap: null),
-                getActivityContainer(),
-                ActivityContainer(
-                  title: "Voir dans Maps",
-                  color: Constants.primaryColor,
-                  iconPath: Constants.mapIcon,
-                  isActive: true,
-                  onTap: () => openMap(),
-                )
-              ],
+                    onTap: () => openMap(),
+                  )
+                ],
+              ),
             ),
             getYesNoButtons(context)
           ]),

@@ -35,9 +35,14 @@ class _ActivityContainerState extends State<ActivityContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => onTouchContainer(),
-      child: getContent(),
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => onTouchContainer(),
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: getContent(),
+        ),
+      ),
     );
   }
 
@@ -49,7 +54,9 @@ class _ActivityContainerState extends State<ActivityContainer> {
       });
     }
 
-    widget.onTap!();
+    if (widget.onTap != null) {
+      widget.onTap!();
+    }
   }
 
   Widget getContent() {

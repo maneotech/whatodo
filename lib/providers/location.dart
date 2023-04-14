@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 
+import '../constants/constant.dart';
+import '../repositories/shared_pref.dart';
+
 class LocationProvider with ChangeNotifier {
   double? _lat;
   double? _lng;
-  String? _currentAddress;
+  String _currentAddress = "";
 
   double? get lat => _lat;
   double? get lng => _lng;
-  String? get currentAddress => _currentAddress;
+  String get currentAddress => _currentAddress;
 
   Future<bool> getCurrentPosition() async {
     final hasPermission = await _handleLocationPermission();
@@ -22,7 +25,10 @@ class LocationProvider with ChangeNotifier {
       _lng = position.longitude;
 
       result = await _getAddressFromLatLng();
-      
+
+      if (_currentAddress.isNotEmpty) {
+        saveLocationToDisk(_lat!, _lng!, _currentAddress);
+      }
     }).catchError((e) {
       print(e);
       result = false;
@@ -74,15 +80,38 @@ class LocationProvider with ChangeNotifier {
         Placemark place = placemarks[0];
         _currentAddress =
             '${place.street}, ${place.subLocality},${place.subAdministrativeArea}, ${place.postalCode}';
-          
+
         result = true;
       }).catchError((e) {
-        result = false;
+        result = true;
+        //result = false;
       });
     } else {
       result = false;
     }
 
     return result;
+  }
+
+  getLocationFromDisk() async {
+    SharedPref sharedPref = SharedPref();
+    String? lat = await sharedPref.read(Constants.sharedPrefKeyLat);
+    String? lng = await sharedPref.read(Constants.sharedPrefKeyLng);
+    String? address = await sharedPref.read(Constants.sharedPrefKeyAddress);
+
+    if (lat != null && lng != null && address != null) {
+      _lat = double.parse(lat);
+      _lng = double.parse(lng);
+      _currentAddress = address;
+      notifyListeners();
+    }
+  }
+
+  Future<void> saveLocationToDisk(
+      double lat, double lng, String address) async {
+    SharedPref sharedPref = SharedPref();
+    await sharedPref.save(Constants.sharedPrefKeyLat, lat.toString());
+    await sharedPref.save(Constants.sharedPrefKeyLng, lng.toString());
+    await sharedPref.save(Constants.sharedPrefKeyAddress, address);
   }
 }

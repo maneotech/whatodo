@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whatodo/components/activity_container.dart';
@@ -6,6 +8,7 @@ import 'package:whatodo/models/home_response.dart';
 import 'package:whatodo/models/request_place.dart';
 import 'package:whatodo/providers/location.dart';
 import 'package:whatodo/screens/opening.dart';
+import 'package:whatodo/screens/require_location_info.dart';
 import 'package:whatodo/services/alert.dart';
 import 'package:whatodo/services/toast.dart';
 
@@ -28,9 +31,11 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController controllerHours = TextEditingController(text: "0");
   TextEditingController controllerMinutes = TextEditingController(text: "15");
   TextEditingController controllerAddress =
-      TextEditingController(text: "Je saisi mon adresse ici");
+      TextEditingController(text: "Aucune adresse");
 
-  List<ActivityContainer> activityBlocs = [];
+  List<ActivityContainer> activityBlocs1 = [];
+  List<ActivityContainer> activityBlocs2 = [];
+
   List<ActivityContainer> priceBlocs = [];
   List<ActivityContainer> movingBlocs = [];
 
@@ -45,36 +50,61 @@ class _HomeScreenState extends State<HomeScreen> {
     setPriceBlocs();
     setMovingBlocs();
     getHome();
+
+    Provider.of<LocationProvider>(context, listen: false).getLocationFromDisk();
+  }
+
+  @override
+  void didChangeDependencies() {
+    controllerAddress.text = Provider.of<LocationProvider>(
+      context,
+      listen: true, // Be sure to listen
+    ).currentAddress;
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text("Hello John! Enjoy your"),
-        Text("new adventure"),
+        Text(
+            "Hello ${Provider.of<UserProvider>(context).firstname} ! Enjoy your"),
+        Row(
+          children: const [
+            Text("new "),
+            Text(
+              "adventure",
+              style: TextStyle(
+                  fontWeight: FontWeight.w700, color: Constants.secondaryColor),
+            ),
+          ],
+        ),
         getTitleSectionRow("Activités", selectedActivities, 6),
-        GridView.count(
-            shrinkWrap: true,
-            crossAxisCount: 3,
-            crossAxisSpacing: 10.0,
-            mainAxisSpacing: 10.0,
-            children: activityBlocs),
+        SizedBox(
+          height: 75,
+          child: Row(
+            children: activityBlocs1,
+          ),
+        ),
+        SizedBox(
+          height: 75,
+          child: Row(
+            children: activityBlocs2,
+          ),
+        ),
         getTitleSectionRow("Tarif", selectedPrices, 2),
-        GridView.count(
-          shrinkWrap: true,
-          crossAxisCount: 3,
-          crossAxisSpacing: 10.0,
-          mainAxisSpacing: 10.0,
-          children: priceBlocs,
+        SizedBox(
+          height: 75,
+          child: Row(
+            children: priceBlocs,
+          ),
         ),
         getTitleSectionRow("Moyen de se déplacer", selectedMovingTypes, 3),
-        GridView.count(
-          shrinkWrap: true,
-          crossAxisCount: 3,
-          crossAxisSpacing: 10.0,
-          mainAxisSpacing: 10.0,
-          children: movingBlocs,
+        SizedBox(
+          height: 75,
+          child: Row(
+            children: movingBlocs,
+          ),
         ),
         const Padding(
           padding: Constants.paddingActivityTitle,
@@ -159,18 +189,27 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   setActivityBlocs() {
-    activityBlocs = [
+    activityBlocs1 = [
       ActivityService.getSnackingBloc(
-          () => onTapActivity(ActivityType.snacking), false, changeColorOnTap: true),
-      ActivityService.getBarBloc(() => onTapActivity(ActivityType.bar), false, changeColorOnTap: true),
+          () => onTapActivity(ActivityType.snacking), false,
+          changeColorOnTap: true),
+      ActivityService.getBarBloc(() => onTapActivity(ActivityType.bar), false,
+          changeColorOnTap: true),
       ActivityService.getRestaurantBloc(
-          () => onTapActivity(ActivityType.restaurant), false, changeColorOnTap: true),
+          () => onTapActivity(ActivityType.restaurant), false,
+          changeColorOnTap: true),
+    ];
+
+    activityBlocs2 = [
       ActivityService.getSportBloc(
-          () => onTapActivity(ActivityType.sport), false, changeColorOnTap: true),
+          () => onTapActivity(ActivityType.sport), false,
+          changeColorOnTap: true),
       ActivityService.getCulturelBloc(
-          () => onTapActivity(ActivityType.culturel), false, changeColorOnTap: true),
+          () => onTapActivity(ActivityType.culturel), false,
+          changeColorOnTap: true),
       ActivityService.getShoppingBloc(
-          () => onTapActivity(ActivityType.shopping), false, changeColorOnTap: true),
+          () => onTapActivity(ActivityType.shopping), false,
+          changeColorOnTap: true),
     ];
   }
 
@@ -264,9 +303,16 @@ class _HomeScreenState extends State<HomeScreen> {
     bool getPosition = await locationProvider.getCurrentPosition();
 
     if (getPosition) {
-      controllerAddress.text = locationProvider.currentAddress!;
+      controllerAddress.text = locationProvider.currentAddress;
     } else {
-      //toast
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => const RequireLocationInfo(),
+          ),
+        );
+      }
     }
   }
 
@@ -306,6 +352,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (checkAtLeastOneActivity() &&
         checkPrice() &&
+        checkMoving() &&
         checkTime() &&
         checkLat(lat, lng)) {
       /*  String currentAddress =
@@ -349,6 +396,15 @@ class _HomeScreenState extends State<HomeScreen> {
       return false;
     }
 
+    return true;
+  }
+
+  bool checkMoving() {
+    if (selectedMovingTypes.isEmpty) {
+      ToastService.showError(
+          "Veuillez choisir au moins un moyen de transport souhaité");
+      return false;
+    }
     return true;
   }
 

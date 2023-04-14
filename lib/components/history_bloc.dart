@@ -23,9 +23,8 @@ class HistoryBloc extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(
-              top: 5.0, left: 7.0, right: 5.0, bottom: 30.0),
+              top: 5.0, bottom: 30.0),
           child: Container(
-            height: 200,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -44,20 +43,15 @@ class HistoryBloc extends StatelessWidget {
                       Column()
                     ],
                   ),
-                  Expanded(
-                    child: Text(
-                      resultPlaceModel.address,
-                      style: Constants.normalBlackTextStyle,
-                    ),
+                  Text(
+                    resultPlaceModel.address,
+                    style: Constants.normalBlackTextStyle,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                    child: GridView.count(
-                      shrinkWrap: true,
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 10.0,
-                      mainAxisSpacing: 10.0,
-                      children: [
+                    child: SizedBox(
+                      height: 95,
+                      child: Row(children: [
                         ActivityContainer(
                           title:
                               "${resultPlaceModel.generatedOptions.travellingDuration.toString()} minutes à pied",
@@ -83,7 +77,7 @@ class HistoryBloc extends StatelessWidget {
                             isActive: true,
                             onTap: null),
                         getActivityContainer(),
-                      ],
+                      ]),
                     ),
                   ),
                 ],

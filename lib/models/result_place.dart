@@ -12,7 +12,7 @@ class ResultPlaceModel {
   double latitude;
   double longitude;
   List<String> types;
-  int userRatingsTotals;
+  double userRatingsTotals;
   GeneratedOptions generatedOptions;
 
   ResultPlaceModel(

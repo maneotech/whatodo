@@ -50,6 +50,7 @@ class InputContainer extends StatelessWidget {
             controller: textController,
             style: Constants.addressTextStyle,
             minLines: 2,
+            enabled: false,
             maxLines: 6,
             decoration: const InputDecoration(
                 border: InputBorder.none, counterText: ""),

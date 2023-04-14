@@ -107,7 +107,7 @@ class _OpeningScreenState extends State<OpeningScreen> {
 
   playSound() {
     AudioPlayer audioPlayer = AudioPlayer()..setReleaseMode(ReleaseMode.stop);
-    Source url = UrlSource(Constants.successSound);
+    Source url = AssetSource(Constants.successSound);
     audioPlayer.play(url);
   }
 
