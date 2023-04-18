@@ -89,13 +89,13 @@ class Constants {
   static const String barIcon = "assets/icons/bar.png";
   static const String bicycleIcon = "assets/icons/bicycle.png";
   static const String carIcon = "assets/icons/car.png";
-  static const String culturelIcon = "assets/icons/culturel.png";
+  static const String randomIcon = "assets/icons/culturel.png";
   static const String freeIcon = "assets/icons/free.png";
   static const String notFreeIcon = "assets/icons/notfree.png";
   static const String restaurantIcon = "assets/icons/restaurant.png";
   static const String snackingIcon = "assets/icons/snacking.png";
   static const String shoppingIcon = "assets/icons/shopping.png";
-  static const String sportIcon = "assets/icons/sport.png";
+  static const String discoveringIcon = "assets/icons/sport.png";
   static const String walkIcon = "assets/icons/walk.png";
   static const String timeIcon = "assets/icons/time.png";
   static const String tokenIcon = "assets/icons/token.png";
@@ -104,6 +104,6 @@ class Constants {
 
   static const String termsUrl = "https://maneotech.fr/terms-of-service.html";
   static const String policyUrl = "https://maneotech.fr/policy.html";
-
+  static const String urlPictureGoogleApi = "https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyBv2zOoqxBElmBJH4jFBieXnoDXqy_YRkw&maxwidth=800&photoreference=";
   static const String purchaseRouteName = "shop";
 }

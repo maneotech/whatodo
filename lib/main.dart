@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:whatodo/models/request_place.dart';
 import 'package:whatodo/providers/auth.dart';
 import 'package:whatodo/providers/location.dart';
 import 'package:whatodo/providers/user.dart';
@@ -9,10 +10,14 @@ import 'package:whatodo/screens/login.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:whatodo/screens/place_result.dart';
+import 'package:whatodo/utils/enum_filters.dart';
 
 import 'components/app_bar.dart';
 import 'components/bottom_bar.dart';
 import 'constants/constant.dart';
+import 'models/generated_options._place.dart';
+import 'models/result_place.dart';
 import 'providers/locale.dart';
 
 void main() {
@@ -129,7 +134,24 @@ class RootScreens extends StatefulWidget {
 class _RootScreensState extends State<RootScreens> {
   int currentPage = 0;
 
-  List<Widget> pages = const [HomeScreen(), HistoryScreen()];
+  /*List<Widget> pages =  [PlaceResultScreen(
+    requestPlaceModel: RequestPlace([ActivityType.shopping], [MovingType.byWalk], 10, 10, 0, 15),
+    
+    resultPlaceModel: ResultPlaceModel(
+        "ok",
+        "oko",
+        "Restaurant Le Parfait",
+        "5 avenue du Pigeonnet, 13090 Aix en Provence",
+        5.2,
+        55,
+        55,
+        ["restaurant"],
+        125,
+        GeneratedOptions(ActivityType.restaurant, MovingType.byWalk),
+        "https://lh3.googleusercontent.com/places/AJQcZqLStmtN2uaanztcyOqCto4EUoP3v8IfRwSMrWnrUYW0U38p35nOWBUBX-Zv2XOZ3ciMlRtDVTzK7X1-YIwI1JcfyF26z8PaoEI=s1600-w400"))/*HomeScreen()*/, HistoryScreen()];
+*/
+
+  List<Widget> pages =  const [HomeScreen(), HistoryScreen()];
 
   @override
   Widget build(BuildContext context) {

@@ -29,8 +29,14 @@ class _ActivityContainerState extends State<ActivityContainer> {
 
   @override
   void initState() {
-    isActive = widget.isActive;
     super.initState();
+    isActive = widget.isActive;
+  }
+
+  @override
+  void didUpdateWidget(covariant ActivityContainer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    isActive = widget.isActive;
   }
 
   @override
@@ -48,7 +54,6 @@ class _ActivityContainerState extends State<ActivityContainer> {
 
   onTouchContainer() {
     if (widget.changeColorOnTap != null && widget.changeColorOnTap == true) {
-      print(widget.onTap);
       setState(() {
         isActive = !isActive;
       });

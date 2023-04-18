@@ -40,14 +40,14 @@ class _HomeScreenState extends State<HomeScreen> {
   List<ActivityContainer> movingBlocs = [];
 
   List<ActivityType> selectedActivities = [];
-  List<PriceType> selectedPrices = [];
+  //List<PriceType> selectedPrices = [];
   List<MovingType> selectedMovingTypes = [];
 
   @override
   void initState() {
     super.initState();
-    setActivityBlocs();
-    setPriceBlocs();
+    setActivityBlocs(false);
+    //setPriceBlocs();
     setMovingBlocs();
     getHome();
 
@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        getTitleSectionRow("Activités", selectedActivities, 6),
+        getTitleSectionRow("Activités", selectedActivities, 5),
         SizedBox(
           height: 75,
           child: Row(
@@ -92,13 +92,13 @@ class _HomeScreenState extends State<HomeScreen> {
             children: activityBlocs2,
           ),
         ),
-        getTitleSectionRow("Tarif", selectedPrices, 2),
+        /*getTitleSectionRow("Tarif", selectedPrices, 2),
         SizedBox(
           height: 75,
           child: Row(
             children: priceBlocs,
           ),
-        ),
+        ),*/
         getTitleSectionRow("Moyen de se déplacer", selectedMovingTypes, 3),
         SizedBox(
           height: 75,
@@ -188,32 +188,33 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  setActivityBlocs() {
+  setActivityBlocs(bool isActive) {
     activityBlocs1 = [
       ActivityService.getSnackingBloc(
-          () => onTapActivity(ActivityType.snacking), false,
+          () => onTapActivity(ActivityType.snacking), isActive,
           changeColorOnTap: true),
-      ActivityService.getBarBloc(() => onTapActivity(ActivityType.bar), false,
+      ActivityService.getBarBloc(
+          () => onTapActivity(ActivityType.bar), isActive,
           changeColorOnTap: true),
       ActivityService.getRestaurantBloc(
-          () => onTapActivity(ActivityType.restaurant), false,
+          () => onTapActivity(ActivityType.restaurant), isActive,
           changeColorOnTap: true),
     ];
 
     activityBlocs2 = [
-      ActivityService.getSportBloc(
-          () => onTapActivity(ActivityType.sport), false,
-          changeColorOnTap: true),
-      ActivityService.getCulturelBloc(
-          () => onTapActivity(ActivityType.culturel), false,
+      ActivityService.getDiscoveringBloc(
+          () => onTapActivity(ActivityType.discovering), isActive,
           changeColorOnTap: true),
       ActivityService.getShoppingBloc(
-          () => onTapActivity(ActivityType.shopping), false,
+          () => onTapActivity(ActivityType.shopping), isActive,
           changeColorOnTap: true),
+      ActivityService.getRandomBloc(
+          () => onTapActivity(ActivityType.random), false,
+          changeColorOnTap: false),
     ];
   }
 
-  setPriceBlocs() {
+  /*setPriceBlocs() {
     priceBlocs = [
       ActivityContainer(
           title: "Gratuit",
@@ -228,16 +229,16 @@ class _HomeScreenState extends State<HomeScreen> {
           changeColorOnTap: true,
           onTap: () => onTapPurchase(PriceType.notFree)),
     ];
-  }
+  }*/
 
   setMovingBlocs() {
     movingBlocs = [
       ActivityContainer(
-          title: "En voiture",
-          color: Constants.thirdColor,
-          iconPath: Constants.carIcon,
+          title: "A pied",
+          color: Constants.primaryColor,
+          iconPath: Constants.walkIcon,
           changeColorOnTap: true,
-          onTap: () => onTapMoving(MovingType.byCar)),
+          onTap: () => onTapMoving(MovingType.byWalk)),
       ActivityContainer(
           title: "A vélo",
           color: Constants.secondaryColor,
@@ -245,11 +246,11 @@ class _HomeScreenState extends State<HomeScreen> {
           changeColorOnTap: true,
           onTap: () => onTapMoving(MovingType.byBicycle)),
       ActivityContainer(
-          title: "A pied",
-          color: Constants.primaryColor,
-          iconPath: Constants.walkIcon,
+          title: "En voiture",
+          color: Constants.thirdColor,
+          iconPath: Constants.carIcon,
           changeColorOnTap: true,
-          onTap: () => onTapMoving(MovingType.byWalk)),
+          onTap: () => onTapMoving(MovingType.byCar)),
     ];
   }
 
@@ -318,15 +319,31 @@ class _HomeScreenState extends State<HomeScreen> {
 
   onTapActivity(ActivityType activity) {
     setState(() {
-      if (selectedActivities.contains(activity)) {
-        selectedActivities.remove(activity);
+      if (activity == ActivityType.random) {
+        if (selectedActivities.length == 5) {
+          selectedActivities.clear();
+
+          setActivityBlocs(false);
+        } else {
+          selectedActivities.clear();
+          selectedActivities.add(ActivityType.bar);
+          selectedActivities.add(ActivityType.restaurant);
+          selectedActivities.add(ActivityType.snacking);
+          selectedActivities.add(ActivityType.shopping);
+          selectedActivities.add(ActivityType.discovering);
+          setActivityBlocs(true);
+        }
       } else {
-        selectedActivities.add(activity);
+        if (selectedActivities.contains(activity)) {
+          selectedActivities.remove(activity);
+        } else {
+          selectedActivities.add(activity);
+        }
       }
     });
   }
 
-  onTapPurchase(PriceType priceType) {
+  /*onTapPurchase(PriceType priceType) {
     setState(() {
       if (selectedPrices.contains(priceType)) {
         selectedPrices.remove(priceType);
@@ -334,7 +351,7 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedPrices.add(priceType);
       }
     });
-  }
+  }*/
 
   onTapMoving(MovingType movingType) {
     setState(() {
@@ -351,7 +368,7 @@ class _HomeScreenState extends State<HomeScreen> {
     double? lng = Provider.of<LocationProvider>(context, listen: false).lng;
 
     if (checkAtLeastOneActivity() &&
-        checkPrice() &&
+        /*checkPrice() &&*/
         checkMoving() &&
         checkTime() &&
         checkLat(lat, lng)) {
@@ -360,7 +377,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       RequestPlace requestPlace = RequestPlace(
         selectedActivities,
-        selectedPrices,
+        //selectedPrices,
         selectedMovingTypes,
         lat!,
         lng!,
@@ -388,7 +405,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return true;
   }
 
-  bool checkPrice() {
+  /*bool checkPrice() {
     if (selectedPrices.isEmpty) {
       ToastService.showError(
           "Veuillez choisir si vous souhaitez une activité gratuite, payante ou les deux");
@@ -397,7 +414,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return true;
-  }
+  }*/
 
   bool checkMoving() {
     if (selectedMovingTypes.isEmpty) {

@@ -5,14 +5,14 @@ import 'package:whatodo/utils/enum_filters.dart';
 class GeneratedOptions {
   ActivityType activityType;
   MovingType movingType;
-  PriceType priceType;
-  double travellingDuration;
+  //PriceType priceType;
+  //double travellingDuration;
 
   GeneratedOptions(
     this.activityType,
     this.movingType,
-    this.priceType,
-    this.travellingDuration,
+    //this.priceType,
+    //this.travellingDuration,
   );
 
   factory GeneratedOptions.fromReqBody(String body) {
@@ -21,8 +21,8 @@ class GeneratedOptions {
     return GeneratedOptions(
       json['activityType'],
       json['movingType'],
-      json['priceType'],
-      json['travellingDuration'],
+      //json['priceType'],
+      //json['travellingDuration'],
     );
   }
 }

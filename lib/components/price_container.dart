@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:whatodo/components/activity_container.dart';
 import 'package:whatodo/components/circle_discount.dart';
 
-import '../constants/constant.dart';
 
 class PriceContainer extends StatefulWidget {
   final String title;

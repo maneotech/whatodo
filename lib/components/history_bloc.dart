@@ -22,8 +22,7 @@ class HistoryBloc extends StatelessWidget {
     return Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.only(
-              top: 5.0, bottom: 30.0),
+          padding: const EdgeInsets.only(top: 5.0, bottom: 30.0),
           child: Container(
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
@@ -38,8 +37,8 @@ class HistoryBloc extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                          child:
-                              ActivityHeaderText(text: resultPlaceModel.name)),
+                        child: ActivityHeaderText(text: resultPlaceModel.name),
+                      ),
                       Column()
                     ],
                   ),
@@ -52,7 +51,7 @@ class HistoryBloc extends StatelessWidget {
                     child: SizedBox(
                       height: 95,
                       child: Row(children: [
-                        ActivityContainer(
+                        /*ActivityContainer(
                           title:
                               "${resultPlaceModel.generatedOptions.travellingDuration.toString()} minutes à pied",
                           color: Constants.primaryColor,
@@ -60,8 +59,8 @@ class HistoryBloc extends StatelessWidget {
                           onTap: null,
                           changeColorOnTap: false,
                           isActive: true,
-                        ),
-                        ActivityContainer(
+                        ),*/
+                        /*ActivityContainer(
                             title:
                                 resultPlaceModel.generatedOptions.priceType ==
                                         PriceType.free
@@ -75,8 +74,8 @@ class HistoryBloc extends StatelessWidget {
                                     : Constants.notFreeIcon,
                             changeColorOnTap: false,
                             isActive: true,
-                            onTap: null),
-                        getActivityContainer(),
+                            onTap: null),*/
+                        ActivityService.getActivityContainer(resultPlaceModel.generatedOptions.activityType),
                       ]),
                     ),
                   ),
@@ -99,30 +98,5 @@ class HistoryBloc extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  ActivityContainer getActivityContainer() {
-    switch (resultPlaceModel.generatedOptions.activityType) {
-      case ActivityType.culturel:
-        return ActivityService.getCulturelBloc(null, true);
-
-      case ActivityType.bar:
-        return ActivityService.getBarBloc(null, true);
-
-      case ActivityType.restaurant:
-        return ActivityService.getRestaurantBloc(null, true);
-
-      case ActivityType.sport:
-        return ActivityService.getSportBloc(null, true);
-
-      case ActivityType.shopping:
-        return ActivityService.getShoppingBloc(null, true);
-
-      case ActivityType.snacking:
-        return ActivityService.getSnackingBloc(null, true);
-
-      default:
-        return ActivityService.getCulturelBloc(null, true);
-    }
   }
 }

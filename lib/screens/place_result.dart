@@ -3,13 +3,20 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:whatodo/components/information_bloc.dart';
 
 import '../constants/constant.dart';
+import '../models/request_place.dart';
 import '../models/result_place.dart';
+import '../services/activity.dart';
 import '../utils/map_style.dart';
 
 class PlaceResultScreen extends StatefulWidget {
   final ResultPlaceModel resultPlaceModel;
+  final RequestPlace requestPlaceModel;
 
-  const PlaceResultScreen({super.key, required this.resultPlaceModel});
+  const PlaceResultScreen({
+    super.key,
+    required this.resultPlaceModel,
+    required this.requestPlaceModel,
+  });
 
   @override
   State<PlaceResultScreen> createState() => _PlaceResultScreenState();
@@ -35,37 +42,64 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          getTitleBox(),
-          Expanded(child: getGoogleMap()),
-          InformationBloc(resultPlaceModel: widget.resultPlaceModel),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            getTitleBox(),
+            Image.network(widget.resultPlaceModel.urlPictureReference),
+            SizedBox(
+              height: 200,
+              child: getGoogleMap(),
+            ),
+            InformationBloc(resultPlaceModel: widget.resultPlaceModel, requestPlaceModel: widget.requestPlaceModel),
+          ],
+        ),
       ),
     );
   }
 
-  SizedBox getTitleBox() {
-    return SizedBox(
-      height: 50,
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(widget.resultPlaceModel.rating.toString()),
-            const Icon(Icons.star),
-          ],
-        ),
-        Expanded(
-          flex: 2,
-          child: Center(
-            child: Text(widget.resultPlaceModel.name,
-                style: Constants.titlePlaceTextStyle),
+  Widget getTitleBox() {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          ActivityService.fromActivityTypeToIconAsset(
+              widget.resultPlaceModel.generatedOptions.activityType),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  widget.resultPlaceModel.name,
+                  style: Constants.titlePlaceTextStyle,
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  widget.resultPlaceModel.address,
+                  style: Constants.activityHeaderTextStyle,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           ),
-        ),
-        Text("${widget.resultPlaceModel.userRatingsTotals.toString()} avis",
-            style: Constants.rankingNumberTextStyle),
-      ]),
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(widget.resultPlaceModel.rating.toString()),
+                  const Icon(Icons.star),
+                ],
+              ),
+              Text(
+                  "${widget.resultPlaceModel.userRatingsTotals.toString()} avis",
+                  style: Constants.rankingNumberTextStyle),
+            ],
+          )
+        ],
+      ),
     );
   }
 

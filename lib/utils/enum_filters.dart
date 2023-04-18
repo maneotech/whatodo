@@ -1,16 +1,16 @@
 enum ActivityType {
-  culturel,
-  sport,
+  random,
+  discovering,
   restaurant,
   bar,
   shopping,
   snacking,
 }
 
-enum PriceType {
+/*enum PriceType {
   free,
   notFree,
-}
+}*/
 
 enum MovingType {
   byCar,

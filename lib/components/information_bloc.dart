@@ -6,7 +6,9 @@ import 'package:whatodo/services/base_api.dart';
 import 'package:whatodo/services/toast.dart';
 
 import '../constants/constant.dart';
+import '../models/request_place.dart';
 import '../services/activity.dart';
+import '../services/utils.dart';
 import '../utils/enum_filters.dart';
 import 'action_button.dart';
 import 'activity_container.dart';
@@ -14,8 +16,12 @@ import 'activity_header_text.dart';
 
 class InformationBloc extends StatelessWidget {
   final ResultPlaceModel resultPlaceModel;
+  final RequestPlace requestPlaceModel;
 
-  const InformationBloc({super.key, required this.resultPlaceModel});
+  const InformationBloc(
+      {super.key,
+      required this.resultPlaceModel,
+      required this.requestPlaceModel});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +46,7 @@ class InformationBloc extends StatelessWidget {
               height: 95,
               child: Row(
                 children: [
-                  ActivityContainer(
+                  /*ActivityContainer(
                       title: resultPlaceModel.generatedOptions.priceType ==
                               PriceType.free
                           ? "Gratuit"
@@ -51,8 +57,22 @@ class InformationBloc extends StatelessWidget {
                           ? Constants.freeIcon
                           : Constants.notFreeIcon,
                       isActive: true,
+                      onTap: null),*/
+                  ActivityService.getActivityContainer(
+                      resultPlaceModel.generatedOptions.activityType),
+                  ActivityContainer(
+                      title:
+                          "< ${UtilService.getMinutesFromHoursMinutes(requestPlaceModel.maxHour, requestPlaceModel.maxMin)} minutes",
+                      color: Constants.thirdColor,
+                      iconPath: resultPlaceModel.generatedOptions.movingType ==
+                              MovingType.byBicycle
+                          ? Constants.bicycleIcon
+                          : resultPlaceModel.generatedOptions.movingType ==
+                                  MovingType.byWalk
+                              ? Constants.walkIcon
+                              : Constants.carIcon,
+                      isActive: true,
                       onTap: null),
-                  getActivityContainer(),
                   ActivityContainer(
                     title: "Voir dans Maps",
                     color: Constants.primaryColor,
@@ -110,31 +130,6 @@ class InformationBloc extends StatelessWidget {
       }
     } else {
       ToastService.showError("Une erreur est survenue, merci de réessayer");
-    }
-  }
-
-  ActivityContainer getActivityContainer() {
-    switch (resultPlaceModel.generatedOptions.activityType) {
-      case ActivityType.culturel:
-        return ActivityService.getCulturelBloc(null, true);
-
-      case ActivityType.bar:
-        return ActivityService.getBarBloc(null, true);
-
-      case ActivityType.restaurant:
-        return ActivityService.getRestaurantBloc(null, true);
-
-      case ActivityType.sport:
-        return ActivityService.getSportBloc(null, true);
-
-      case ActivityType.shopping:
-        return ActivityService.getShoppingBloc(null, true);
-
-      case ActivityType.snacking:
-        return ActivityService.getSnackingBloc(null, true);
-
-      default:
-        return ActivityService.getCulturelBloc(null, true);
     }
   }
 }
