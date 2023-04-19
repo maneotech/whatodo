@@ -12,6 +12,7 @@ import '../components/signin_button.dart';
 import '../components/signin_picture_title.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../models/request_user.dart';
 import '../models/user.dart';
@@ -70,11 +71,11 @@ class _LoginState extends State<LoginScreen> {
         print("result error: ");
         print(result);
 
-        ToastService.showError("Une erreur est survenue. Merci de réessayer");
+        ToastService.showError(AppLocalizations.of(context)!.internalError);
       }
     } catch (error) {
       print(error);
-      ToastService.showError("Une erreur est survenue. Merci de réessayer");
+      ToastService.showError(AppLocalizations.of(context)!.internalError);
     }
   }
 
@@ -95,7 +96,7 @@ class _LoginState extends State<LoginScreen> {
 
       loginWithThirdPart(userModel, UserThirdPart.google);
     } catch (error) {
-      ToastService.showError("Une erreur est survenue. Merci de réessayer");
+      ToastService.showError(AppLocalizations.of(context)!.internalError);
     }
   }
 
@@ -116,7 +117,7 @@ class _LoginState extends State<LoginScreen> {
 
       loginWithThirdPart(userModel, UserThirdPart.facebook);
     } else {
-      ToastService.showError("Une erreur est survenue, merci de réessayer");
+      ToastService.showError(AppLocalizations.of(context)!.internalError);
     }
   }
 

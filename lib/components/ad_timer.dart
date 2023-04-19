@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../constants/constant.dart';
 import '../services/toast.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AdTimer extends StatefulWidget {
   final Function endCallback;
@@ -30,8 +31,7 @@ class _AdTimerState extends State<AdTimer> {
     _timer.cancel();
 
     if (_timeRemaining > 1) {
-      ToastService.showError(
-          "Il faut regarder la vidéo en entière pour bénéficier d'un jeton gratuit");
+      ToastService.showError(AppLocalizations.of(context)!.watchAllAdVideo);
     }
 
     super.dispose();

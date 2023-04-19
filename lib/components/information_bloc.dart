@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:whatodo/models/result_place.dart';
 import 'package:whatodo/services/base_api.dart';
 import 'package:whatodo/services/toast.dart';
 
-import '../constants/constant.dart';
-import '../services/activity.dart';
-import '../services/utils.dart';
-import '../utils/enum_filters.dart';
 import 'action_button.dart';
-import 'activity_container.dart';
 import 'activity_header_text.dart';
 import 'information_bloc_squares.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class InformationBloc extends StatelessWidget {
   final ResultPlaceModel resultPlaceModel;
@@ -35,8 +30,8 @@ class InformationBloc extends StatelessWidget {
           padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
           child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
             Row(
-              children: const [
-                ActivityHeaderText(text: "Informations"),
+              children: [
+                ActivityHeaderText(text: AppLocalizations.of(context)!.informations),
               ],
             ),
             InformationBlocSquares(resultPlaceModel: resultPlaceModel),
@@ -52,11 +47,11 @@ class InformationBloc extends StatelessWidget {
       children: [
         Expanded(
             child:
-                ActionButton(onTap: () => acceptPlace(context), title: "Oui")),
+                ActionButton(onTap: () => acceptPlace(context), title: AppLocalizations.of(context)!.yes)),
         const Padding(padding: EdgeInsets.only(left: 10, right: 10)),
         Expanded(
             child:
-                ActionButton(onTap: () => refusePlace(context), title: "Non"))
+                ActionButton(onTap: () => refusePlace(context), title: AppLocalizations.of(context)!.no))
       ],
     );
   }
@@ -69,12 +64,12 @@ class InformationBloc extends StatelessWidget {
     var res = await BaseAPI.acceptPlace(resultPlaceModel.id);
 
     if (res.statusCode == 200) {
-      ToastService.showSuccess("Ce lieu a été ajouté à votre historique");
+      ToastService.showSuccess(AppLocalizations.of(context)!.placeAddedHistory);
       if (context.mounted) {
         Navigator.of(context).popUntil(ModalRoute.withName('/'));
       }
     } else {
-      ToastService.showError("Une erreur est survenue, merci de réessayer");
+      ToastService.showError(AppLocalizations.of(context)!.internalError);
     }
   }
 }

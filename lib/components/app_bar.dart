@@ -4,6 +4,7 @@ import 'package:whatodo/constants/constant.dart';
 import 'package:whatodo/providers/user.dart';
 import 'package:whatodo/screens/ad_video_player.dart';
 import 'package:whatodo/screens/purchase_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../screens/add_user.dart';
 import '../screens/help_screen.dart';
@@ -40,7 +41,7 @@ class _AppBarComponentState extends State<AppBarComponent> {
                   padding: const EdgeInsets.only(left: 5.0, right: 5.0),
                   child: Consumer<UserProvider>(
                     builder: (context, value, child) {
-                      return Text("${value.token} Jetons",
+                      return Text("${value.token} ${getTokenText(value.token)}",
                           style: Constants.activityHeaderTextStyle);
                     },
                   ),
@@ -69,7 +70,7 @@ class _AppBarComponentState extends State<AppBarComponent> {
                   Icon(Icons.add_circle, color: Colors.black),
                   Padding(
                     padding: EdgeInsets.only(left: 5.0, right: 5.0),
-                    child: Text("+1 Jeton",
+                    child: Text("+1",
                         style: Constants.activityHeaderTextStyle),
                   )
                 ],
@@ -86,13 +87,17 @@ class _AppBarComponentState extends State<AppBarComponent> {
     );
   }
 
+  String getTokenText(int token){
+    return token > 1 ? AppLocalizations.of(context)!.tokens : AppLocalizations.of(context)!.token;
+  }
+
   Row getDisableVideoAd() {
     return Row(
       children: [
         const Icon(Icons.tv, color: Colors.grey),
         Padding(
           padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-          child: Text("+1 Jeton", style: Constants.lockedTextStyle),
+          child: Text("+1", style: Constants.lockedTextStyle),
         )
       ],
     );
@@ -108,7 +113,7 @@ class _AppBarComponentState extends State<AppBarComponent> {
         Icon(Icons.tv, color: Colors.black),
         Padding(
           padding: EdgeInsets.only(left: 5.0, right: 5.0),
-          child: Text("+1 Jeton", style: Constants.activityHeaderTextStyle),
+          child: Text("+1", style: Constants.activityHeaderTextStyle),
         )
       ],
     );

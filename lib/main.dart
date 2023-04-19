@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:whatodo/models/request_place.dart';
 import 'package:whatodo/providers/auth.dart';
 import 'package:whatodo/providers/location.dart';
 import 'package:whatodo/providers/user.dart';
@@ -10,14 +9,10 @@ import 'package:whatodo/screens/login.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:whatodo/screens/place_result.dart';
-import 'package:whatodo/utils/enum_filters.dart';
 
 import 'components/app_bar.dart';
 import 'components/bottom_bar.dart';
 import 'constants/constant.dart';
-import 'models/generated_options._place.dart';
-import 'models/result_place.dart';
 import 'providers/locale.dart';
 
 void main() {
@@ -66,6 +61,7 @@ class _MyAppState extends State<MyApp> {
           supportedLocales: const [
             Locale('en', ''), // English, no country code
             Locale('fr', ''), // French, no country code
+            Locale('es', ''), // French, no country code
           ],
           home: Consumer<AuthProvider>(
             builder: (context, value, child) {
@@ -151,7 +147,7 @@ class _RootScreensState extends State<RootScreens> {
         "https://lh3.googleusercontent.com/places/AJQcZqLStmtN2uaanztcyOqCto4EUoP3v8IfRwSMrWnrUYW0U38p35nOWBUBX-Zv2XOZ3ciMlRtDVTzK7X1-YIwI1JcfyF26z8PaoEI=s1600-w400"))/*HomeScreen()*/, HistoryScreen()];
 */
 
-  List<Widget> pages =  const [HomeScreen(), HistoryScreen()];
+  List<Widget> pages = const [HomeScreen(), HistoryScreen()];
 
   @override
   Widget build(BuildContext context) {

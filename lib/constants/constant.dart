@@ -89,15 +89,14 @@ class Constants {
   static const String barIcon = "assets/icons/bar.png";
   static const String bicycleIcon = "assets/icons/bicycle.png";
   static const String carIcon = "assets/icons/car.png";
-  static const String randomIcon = "assets/icons/culturel.png";
+  static const String randomIcon = "assets/icons/random.png";
   static const String freeIcon = "assets/icons/free.png";
   static const String notFreeIcon = "assets/icons/notfree.png";
   static const String restaurantIcon = "assets/icons/restaurant.png";
   static const String snackingIcon = "assets/icons/snacking.png";
   static const String shoppingIcon = "assets/icons/shopping.png";
-  static const String discoveringIcon = "assets/icons/sport.png";
+  static const String discoveringIcon = "assets/icons/discovering.png";
   static const String walkIcon = "assets/icons/walk.png";
-  static const String timeIcon = "assets/icons/time.png";
   static const String tokenIcon = "assets/icons/token.png";
   static const String helpIcon = "assets/icons/help.png";
   static const String mapIcon = "assets/icons/map.png";

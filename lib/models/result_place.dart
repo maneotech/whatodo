@@ -17,6 +17,7 @@ class ResultPlaceModel {
   num? userRatingsTotals;
   GeneratedOptions generatedOptions;
   String? urlPictureReference;
+  DateTime updatedAt;
 
   ResultPlaceModel(
       this.id,
@@ -29,7 +30,8 @@ class ResultPlaceModel {
       this.types,
       this.userRatingsTotals,
       this.generatedOptions,
-      this.urlPictureReference);
+      this.urlPictureReference,
+      this.updatedAt);
 
   factory ResultPlaceModel.fromReqBody(String body) {
     Map<String, dynamic> json = jsonDecode(body);
@@ -61,6 +63,7 @@ class ResultPlaceModel {
         List<String>.from(json['place']['types']),
         json['place']['user_ratings_total'],
         generatedOptions,
-      pitureUrl);
+      pitureUrl,
+      DateTime.parse(json['updatedAt']));
   }
 }

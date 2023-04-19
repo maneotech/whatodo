@@ -12,6 +12,7 @@ import 'package:whatodo/services/base_api.dart';
 import 'package:whatodo/services/toast.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../providers/user.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AdVideoPlayer extends StatefulWidget {
   const AdVideoPlayer({super.key});
@@ -76,7 +77,7 @@ class _AdVideoPlayerState extends State<AdVideoPlayer> {
     if (response.statusCode == 200) {
       return AdVideoDocument.fromReqBody(response.body);
     } else {
-      ToastService.showError("Une erreur est survenue, merci de réessayer");
+      ToastService.showError(AppLocalizations.of(context)!.internalError);
       if (mounted) {
         Navigator.of(context).popUntil(ModalRoute.withName('/'));
       }
@@ -98,10 +99,10 @@ class _AdVideoPlayerState extends State<AdVideoPlayer> {
         await Provider.of<UserProvider>(context, listen: false)
             .setGetHomeResponse(false, null);
       } else {
-        ToastService.showError("Une erreur est survenue. Merci de réessayer");
+        ToastService.showError(AppLocalizations.of(context)!.internalError);
       }
     } else {
-      ToastService.showError("Une erreur est survenue. Merci de réessayer");
+      ToastService.showError(AppLocalizations.of(context)!.internalError);
     }
 
     if (mounted) {
@@ -127,13 +128,18 @@ class _AdVideoPlayerState extends State<AdVideoPlayer> {
 
           return Stack(
             children: [
-              GestureDetector(
-                onTap: () => clickVideo(docId, redirectTo),
-                child: AbsorbPointer(
-                  child: AspectRatio(
-                    aspectRatio: _controller!.value.aspectRatio,
-                    // Use the VideoPlayer widget to display the video.
-                    child: VideoPlayer(_controller!),
+              Container(
+                color: Colors.black,
+                child: Center(
+                  child: GestureDetector(
+                    onTap: () => clickVideo(docId, redirectTo),
+                    child: AbsorbPointer(
+                      child: AspectRatio(
+                        aspectRatio: _controller!.value.aspectRatio,
+                        // Use the VideoPlayer widget to display the video.
+                        child: VideoPlayer(_controller!),
+                      ),
+                    ),
                   ),
                 ),
               ),

@@ -3,10 +3,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:whatodo/components/information_bloc.dart';
 
 import '../constants/constant.dart';
-import '../models/request_place.dart';
 import '../models/result_place.dart';
 import '../services/activity.dart';
 import '../utils/map_style.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlaceResultScreen extends StatefulWidget {
   final ResultPlaceModel resultPlaceModel;
@@ -99,7 +99,7 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
                   ],
                 ),
                 Text(
-                    "${widget.resultPlaceModel.userRatingsTotals.toString()} avis",
+                    "${widget.resultPlaceModel.userRatingsTotals.toString()} ${AppLocalizations.of(context)!.reviews}",
                     style: Constants.rankingNumberTextStyle),
               ],
             )

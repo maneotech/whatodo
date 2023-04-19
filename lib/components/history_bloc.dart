@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/constant.dart';
 import '../models/result_place.dart';
+import '../providers/locale.dart';
 import 'activity_header_text.dart';
 import 'information_bloc_squares.dart';
 
@@ -49,6 +52,7 @@ class HistoryBloc extends StatelessWidget {
                       resultPlaceModel: resultPlaceModel,
                     ),
                   ),
+                  getDateText(context)
                 ],
               ),
             ),
@@ -68,5 +72,15 @@ class HistoryBloc extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Text getDateText(BuildContext context) {
+    String locale =
+        Provider.of<LocaleProvider>(context, listen: false).locale.languageCode;
+
+    String formattedDate = DateFormat('EEEE - dd MMMM yyyy - HH:mm', locale)
+        .format(resultPlaceModel.updatedAt);
+
+    return Text(formattedDate, style: Constants.normalBlackTextStyle);
   }
 }

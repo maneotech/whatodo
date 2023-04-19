@@ -7,6 +7,7 @@ import '../models/response/response_error.dart';
 import '../models/response/response_user.dart';
 import '../providers/auth.dart';
 import '../providers/user.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginService {
   static handleLoginResponse(Response res, BuildContext context) async {
@@ -24,17 +25,17 @@ class LoginService {
         await Provider.of<UserProvider>(context, listen: false)
             .setUser(responseUser.user);
       } else {
-        ToastService.showError("Une erreur est survenue. Veuillez réessayer");
+        ToastService.showError(AppLocalizations.of(context)!.internalError);
       }
     } else {
       ResponseError body = ResponseError.fromReqBody(res.body);
       if (body.error == 102) {
-        ToastService.showError("Email ou mot de passe incorrect");
+        ToastService.showError(AppLocalizations.of(context)!.emailOrPasswordIncorrect);
       } else if (body.error == 58) {
-        ToastService.showError("Cet email est déjà inscrit");
+        ToastService.showError(AppLocalizations.of(context)!.emailAlreadyUsed);
       } else {
         ToastService.showError(
-            "Une erreur interne est survenue. Veuillez réessayer.");
+            AppLocalizations.of(context)!.internalError);
       }
     }
   }

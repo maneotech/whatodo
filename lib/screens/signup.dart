@@ -7,6 +7,7 @@ import 'package:whatodo/screens/login_email.dart';
 import 'package:whatodo/services/base_api.dart';
 import 'package:whatodo/services/form_validation.dart';
 import 'package:whatodo/services/toast.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../components/color_ button.dart';
 import '../models/request_user.dart';
@@ -33,39 +34,40 @@ class _ScreenState extends State<SignupScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Création de compte', style: Constants.signupTitle),
+              Text(AppLocalizations.of(context)!.accountSignup,
+                  style: Constants.signupTitle),
               Column(
                 children: [
                   SignupTextInput(
-                      title: "Prénom",
-                      label: "Entrez votre prénom",
+                      title: AppLocalizations.of(context)!.firstname,
+                      label: AppLocalizations.of(context)!.enterFirstname,
                       isPassword: false,
                       controller: controllerFirstname),
                   SignupTextInput(
-                      title: "Email",
-                      label: "Entrez votre email",
+                      title: AppLocalizations.of(context)!.email,
+                      label: AppLocalizations.of(context)!.enterEmail,
                       isPassword: false,
                       controller: controllerEmail),
                   SignupTextInput(
-                      title: "Mot de passe",
-                      label: "Entrez mot de passe",
+                      title: AppLocalizations.of(context)!.password,
+                      label: AppLocalizations.of(context)!.enterPassword,
                       isPassword: true,
                       controller: controllerPassword),
                   SignupTextInput(
-                      title: "Confirmation du mot de passe",
-                      label: "Entrez votre mot de passe à nouveau",
+                      title: AppLocalizations.of(context)!.confirmPassword,
+                      label: AppLocalizations.of(context)!.enterConfirmPassword,
                       isPassword: true,
                       controller: controllerConfirmPassword),
                 ],
               ),
               ColorButton(
-                text: "S'inscrire",
+                text: AppLocalizations.of(context)!.signUp,
                 onPressed: () => signupWithEmail(),
               ),
               Padding(
                 padding: Constants.paddingTop,
                 child: TextButton(
-                  child: const Text("Revenir à la page de connexion"),
+                  child: Text(AppLocalizations.of(context)!.backToLogin),
                   onPressed: () => goToLogin(),
                 ),
               )
@@ -85,7 +87,7 @@ class _ScreenState extends State<SignupScreen> {
     );
   }
 
-    goToLoginEmail() {
+  goToLoginEmail() {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -95,22 +97,22 @@ class _ScreenState extends State<SignupScreen> {
   }
 
   signupWithEmail() async {
-    if (FormValidation.isFormValid(controllerFirstname.text, controllerEmail.text, controllerPassword.text)) {
-      UserRequestModel user = UserRequestModel(controllerFirstname.text, controllerEmail.text,
-          controllerPassword.text);
+    if (FormValidation.isFormValid(controllerFirstname.text,
+        controllerEmail.text, controllerPassword.text, context)) {
+      UserRequestModel user = UserRequestModel(controllerFirstname.text,
+          controllerEmail.text, controllerPassword.text);
       var res = await BaseAPI.signUpWithEmail(user);
       if (res.statusCode == 200) {
         ToastService.showSuccess(
-            "Votre compte a bien été créé. Veuillez vous connecter");
+            AppLocalizations.of(context)!.accountHasBeenCreated);
         goToLoginEmail();
       } else {
         ResponseError body = ResponseError.fromReqBody(res.body);
         if (body.error == 58) {
-          ToastService.showError(
-              "Cette adresse email est déjà utilisée.");
+          ToastService.showError(AppLocalizations.of(context)!.emailAlreadyUsed);
         } else {
           ToastService.showError(
-              "Une erreur interne est survenue. Veuillez réessayer.");
+              AppLocalizations.of(context)!.internalError);
         }
       }
     }

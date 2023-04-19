@@ -9,6 +9,7 @@ import '../models/user_login.dart';
 import '../services/base_api.dart';
 import '../services/form_validation.dart';
 import '../services/login_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginEmailScreen extends StatefulWidget {
   const LoginEmailScreen({super.key});
@@ -33,26 +34,26 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
   @override
   Widget build(BuildContext context) {
     List<Widget> children = [
-      const Text('Connexion avec email', style: Constants.signupTitle),
+      Text(AppLocalizations.of(context)!.loginWithEmail, style: Constants.signupTitle),
       SignupTextInput(
-          title: "Email",
-          label: "Entrez votre email",
+          title: AppLocalizations.of(context)!.email,
+          label: AppLocalizations.of(context)!.enterEmail,
           isPassword: false,
           controller: controllerEmail),
       SignupTextInput(
-          title: "Mot de passe",
-          label: "Entrez votre mot de passe",
+          title: AppLocalizations.of(context)!.password,
+          label: AppLocalizations.of(context)!.enterPassword,
           isPassword: true,
           controller: controllerPassword),
       ColorButton(
-        text: "Se connecter",
+        text: AppLocalizations.of(context)!.login,
         onPressed: () => signInWithEmail(),
       ),
       Padding(
         padding: Constants.paddingTop,
         child: TextButton(
           child:
-              const Text("Pas encore inscrit ? Cliquer ici pour vous inscrire"),
+              Text(AppLocalizations.of(context)!.notRegisteredYet),
           onPressed: () => goToSignUp(),
         ),
       )

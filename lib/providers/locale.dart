@@ -15,7 +15,7 @@ class LocaleProvider with ChangeNotifier {
   }
 
   void setLocale(Locale locale) {
-    if (locale.languageCode != 'en' && locale.languageCode != 'fr') {
+    if (locale.languageCode != 'en' && locale.languageCode != 'fr' && locale.languageCode != 'es') {
       return;
     }
 
@@ -40,7 +40,7 @@ class LocaleProvider with ChangeNotifier {
 
   Future<void> changeLanguage(String languageCode, BuildContext context,
       [bool mounted = true]) async {
-    if (languageCode != "en" && languageCode != 'fr') {
+    if (languageCode != "en" && languageCode != 'fr' && languageCode != 'es') {
       return;
     }
 

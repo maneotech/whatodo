@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../constants/constant.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignInPictureTitle extends StatelessWidget {
   final List<Widget> widgets;
@@ -17,9 +18,9 @@ class SignInPictureTitle extends StatelessWidget {
               Constants.loginImage,
               width: MediaQuery.of(context).size.width,
             ),
-            const Padding(
+            Padding(
               padding: Constants.paddingLogin,
-              child: Text("Enjoy unique self-guided tour experiences"),
+              child: Text(AppLocalizations.of(context)!.loginHeadline),
             ),
             Padding(
               padding: Constants.paddingLogin,

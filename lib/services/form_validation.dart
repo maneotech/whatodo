@@ -1,32 +1,34 @@
+import 'package:flutter/material.dart';
 import 'package:whatodo/services/toast.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FormValidation {
-  static bool isFormValid(String? firstname, String email, String password) {
+  static bool isFormValid(
+      String? firstname, String email, String password, BuildContext context) {
     if (firstname != null) {
       if (firstname.isEmpty) {
-        ToastService.showError("Le prénom ne peut pas être vide");
+        ToastService.showError(AppLocalizations.of(context)!.firstnameEmpty);
         return false;
       }
     }
 
     if (email.isEmpty) {
-      ToastService.showError("L'email ne peut pas être vide");
+      ToastService.showError(AppLocalizations.of(context)!.emailEmpty);
       return false;
     } else if (RegExp(
                 r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
             .hasMatch(email) ==
         false) {
-      ToastService.showError("L'email saisi n'est pas conforme");
+      ToastService.showError(AppLocalizations.of(context)!.emailNotValid);
       return false;
     } else if (RegExp(
                 r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~;]).{8,}$')
             .hasMatch(password) ==
         false) {
-      ToastService.showError(
-          "Le mot de passe saisi doit faire au moins 8 caractères avec au moins une majuscule, un caractère spécial et un chiffre");
+      ToastService.showError(AppLocalizations.of(context)!.passwordIncorrect);
       return false;
     } else if (password != password) {
-      ToastService.showError("Les mots de passe ne correspondent pas");
+      ToastService.showError(AppLocalizations.of(context)!.passwordUnMatch);
       return false;
     }
 

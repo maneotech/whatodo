@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:whatodo/components/action_button.dart';
 import 'package:whatodo/components/app_bar.dart';
 import 'package:whatodo/services/toast.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../components/price_container.dart';
 import '../constants/constant.dart';
@@ -19,45 +20,45 @@ class PurchaseScreen extends StatelessWidget {
           padding: const EdgeInsets.only(left: 20, right: 20),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text("Fais toi plaisir en pensant à ton",
+            Text(AppLocalizations.of(context)!.purchaseText1,
                 style: Constants.bigTextStyle),
-            Text("bien être.", style: Constants.bigTextStyle),
+            Text(AppLocalizations.of(context)!.purchaseText2, style: Constants.bigTextStyle),
             Padding(
               padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
               child: SizedBox(
                 height: 125,
                 child: Row(
-                  children: getFirstPriceBlocs(),
+                  children: getFirstPriceBlocs(context),
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 40, bottom: 10),
               child: Text(
-                  "Offre de lancement, nos deux meilleures promotions, -15% et -30%, bientôt indisponible.",
+                  AppLocalizations.of(context)!.purchaseText3,
                   style: Constants.bigTextStyle),
             ),
             SizedBox(
               height: 125,
               child: Row(
-                children: getSecondPriceBlocs(),
+                children: getSecondPriceBlocs(context),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 20.0),
               child: ActionButton(
-                  title: "Restaurer les achats précédents", onTap: () => null),
+                  title: AppLocalizations.of(context)!.restorePurchase, onTap: () => null),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
                   onPressed: () => launchTerms(),
-                  child: const Text("CGU"),
+                  child: Text(AppLocalizations.of(context)!.terms),
                 ),
                 TextButton(
-                  onPressed: () => launchPolicy(),
-                  child: const Text("Politique de confidentialité"),
+                  onPressed: () => launchPolicy(context),
+                  child: Text(AppLocalizations.of(context)!.policy),
                 ),
               ],
             )
@@ -67,12 +68,12 @@ class PurchaseScreen extends StatelessWidget {
     );
   }
 
-  launchPolicy() async {
+  launchPolicy(BuildContext context) async {
     if (await canLaunchUrl(Uri.parse(Constants.policyUrl))) {
       await launchUrl(Uri.parse(Constants.policyUrl));
     } else {
       ToastService.showError(
-          "Une erreur interne est survenue, merci de réessayer");
+          AppLocalizations.of(context)!.internalError);
     }
   }
 
@@ -85,10 +86,10 @@ class PurchaseScreen extends StatelessWidget {
     }
   }
 
-  getFirstPriceBlocs() {
+  getFirstPriceBlocs(BuildContext context) {
     return [
       PriceContainer(
-        title: "1 Jeton",
+        title: "1 ${AppLocalizations.of(context)!.token}",
         color: Constants.primaryColor,
         iconPath: Constants.tokenIcon,
         isActive: true,
@@ -96,7 +97,7 @@ class PurchaseScreen extends StatelessWidget {
         price: '1,99 €',
       ),
       PriceContainer(
-        title: "5 Jetons",
+        title: "5 ${AppLocalizations.of(context)!.tokens}",
         color: Constants.thirdColor,
         iconPath: Constants.tokenIcon,
         isActive: true,
@@ -105,7 +106,7 @@ class PurchaseScreen extends StatelessWidget {
         onTap: () => null,
       ),
       PriceContainer(
-        title: "10 Jetons",
+        title: "10 ${AppLocalizations.of(context)!.tokens}",
         color: Constants.secondaryColor,
         iconPath: Constants.tokenIcon,
         isActive: true,
@@ -116,10 +117,10 @@ class PurchaseScreen extends StatelessWidget {
     ];
   }
 
-  getSecondPriceBlocs() {
+  getSecondPriceBlocs(BuildContext context) {
     return [
       PriceContainer(
-        title: "20 Jeton",
+        title: "20 ${AppLocalizations.of(context)!.tokens}",
         color: Constants.primaryColor,
         iconPath: Constants.tokenIcon,
         isActive: true,
@@ -128,7 +129,7 @@ class PurchaseScreen extends StatelessWidget {
         onTap: () => null,
       ),
       PriceContainer(
-        title: "40 Jetons",
+        title: "40 ${AppLocalizations.of(context)!.tokens}",
         color: Constants.thirdColor,
         iconPath: Constants.tokenIcon,
         isActive: true,

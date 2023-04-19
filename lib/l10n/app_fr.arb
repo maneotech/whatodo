@@ -1,3 +1,131 @@
 {
-    "helloWorld": "Bonjour le monde"
+    "internalError": "Une erreur est survenue. Veuillez réessayer",
+    "emailOrPasswordIncorrect" : "Email ou mot de passe incorrect",
+    "emailAlreadyUsed": "Cet email est déjà utilisé",
+    "firstnameEmpty" : "Le prénom ne peut pas être vide",
+    "emailEmpty" : "L'email ne peut pas être vide",
+    "emailNotValid": "L'email saisi n'est pas conforme",
+    "passwordIncorrect" : "Le mot de passe saisi doit faire au moins 8 caractères avec au moins une majuscule, un caractère spécial et un chiffre",
+    "passwordUnMatch" : "Les mots de passe ne correspondent pas",
+
+    "accountSignup": "Création de compte",
+    "firstname": "Prénom",
+    "enterFirstname": "Entrez votre prénom",
+    "email": "Email",
+    "enterEmail": "Entrez votre email",
+    "password": "Mot de passe",
+    "enterPassword": "Entrez mot de passe",
+    "confirmPassword": "Confirmation du mot de passe",
+    "enterConfirmPassword": "Entrez votre mot de passe à nouveau",
+    "signUp": "S'inscrire",
+    "backToLogin": "Revenir à la page de connexion",
+    "accountHasBeenCreated": "Votre compte a bien été créé. Veuillez vous connecter",
+    "loginWithEmail": "Connexion avec email",
+    "login" : "Se connecter",
+    "notRegisteredYet": "Pas encore inscrit ? Cliquer ici pour vous inscrire",
+
+    "enableLocation": "Vous devez activer la localisation",
+    "howToEnableLocation": "Comment activer la localisation ?",
+    "locationDefaultText": "You can use approximate location if you prefer so.\nFollow these steps to enable location :\n1. Swipe down from the top of the screen\n2. Touch and hold Location . If you don't find Location : Tap Edit or Settings. Then drag Location into your Quick Settings \n3. Tap App location permissions Under 'Allowed all the time', 'Allowed only while in use', and 'Not allowed', find the apps that can use your phone's location \n4. To change the app's permissions, tap it. Then, choose the location access for the app",
+    "locationDefaultTextIOS" : "You must enable Location to use this app. You can use approximate location if you prefer so.\nFollow these steps to enable location : \n1. Go to Settings > Privacy & Security > Location Services.\n2. Make sure that Location Services is on.\n3. Scroll down to find Whatodo app.\n4. Tap the app and select the While Using the App option (or Always)",
+
+    "purchaseText1" : "Fais toi plaisir en pensant à ton",
+    "purchaseText2": "bien être.",
+    "purchaseText3" : "Offre de lancement, nos deux meilleures promotions, -15% et -30%, bientôt indisponible.",
+    "restorePurchase": "Restaurer les achats précédents",
+    "terms": "CGU",
+    "policy": "Politique de confidentialité",
+
+    "token": "Jeton",
+    "tokens": "Jetons",
+
+    "review": "avis",
+
+    "errorOpening": "Une erreur est survenue. Votre token n'a pas été débité. Merci de réessayer",
+
+    "hello": "Bonjour",
+    "enjoyYour": "! Profite de ta",
+    "new": "nouvelle",
+    "adventure": "aventure",
+    "activities": "Activités",
+    "movingType": "Moyen de se déplacer",
+    "movingTime": "Durée de déplacement",
+    "hour": "Heure",
+    "minutes": "Minutes",
+
+    "location": "Localisation",
+    "currentLocation": "Ma position actuelle",
+    "or": "OU",
+    "clickHere": "Cliquer ici",
+    "letsGo": "C'est parti!",
+
+    "super": "Super!",
+    "bravo": "Bravo",
+    "user": "L'utilisateur",
+    "earnRegisteredToken": "s'est bien inscrit, tu gagnes 1 token!",
+
+    "snacking": "Petite faim",
+    "bar": "Bar",
+    "restaurant": "Restaurant",
+    "discovering": "Découvrir",
+    "shopping": "Shopping",
+    "random": "Aléatoire",
+
+    "byWalk": "A pied",
+    "byBicycle": "A vélo",
+    "byCar": "En voiture",
+
+    "selected": "sélectionnée",
+    "selecteds": "sélectionnées",
+
+    "selectOneActivity" : "Veuillez choisir au moins une activité",
+    "selectOneMoving": "Veuillez choisir au moins un moyen de transport souhaité",
+    "selectTime": "Veuillez indiquer un temps minimal pour le trajet souhaité",
+    "selectPosition": "Veuillez ajouter votre position",
+
+    "noHistory": "Vous n'avez actuellement aucun historique",
+    "yes": "Oui",
+    "no": "Non",
+    "deleteActivityTitle": "Supprimer cette activité",
+    "deleteActivityDesc": "Êtes-vous sûr(e) de supprimer cette activité ?",
+
+    "faq": "Foire Aux Questions",
+    "faqq1": "Le résultat proposé est-il optimisé ?",
+    "faqa1": "Oui, notre application mobile utilise des algorithmes avancés et des données de qualité premium pour garantir des résultats optimisés et précis à chaque recherche.",
+    "faqq2": "Pourquoi ce n'est pas gratuit ?",
+    "faqa2": "Whatodo n'est pas gratuite car elle utilise des données de qualité premium pour garantir une expérience utilisateur optimale et des résultats qui vous correspondent.",
+    "faqq3": "Vous avez une idée d'amélioration ou une réclamation ?",
+    "faqa3": "Contactez-nous par email",
+    "faqq4": "Comment changer de compte ?",
+    "logout": "Se déconnecter",
+    "logoutConfirm": "Êtes-vous sûr(e) de vouloir vous déconnecter ?",
+
+    "earnFreeToken": "Gagnez un jeton gratuit!",
+    "sponsorshipText1": "C'est facile!",
+    "sponsorshipText2": "1. Saisissez l'adresse email de votre ami",
+    "sponsorshipText3": "2. Cliquez sur 'Inviter cet ami'",
+    "sponsorshipText4": "3. Une fois votre ami inscrit avec cette adresse email, vous êtes notifié et vous gagnez un jeton!",
+    "enterEmailFriend": "Entrez l'email de votre ami",
+    "invitFriend": "Inviter cet ami",
+    "enterEmailFriendError": "Veuillez saisir l'email de votre ami",
+    "invitFriendPending": "Inscription de votre ami en attente. Vous serez notifié lorsque votre ami sera inscrit.",
+    "emailAlreadySponsored": "Cet email est déjà associé à un parrainage",
+
+    "loginHeadline": "Enjoy unique self-guided tour experiences",
+
+    "loginFb": "Continuer avec Facebook",
+    "loginApple": "Continuer avec Apple",
+    "loginGoogle": "Continuer avec Google",
+    "loginEmail": "Continuer avec un Email",
+
+    "informations": "Informations",
+    "placeAddedHistory": "Ce lieu a été ajouté à votre historique",
+
+    "seeMaps": "Voir dans Maps",
+    "cannotOpenMap": "Impossible d'ouvrir la map",
+
+    "history": "Historique",
+
+    "watchAllAdVideo": "Il faut regarder la vidéo en entière pour bénéficier d'un jeton gratuit"
+
 }

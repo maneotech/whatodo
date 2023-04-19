@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:whatodo/components/app_bar.dart';
 import 'package:whatodo/services/base_api.dart';
 import 'package:whatodo/services/toast.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../components/action_button.dart';
 import '../components/signup_textinput.dart';
@@ -30,20 +31,19 @@ class _AddUserScreenState extends State<AddUserScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Gagnez un jeton gratuit!",
+            Text(AppLocalizations.of(context)!.earnFreeToken,
                 style: Constants.signupTitle),
-            const Text("C'est facile!"),
-            const Text("1. Saisissez l'adresse email de votre ami"),
-            const Text("2. Cliquez sur 'Inviter cet ami'"),
-            const Text(
-                "3. Une fois votre ami inscrit avec cette adresse email, vous êtes notifié et vous gagnez un jeton!"),
+            Text(AppLocalizations.of(context)!.sponsorshipText1),
+            Text(AppLocalizations.of(context)!.sponsorshipText2),
+            Text(AppLocalizations.of(context)!.sponsorshipText3),
+            Text(AppLocalizations.of(context)!.sponsorshipText4),
             SignupTextInput(
-                title: "Email",
-                label: "Entrez l'email de votre ami",
+                title: AppLocalizations.of(context)!.email,
+                label: AppLocalizations.of(context)!.enterEmailFriend,
                 isPassword: false,
                 controller: controllerEmail),
             ActionButton(
-              title: "Inviter cet ami",
+              title: AppLocalizations.of(context)!.invitFriend,
               onTap: () => invitUser(),
             )
           ],
@@ -55,32 +55,32 @@ class _AddUserScreenState extends State<AddUserScreen> {
   invitUser() async {
     String email = controllerEmail.text;
     if (email.isEmpty) {
-      ToastService.showError("Veuillez saisir l'email de votre ami");
+      ToastService.showError(AppLocalizations.of(context)!.enterEmailFriendError);
       return;
     } else if (RegExp(
                 r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
             .hasMatch(email) ==
         false) {
-      ToastService.showError("L'email saisi n'est pas conforme");
+      ToastService.showError(AppLocalizations.of(context)!.emailNotValid);
       return;
     } else {
       final res = await BaseAPI.createSponsorship(email);
       if (res.statusCode == 200) {
         ToastService.showSuccess(
-            "Inscription de votre ami en attente. Vous serez notifié lorsque votre ami sera inscrit.");
+           AppLocalizations.of(context)!.invitFriendPending);
       } else {
         if (res.body.isNotEmpty) {
           var body = ResponseError.fromReqBody(res.body);
           if (body.error == 755) {
             ToastService.showError(
-                "Cet email est déjà associé à un parrainage");
+                AppLocalizations.of(context)!.emailAlreadySponsored);
           } else {
             ToastService.showError(
-                "Une erreur interne est survenue, merci de réessayer");
+                AppLocalizations.of(context)!.internalError);
           }
         } else {
           ToastService.showError(
-              "Une erreur interne est survenue, merci de réessayer");
+              AppLocalizations.of(context)!.internalError);
         }
       }
     }

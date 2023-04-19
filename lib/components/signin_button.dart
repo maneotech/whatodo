@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../constants/constant.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum Buttons { facebook, apple, google, email }
 
@@ -21,7 +22,7 @@ class SignInButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    InformationButton infoButton = getInformationButton();
+    InformationButton infoButton = getInformationButton(context);
 
     return Padding(
       padding: Constants.paddingButtons,
@@ -44,27 +45,27 @@ class SignInButton extends StatelessWidget {
     );
   }
 
-  InformationButton getInformationButton() {
+  InformationButton getInformationButton(BuildContext context) {
     InformationButton infoButton;
 
     switch (button) {
       case Buttons.facebook:
         infoButton = InformationButton(
-            "Continue with Facebook",
+            AppLocalizations.of(context)!.loginFb,
             const Color.fromRGBO(88, 144, 255, 1.0),
             const Icon(Icons.facebook));
         break;
 
       case Buttons.apple:
         infoButton = InformationButton(
-            "Continue with Apple", Colors.black, const Icon(Icons.apple));
+            AppLocalizations.of(context)!.loginApple, Colors.black, const Icon(Icons.apple));
         break;
       case Buttons.google:
-        infoButton = InformationButton("Continue with Google",
+        infoButton = InformationButton(AppLocalizations.of(context)!.loginGoogle,
             const Color.fromRGBO(36, 160, 237, 1.0), const Icon(Icons.g_mobiledata));
         break;
       default:
-        infoButton = InformationButton("Continue with Email",
+        infoButton = InformationButton(AppLocalizations.of(context)!.loginEmail,
             Constants.primaryColor, const Icon(Icons.email));
         break;
     }

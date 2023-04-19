@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:whatodo/providers/user.dart';
 import 'package:whatodo/screens/place_result.dart';
 import 'package:whatodo/services/toast.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../constants/constant.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -96,8 +97,7 @@ class _OpeningScreenState extends State<OpeningScreen> {
         goToPlaceResultScreen(_resultPlaceModel!);
       }
     } else {
-      ToastService.showError(
-          "Une erreur est survenue. Votre token n'a pas été débité. Merci de réessayer");
+      ToastService.showError(AppLocalizations.of(context)!.errorOpening);
 
       if (mounted) {
         Navigator.pop(context);
@@ -118,7 +118,6 @@ class _OpeningScreenState extends State<OpeningScreen> {
         MaterialPageRoute(
           builder: (context) => PlaceResultScreen(
             resultPlaceModel: resultPlaceModel,
-            
           ),
         ),
       );

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whatodo/components/activity_container.dart';
@@ -16,9 +14,9 @@ import '../components/action_button.dart';
 import '../components/activity_header_text.dart';
 import '../components/input_container.dart';
 import '../providers/user.dart';
-import '../services/activity.dart';
 import '../services/base_api.dart';
 import '../utils/enum_filters.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -68,18 +66,18 @@ class _HomeScreenState extends State<HomeScreen> {
     return SingleChildScrollView(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(
-            "Hello ${Provider.of<UserProvider>(context).firstname} ! Enjoy your"),
+            "${AppLocalizations.of(context)!.hello} ${Provider.of<UserProvider>(context).firstname} ! ${AppLocalizations.of(context)!.enjoyYour}"),
         Row(
-          children: const [
-            Text("new "),
+          children: [
+            Text(AppLocalizations.of(context)!.new),
             Text(
-              "adventure",
-              style: TextStyle(
+              AppLocalizations.of(context)!.adventure,
+              style: const TextStyle(
                   fontWeight: FontWeight.w700, color: Constants.secondaryColor),
             ),
           ],
         ),
-        getTitleSectionRow("Activités", selectedActivities, 5),
+        getTitleSectionRow(AppLocalizations.of(context)!.activities, selectedActivities, 5),
         SizedBox(
           height: 75,
           child: Row(
@@ -99,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: priceBlocs,
           ),
         ),*/
-        getTitleSectionRow("Moyen de se déplacer", selectedMovingTypes, 3),
+        getTitleSectionRow(AppLocalizations.of(context)!.movingType, selectedMovingTypes, 3),
         SizedBox(
           height: 75,
           child: Row(
@@ -108,30 +106,30 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         const Padding(
           padding: Constants.paddingActivityTitle,
-          child: ActivityHeaderText(text: "Durée de déplacement"),
+          child: ActivityHeaderText(text: AppLocalizations.of(context)!.movingTime),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             InputContainer(
-                title: "Heure",
+                title: AppLocalizations.of(context)!.hour,
                 color: Constants.secondaryColor,
                 textController: controllerHours,
                 type: InputContainerType.number,
                 width: 80),
             getSeparator(":"),
             InputContainer(
-                title: "Minutes",
+                title: AppLocalizations.of(context)!.minutes,
                 color: Constants.thirdColor,
                 textController: controllerMinutes,
                 type: InputContainerType.number,
                 width: 80),
           ],
         ),
-        const Padding(
+        Padding(
           padding: Constants.paddingActivityTitle,
-          child: ActivityHeaderText(text: "Localisation"),
+          child: ActivityHeaderText(text: AppLocalizations.of(context)!.location),
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -139,17 +137,17 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Expanded(
               child: InputContainer(
-                  title: "Ma position actuelle",
+                  title: AppLocalizations.of(context)!.currentLocation,
                   color: Constants.thirdColor,
                   textController: controllerAddress,
                   type: InputContainerType.address,
                   width: null),
             ),
-            getSeparator("OU"),
+            getSeparator(AppLocalizations.of(context)!.or),
             GestureDetector(
               onTap: () => getLocation(),
               child: const InputContainer(
-                  title: "Cliquer ici",
+                  title: AppLocalizations.of(context)!.clickHere,
                   color: Constants.primaryColor,
                   textController: null,
                   type: InputContainerType.icon,
@@ -157,7 +155,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        ActionButton(onTap: () => goToOpening(), title: "C'est parti!")
+        Padding(
+          padding: const EdgeInsets.only(top: 30.0),
+          child:
+              ActionButton(onTap: () => goToOpening(), title: AppLocalizations.of(context)!.letsGo),
+        )
       ]),
     );
   }
@@ -173,16 +175,15 @@ class _HomeScreenState extends State<HomeScreen> {
   checkForHomeInfos(HomeResponse homeModel) async {
     await Provider.of<UserProvider>(context, listen: false)
         .setGetHomeResponse(homeModel.enableAdVideo, homeModel.token);
-        
 
     if (homeModel.lastSponsorshipEmail != null &&
         homeModel.lastSponsorshipEmail!.isNotEmpty &&
         mounted) {
       AlertService.showAlertDialogOneButton(
           context,
-          "Super!",
-          "Bravo!",
-          "L'utilisateur ${homeModel.lastSponsorshipEmail} s'est bien inscrit, tu gagnes 1 token!",
+          AppLocalizations.of(context)!.super,
+          AppLocalizations.of(context)!.bravo,
+          "${AppLocalizations.of(context)!.user} ${homeModel.lastSponsorshipEmail} ${AppLocalizations.of(context)!.earnRegisteredToken}",
           () => Navigator.of(context).pop());
 
       await BaseAPI.sponsorshipHasBeenNotified(homeModel.lastSponsorshipEmail!);
@@ -191,63 +192,74 @@ class _HomeScreenState extends State<HomeScreen> {
 
   setActivityBlocs(bool isActive) {
     activityBlocs1 = [
-      ActivityService.getSnackingBloc(
-          () => onTapActivity(ActivityType.snacking), isActive,
-          changeColorOnTap: true),
-      ActivityService.getBarBloc(
-          () => onTapActivity(ActivityType.bar), isActive,
-          changeColorOnTap: true),
-      ActivityService.getRestaurantBloc(
-          () => onTapActivity(ActivityType.restaurant), isActive,
-          changeColorOnTap: true),
+      ActivityContainer(
+        title: AppLocalizations.of(context)!.snacking,
+        color: Constants.primaryColor,
+        iconPath: Constants.snackingIcon,
+        isActive: isActive,
+        changeColorOnTap: true,
+        onTap: () => onTapActivity(ActivityType.snacking),
+      ),
+      ActivityContainer(
+        title: AppLocalizations.of(context)!.bar,
+        color: Constants.secondaryColor,
+        iconPath: Constants.barIcon,
+        isActive: isActive,
+        changeColorOnTap: true,
+        onTap: () => onTapActivity(ActivityType.bar),
+      ),
+      ActivityContainer(
+        title: AppLocalizations.of(context)!.restaurant,
+        color: Constants.thirdColor,
+        iconPath: Constants.restaurantIcon,
+        isActive: isActive,
+        changeColorOnTap: true,
+        onTap: () => onTapActivity(ActivityType.restaurant),
+      )
     ];
 
     activityBlocs2 = [
-      ActivityService.getDiscoveringBloc(
-          () => onTapActivity(ActivityType.discovering), isActive,
-          changeColorOnTap: true),
-      ActivityService.getShoppingBloc(
-          () => onTapActivity(ActivityType.shopping), isActive,
-          changeColorOnTap: true),
-      ActivityService.getRandomBloc(
-          () => onTapActivity(ActivityType.random), false,
-          changeColorOnTap: false),
+      ActivityContainer(
+          title: AppLocalizations.of(context)!.discovering,
+          color: Constants.thirdColor,
+          iconPath: Constants.discoveringIcon,
+          isActive: isActive,
+          changeColorOnTap: true,
+          onTap: () => onTapActivity(ActivityType.discovering)),
+      ActivityContainer(
+        title: AppLocalizations.of(context)!.shopping,
+        color: Constants.secondaryColor,
+        iconPath: Constants.shoppingIcon,
+        isActive: isActive,
+        changeColorOnTap: true,
+        onTap: () => onTapActivity(ActivityType.shopping),
+      ),
+      ActivityContainer(
+          title: AppLocalizations.of(context)!.random,
+          color: Constants.primaryColor,
+          iconPath: Constants.randomIcon,
+          onTap: () => onTapActivity(ActivityType.random),
+          changeColorOnTap: false,
+          isActive: false)
     ];
   }
-
-  /*setPriceBlocs() {
-    priceBlocs = [
-      ActivityContainer(
-          title: "Gratuit",
-          color: Constants.primaryColor,
-          iconPath: Constants.freeIcon,
-          changeColorOnTap: true,
-          onTap: () => onTapPurchase(PriceType.free)),
-      ActivityContainer(
-          title: "Payant",
-          color: Constants.secondaryColor,
-          iconPath: Constants.notFreeIcon,
-          changeColorOnTap: true,
-          onTap: () => onTapPurchase(PriceType.notFree)),
-    ];
-  }*/
 
   setMovingBlocs() {
     movingBlocs = [
       ActivityContainer(
-          title: "A pied",
+          title: AppLocalizations.of(context)!.byWalk,
           color: Constants.primaryColor,
           iconPath: Constants.walkIcon,
           changeColorOnTap: true,
           onTap: () => onTapMoving(MovingType.byWalk)),
       ActivityContainer(
-          title: "A vélo",
+          title: AppLocalizations.of(context)!.byBicycle,
           color: Constants.secondaryColor,
           iconPath: Constants.bicycleIcon,
           changeColorOnTap: true,
           onTap: () => onTapMoving(MovingType.byBicycle)),
       ActivityContainer(
-          title: "En voiture",
+          title: AppLocalizations.of(context)!.byCar,
           color: Constants.thirdColor,
           iconPath: Constants.carIcon,
           changeColorOnTap: true,
@@ -256,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Padding getTitleSectionRow(String title, List list, int numberMax) {
-    String selectedText = list.length < 2 ? "sélectionnée" : "sélectionnées";
+    String selectedText = list.length < 2 ? AppLocalizations.of(context)!.selected : AppLocalizations.of(context)!.selecteds;
 
     return Padding(
       padding: Constants.paddingActivityTitle,
@@ -398,7 +410,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool checkAtLeastOneActivity() {
     if (selectedActivities.isEmpty) {
-      ToastService.showError("Veuillez choisir au moins une activité");
+      ToastService.showError(AppLocalizations.of(context)!.selectOneActivity);
 
       return false;
     }
@@ -420,7 +432,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool checkMoving() {
     if (selectedMovingTypes.isEmpty) {
       ToastService.showError(
-          "Veuillez choisir au moins un moyen de transport souhaité");
+          AppLocalizations.of(context)!.selectOneMoving);
       return false;
     }
     return true;
@@ -430,7 +442,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if ((controllerHours.text == "0" || controllerHours.text == "00") &&
         (controllerMinutes.text == "0" || controllerMinutes.text == "00")) {
       ToastService.showError(
-          "Veuillez indiquer un temps minimal pour le trajet souhaité");
+          AppLocalizations.of(context)!.selectTime);
       return false;
     }
 
@@ -439,7 +451,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool checkLat(double? lat, double? lng) {
     if ((lat == null || lng == null)) {
-      ToastService.showError("Veuillez ajouter votre position");
+      ToastService.showError(AppLocalizations.of(context)!.selectPosition);
       return false;
     } else {
       return true;

@@ -19,21 +19,19 @@ class LocationProvider with ChangeNotifier {
     if (!hasPermission) return false;
 
     bool result = false;
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((Position position) async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
       _lat = position.latitude;
       _lng = position.longitude;
-
       result = await _getAddressFromLatLng();
-
       if (_currentAddress.isNotEmpty) {
         saveLocationToDisk(_lat!, _lng!, _currentAddress);
       }
-    }).catchError((e) {
+    } catch (e) {
       print(e);
       result = false;
-    });
-
+    }
     return result;
   }
 

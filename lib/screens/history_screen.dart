@@ -7,6 +7,7 @@ import 'package:whatodo/models/result_place.dart';
 import 'package:whatodo/services/alert.dart';
 import 'package:whatodo/services/base_api.dart';
 import 'package:whatodo/services/toast.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -45,7 +46,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         if (snapshot.hasData) {
           final resultPlaces = snapshot.data!;
           if (resultPlaces.isEmpty) {
-            return const Text("Vous n'avez actuellement aucun historique");
+            return Text(AppLocalizations.of(context)!.noHistory);
           } else {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,16 +54,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
             );
           }
         } else if (snapshot.hasError) {
-          return const Text('Une erreur est survenue, merci de réessayer');
+          return const Text(AppLocalizations.of(context)!.internalError);
         }
         // By default, show a loading spinner
         return const CircularProgressIndicator();
       },
     ));
-    /* return SingleChildScrollView(
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, children: historyBlocs),
-    );*/
   }
 
   Future<List<ResultPlaceModel>> getPreviousPlaces() async {
@@ -73,6 +70,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           .map((json) => ResultPlaceModel.fromReqBody(jsonEncode(json)))
           .toList();
 
+      acceptedPlaces.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
       return acceptedPlaces;
     } else {
       throw Exception();
@@ -95,13 +93,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 
   deleteActivityAlert(ResultPlaceModel resultPlaceModel) {
-    print("ici");
     AlertService.showAlertDialogTwoButtons(
       context,
-      "Oui",
-      "Non",
-      "Supprimer cette activité",
-      "Êtes-vous sûr(e) de supprimer cette activité ?",
+      AppLocalizations.of(context)!.yes,
+      AppLocalizations.of(context)!.no,
+      AppLocalizations.of(context)!.deleteActivityTitle,
+      AppLocalizations.of(context)!.deleteActivityDesc,
       () => deleteActivity(resultPlaceModel.id),
       () => dismissDialog(),
     );
@@ -113,7 +110,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     if (res.statusCode == 200) {
       removeActivity(docId);
     } else {
-      ToastService.showError("Une erreur est survenue, merci de réessayer");
+      ToastService.showError(AppLocalizations.of(context)!.internalError);
     }
     //todo api request and pop from the array
   }
