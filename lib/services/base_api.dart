@@ -10,8 +10,8 @@ import '../providers/auth.dart';
 
 class BaseAPI {
 
-  static String base = "http://localhost:3010";
-  //static String base = "https://api.dev.whatodo.maneotech.fr";
+  //static String base = "http://localhost:3010";
+  static String base = "https://api.dev.whatodo.maneotech.fr";
 
   static String api = "$base/api";
   static Uri signupPath = Uri.parse("$api/user/register");

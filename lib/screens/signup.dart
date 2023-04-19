@@ -27,48 +27,50 @@ class _ScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: Constants.paddingLogin,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Création de compte', style: Constants.signupTitle),
-            Column(
-              children: [
-                SignupTextInput(
-                    title: "Prénom",
-                    label: "Entrez votre prénom",
-                    isPassword: false,
-                    controller: controllerFirstname),
-                SignupTextInput(
-                    title: "Email",
-                    label: "Entrez votre email",
-                    isPassword: false,
-                    controller: controllerEmail),
-                SignupTextInput(
-                    title: "Mot de passe",
-                    label: "Entrez mot de passe",
-                    isPassword: true,
-                    controller: controllerPassword),
-                SignupTextInput(
-                    title: "Confirmation du mot de passe",
-                    label: "Entrez votre mot de passe à nouveau",
-                    isPassword: true,
-                    controller: controllerConfirmPassword),
-              ],
-            ),
-            ColorButton(
-              text: "S'inscrire",
-              onPressed: () => signupWithEmail(),
-            ),
-            Padding(
-              padding: Constants.paddingTop,
-              child: TextButton(
-                child: const Text("Revenir à la page de connexion"),
-                onPressed: () => goToLogin(),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: Constants.paddingLogin,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Création de compte', style: Constants.signupTitle),
+              Column(
+                children: [
+                  SignupTextInput(
+                      title: "Prénom",
+                      label: "Entrez votre prénom",
+                      isPassword: false,
+                      controller: controllerFirstname),
+                  SignupTextInput(
+                      title: "Email",
+                      label: "Entrez votre email",
+                      isPassword: false,
+                      controller: controllerEmail),
+                  SignupTextInput(
+                      title: "Mot de passe",
+                      label: "Entrez mot de passe",
+                      isPassword: true,
+                      controller: controllerPassword),
+                  SignupTextInput(
+                      title: "Confirmation du mot de passe",
+                      label: "Entrez votre mot de passe à nouveau",
+                      isPassword: true,
+                      controller: controllerConfirmPassword),
+                ],
               ),
-            )
-          ],
+              ColorButton(
+                text: "S'inscrire",
+                onPressed: () => signupWithEmail(),
+              ),
+              Padding(
+                padding: Constants.paddingTop,
+                child: TextButton(
+                  child: const Text("Revenir à la page de connexion"),
+                  onPressed: () => goToLogin(),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

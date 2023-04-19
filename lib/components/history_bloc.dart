@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../constants/constant.dart';
 import '../models/result_place.dart';
-import '../services/activity.dart';
-import '../services/alert.dart';
-import '../utils/enum_filters.dart';
-import 'activity_container.dart';
 import 'activity_header_text.dart';
+import 'information_bloc_squares.dart';
 
 class HistoryBloc extends StatelessWidget {
   final ResultPlaceModel resultPlaceModel;
@@ -48,35 +45,8 @@ class HistoryBloc extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                    child: SizedBox(
-                      height: 95,
-                      child: Row(children: [
-                        /*ActivityContainer(
-                          title:
-                              "${resultPlaceModel.generatedOptions.travellingDuration.toString()} minutes à pied",
-                          color: Constants.primaryColor,
-                          iconPath: Constants.walkIcon,
-                          onTap: null,
-                          changeColorOnTap: false,
-                          isActive: true,
-                        ),*/
-                        /*ActivityContainer(
-                            title:
-                                resultPlaceModel.generatedOptions.priceType ==
-                                        PriceType.free
-                                    ? "Gratuit"
-                                    : "Payant",
-                            color: Constants.thirdColor,
-                            iconPath:
-                                resultPlaceModel.generatedOptions.priceType ==
-                                        PriceType.free
-                                    ? Constants.freeIcon
-                                    : Constants.notFreeIcon,
-                            changeColorOnTap: false,
-                            isActive: true,
-                            onTap: null),*/
-                        ActivityService.getActivityContainer(resultPlaceModel.generatedOptions.activityType),
-                      ]),
+                    child: InformationBlocSquares(
+                      resultPlaceModel: resultPlaceModel,
                     ),
                   ),
                 ],

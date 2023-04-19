@@ -172,7 +172,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   checkForHomeInfos(HomeResponse homeModel) async {
     await Provider.of<UserProvider>(context, listen: false)
-        .setGetHomeResponse(homeModel.enableAdVideo);
+        .setGetHomeResponse(homeModel.enableAdVideo, homeModel.token);
+        
 
     if (homeModel.lastSponsorshipEmail != null &&
         homeModel.lastSponsorshipEmail!.isNotEmpty &&

@@ -96,7 +96,7 @@ class _AdVideoPlayerState extends State<AdVideoPlayer> {
       if (mounted) {
         await Provider.of<UserProvider>(context, listen: false).earnOneToken();
         await Provider.of<UserProvider>(context, listen: false)
-            .setGetHomeResponse(false);
+            .setGetHomeResponse(false, null);
       } else {
         ToastService.showError("Une erreur est survenue. Merci de réessayer");
       }

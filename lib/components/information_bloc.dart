@@ -1,105 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:whatodo/models/result_place.dart';
 import 'package:whatodo/services/base_api.dart';
 import 'package:whatodo/services/toast.dart';
 
 import '../constants/constant.dart';
-import '../models/request_place.dart';
 import '../services/activity.dart';
 import '../services/utils.dart';
 import '../utils/enum_filters.dart';
 import 'action_button.dart';
 import 'activity_container.dart';
 import 'activity_header_text.dart';
+import 'information_bloc_squares.dart';
 
 class InformationBloc extends StatelessWidget {
   final ResultPlaceModel resultPlaceModel;
-  final RequestPlace requestPlaceModel;
 
-  const InformationBloc(
-      {super.key,
-      required this.resultPlaceModel,
-      required this.requestPlaceModel});
+  const InformationBloc({
+    super.key,
+    required this.resultPlaceModel,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 7.0, right: 7.0, bottom: 30.0),
+      padding: const EdgeInsets.all(10.0),
       child: Container(
-        height: 260,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Colors.white,
         ),
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
           child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
             Row(
               children: const [
                 ActivityHeaderText(text: "Informations"),
               ],
             ),
-            SizedBox(
-              height: 95,
-              child: Row(
-                children: [
-                  /*ActivityContainer(
-                      title: resultPlaceModel.generatedOptions.priceType ==
-                              PriceType.free
-                          ? "Gratuit"
-                          : "Payant",
-                      color: Constants.thirdColor,
-                      iconPath: resultPlaceModel.generatedOptions.priceType ==
-                              PriceType.free
-                          ? Constants.freeIcon
-                          : Constants.notFreeIcon,
-                      isActive: true,
-                      onTap: null),*/
-                  ActivityService.getActivityContainer(
-                      resultPlaceModel.generatedOptions.activityType),
-                  ActivityContainer(
-                      title:
-                          "< ${UtilService.getMinutesFromHoursMinutes(requestPlaceModel.maxHour, requestPlaceModel.maxMin)} minutes",
-                      color: Constants.thirdColor,
-                      iconPath: resultPlaceModel.generatedOptions.movingType ==
-                              MovingType.byBicycle
-                          ? Constants.bicycleIcon
-                          : resultPlaceModel.generatedOptions.movingType ==
-                                  MovingType.byWalk
-                              ? Constants.walkIcon
-                              : Constants.carIcon,
-                      isActive: true,
-                      onTap: null),
-                  ActivityContainer(
-                    title: "Voir dans Maps",
-                    color: Constants.primaryColor,
-                    iconPath: Constants.mapIcon,
-                    isActive: true,
-                    onTap: () => openMap(),
-                  )
-                ],
-              ),
-            ),
+            InformationBlocSquares(resultPlaceModel: resultPlaceModel),
             getYesNoButtons(context)
           ]),
         ),
       ),
     );
-  }
-
-  Future<void> openMap() async {
-    String placeId = resultPlaceModel.placeId;
-    String googleUrl =
-        'https://www.google.com/maps/search/?api=1&query=Google&query_place_id=$placeId';
-
-    if (await canLaunchUrl(Uri.parse(googleUrl))) {
-      await launchUrl(Uri.parse(googleUrl));
-    } else {
-      ToastService.showError("Impossible d'ouvrir la map");
-    }
   }
 
   Row getYesNoButtons(BuildContext context) {

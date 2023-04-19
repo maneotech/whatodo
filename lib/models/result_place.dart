@@ -10,13 +10,13 @@ class ResultPlaceModel {
   String placeId;
   String name;
   String address;
-  double rating;
+  num? rating;
   double latitude;
   double longitude;
   List<String> types;
-  double userRatingsTotals;
+  num? userRatingsTotals;
   GeneratedOptions generatedOptions;
-  String urlPictureReference;
+  String? urlPictureReference;
 
   ResultPlaceModel(
       this.id,
@@ -37,22 +37,30 @@ class ResultPlaceModel {
     GeneratedOptions generatedOptions = GeneratedOptions(
       ActivityType.values[json['generatedOptions']['activityType']],
       MovingType.values[json['generatedOptions']['movingType']],
+      json['generatedOptions']['maxHour'],
+      json['generatedOptions']['maxMin']
       //PriceType.values[json['generatedOptions']['priceType']],
     );
 
+    String? pitureUrl;
+
+    if (json['place']['photos'] != null &&
+        json['place']['photos'].length > 0 &&
+        json['place']['photos'][0]['photo_reference'] != null) {
+      pitureUrl = Constants.urlPictureGoogleApi +
+          json['place']['photos'][0]['photo_reference'];
+    }
     return ResultPlaceModel(
-      json['_id'],
-      json['place']['place_id'],
-      json['place']['name'],
-      json['place']['vicinity'],
-      json['place']['rating'],
-      json['place']['geometry']['location']['lat'],
-      json['place']['geometry']['location']['lng'],
-      List<String>.from(json['place']['types']),
-      json['place']['user_ratings_total'],
-      generatedOptions,
-      Constants.urlPictureGoogleApi +
-          (json['place']['photos'][0]['photo_reference']),
-    );
+        json['_id'],
+        json['place']['place_id'],
+        json['place']['name'],
+        json['place']['vicinity'],
+        json['place']['rating'],
+        json['place']['geometry']['location']['lat'],
+        json['place']['geometry']['location']['lng'],
+        List<String>.from(json['place']['types']),
+        json['place']['user_ratings_total'],
+        generatedOptions,
+      pitureUrl);
   }
 }

@@ -43,8 +43,16 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  setGetHomeResponse(bool enableAdVideo) {
+  setGetHomeResponse(bool enableAdVideo, int? token) {
     _enableAdVideo = enableAdVideo;
+
+    if (token != null) {
+      _token = token;
+
+      if (_token < 0) {
+        _token = 0;
+      }
+    }
 
     notifyListeners();
   }

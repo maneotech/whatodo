@@ -10,12 +10,10 @@ import '../utils/map_style.dart';
 
 class PlaceResultScreen extends StatefulWidget {
   final ResultPlaceModel resultPlaceModel;
-  final RequestPlace requestPlaceModel;
 
   const PlaceResultScreen({
     super.key,
     required this.resultPlaceModel,
-    required this.requestPlaceModel,
   });
 
   @override
@@ -46,12 +44,18 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
         child: Column(
           children: [
             getTitleBox(),
-            Image.network(widget.resultPlaceModel.urlPictureReference),
+            if (widget.resultPlaceModel.urlPictureReference != null)
+              Image.network(
+                widget.resultPlaceModel.urlPictureReference!,
+                height: 220,
+              ),
             SizedBox(
-              height: 200,
+              height: 130,
               child: getGoogleMap(),
             ),
-            InformationBloc(resultPlaceModel: widget.resultPlaceModel, requestPlaceModel: widget.requestPlaceModel),
+            InformationBloc(
+                resultPlaceModel: widget.resultPlaceModel,
+                ),
           ],
         ),
       ),
@@ -84,20 +88,21 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
               ],
             ),
           ),
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(widget.resultPlaceModel.rating.toString()),
-                  const Icon(Icons.star),
-                ],
-              ),
-              Text(
-                  "${widget.resultPlaceModel.userRatingsTotals.toString()} avis",
-                  style: Constants.rankingNumberTextStyle),
-            ],
-          )
+          if (widget.resultPlaceModel.rating != null)
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(widget.resultPlaceModel.rating.toString()),
+                    const Icon(Icons.star),
+                  ],
+                ),
+                Text(
+                    "${widget.resultPlaceModel.userRatingsTotals.toString()} avis",
+                    style: Constants.rankingNumberTextStyle),
+              ],
+            )
         ],
       ),
     );

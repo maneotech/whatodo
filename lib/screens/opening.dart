@@ -3,11 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:whatodo/models/generated_options._place.dart';
 import 'package:whatodo/providers/user.dart';
 import 'package:whatodo/screens/place_result.dart';
 import 'package:whatodo/services/toast.dart';
-import 'package:whatodo/utils/enum_filters.dart';
 
 import '../constants/constant.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -120,7 +118,7 @@ class _OpeningScreenState extends State<OpeningScreen> {
         MaterialPageRoute(
           builder: (context) => PlaceResultScreen(
             resultPlaceModel: resultPlaceModel,
-            requestPlaceModel: widget.requestPlace,
+            
           ),
         ),
       );
