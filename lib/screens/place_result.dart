@@ -27,7 +27,6 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
   late GoogleMapController mapController;
 
   late LatLng _pin;
-  final InAppReview inAppReview = InAppReview.instance;
 
   void _onMapCreated(GoogleMapController controller) {
     controller.setMapStyle(Utils.mapStyles);
@@ -39,32 +38,31 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
     super.initState();
     _pin = LatLng(
         widget.resultPlaceModel.latitude, widget.resultPlaceModel.longitude);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await proceedInAppReview();
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            getTitleBox(),
-            if (widget.resultPlaceModel.urlPictureReference != null)
-              Image.network(
-                widget.resultPlaceModel.urlPictureReference!,
-                height: 220,
+      body: Padding(
+        padding: const EdgeInsets.only(top: 30.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              getTitleBox(),
+              if (widget.resultPlaceModel.urlPictureReference != null)
+                Image.network(
+                  widget.resultPlaceModel.urlPictureReference!,
+                  height: 220,
+                ),
+              SizedBox(
+                height: 130,
+                child: getGoogleMap(),
               ),
-            SizedBox(
-              height: 130,
-              child: getGoogleMap(),
-            ),
-            InformationBloc(
-              resultPlaceModel: widget.resultPlaceModel,
-            ),
-          ],
+              InformationBloc(
+                resultPlaceModel: widget.resultPlaceModel,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -133,11 +131,5 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
       markerId: const MarkerId('ChIJ5QKV1wrtyRIRnHlvG28H1nA'),
       position: _pin,
     );
-  }
-
-  proceedInAppReview() async {
-    if (await inAppReview.isAvailable()) {
-      inAppReview.requestReview();
-    }
   }
 }

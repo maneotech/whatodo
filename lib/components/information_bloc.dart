@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:whatodo/models/result_place.dart';
 import 'package:whatodo/services/base_api.dart';
 import 'package:whatodo/services/toast.dart';
@@ -29,13 +30,25 @@ class InformationBloc extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
           child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ActivityHeaderText(text: AppLocalizations.of(context)!.informations),
+                ActivityHeaderText(
+                    text: AppLocalizations.of(context)!.informations),
+                InformationBlocSquares(resultPlaceModel: resultPlaceModel),
               ],
             ),
-            InformationBlocSquares(resultPlaceModel: resultPlaceModel),
-            getYesNoButtons(context)
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ActivityHeaderText(
+                      text: AppLocalizations.of(context)!.wantThisPlace),
+                  getYesNoButtons(context)
+                ],
+              ),
+            )
           ]),
         ),
       ),
@@ -46,12 +59,14 @@ class InformationBloc extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-            child:
-                ActionButton(onTap: () => acceptPlace(context), title: AppLocalizations.of(context)!.yes)),
+            child: ActionButton(
+                onTap: () => acceptPlace(context),
+                title: AppLocalizations.of(context)!.yes)),
         const Padding(padding: EdgeInsets.only(left: 10, right: 10)),
         Expanded(
-            child:
-                ActionButton(onTap: () => refusePlace(context), title: AppLocalizations.of(context)!.no))
+            child: ActionButton(
+                onTap: () => refusePlace(context),
+                title: AppLocalizations.of(context)!.no))
       ],
     );
   }
@@ -65,11 +80,22 @@ class InformationBloc extends StatelessWidget {
 
     if (res.statusCode == 200) {
       ToastService.showSuccess(AppLocalizations.of(context)!.placeAddedHistory);
+
+      await proceedInAppReview();
+
       if (context.mounted) {
         Navigator.of(context).popUntil(ModalRoute.withName('/'));
       }
     } else {
       ToastService.showError(AppLocalizations.of(context)!.internalError);
+    }
+  }
+
+  proceedInAppReview() async {
+    final InAppReview inAppReview = InAppReview.instance;
+
+    if (await inAppReview.isAvailable()) {
+      inAppReview.requestReview();
     }
   }
 }
