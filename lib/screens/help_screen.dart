@@ -35,7 +35,7 @@ class HelpScreen extends StatelessWidget {
                   TextFaqHeader(text: AppLocalizations.of(context)!.faqq3),
                   ActionButton(
                     title: AppLocalizations.of(context)!.faqa3,
-                    onTap: () => contactEmail(),
+                    onTap: () => contactEmail(context),
                     height: 40,
                     alignCenter: false,
                   ),
@@ -55,7 +55,7 @@ class HelpScreen extends StatelessWidget {
     );
   }
 
-  contactEmail() async {
+  contactEmail(BuildContext context) async {
     final Uri emailLaunchUri = Uri(
       scheme: 'mailto',
       path: 'utilities@maneotech.fr',

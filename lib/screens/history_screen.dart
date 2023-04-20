@@ -54,7 +54,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             );
           }
         } else if (snapshot.hasError) {
-          return const Text(AppLocalizations.of(context)!.internalError);
+          return Text(AppLocalizations.of(context)!.internalError);
         }
         // By default, show a loading spinner
         return const CircularProgressIndicator();

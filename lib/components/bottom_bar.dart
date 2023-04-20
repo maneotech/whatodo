@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:whatodo/constants/constant.dart';
 
 class CustomBottomBar extends StatelessWidget {
   final Function onDestinationSelected;
@@ -27,7 +28,10 @@ class CustomBottomBar extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
-                       Icon(Icons.play_arrow, color: Colors.white),
+                      Image(
+                        image: AssetImage(Constants.whatodoIcon),
+                        height: 20,
+                      ),
                       Text(
                         "Whatodo",
                       ),
@@ -44,7 +48,7 @@ class CustomBottomBar extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.tune, color: Colors.white),
+                      const ImageIcon(AssetImage(Constants.historyIcon), size: 20),
                       Text(
                         AppLocalizations.of(context)!.history,
                       ),

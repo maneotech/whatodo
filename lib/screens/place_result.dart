@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:whatodo/components/information_bloc.dart';
+import 'package:whatodo/providers/user.dart';
 
 import '../constants/constant.dart';
 import '../models/result_place.dart';
 import '../services/activity.dart';
 import '../utils/map_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:in_app_review/in_app_review.dart';
 
 class PlaceResultScreen extends StatefulWidget {
   final ResultPlaceModel resultPlaceModel;
@@ -24,6 +27,7 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
   late GoogleMapController mapController;
 
   late LatLng _pin;
+  final InAppReview inAppReview = InAppReview.instance;
 
   void _onMapCreated(GoogleMapController controller) {
     controller.setMapStyle(Utils.mapStyles);
@@ -35,6 +39,10 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
     super.initState();
     _pin = LatLng(
         widget.resultPlaceModel.latitude, widget.resultPlaceModel.longitude);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await proceedInAppReview();
+    });
   }
 
   @override
@@ -54,8 +62,8 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
               child: getGoogleMap(),
             ),
             InformationBloc(
-                resultPlaceModel: widget.resultPlaceModel,
-                ),
+              resultPlaceModel: widget.resultPlaceModel,
+            ),
           ],
         ),
       ),
@@ -125,5 +133,11 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
       markerId: const MarkerId('ChIJ5QKV1wrtyRIRnHlvG28H1nA'),
       position: _pin,
     );
+  }
+
+  proceedInAppReview() async {
+    if (await inAppReview.isAvailable()) {
+      inAppReview.requestReview();
+    }
   }
 }

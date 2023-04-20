@@ -26,8 +26,8 @@
 
     "enableLocation": "Vous devez activer la localisation",
     "howToEnableLocation": "Comment activer la localisation ?",
-    "locationDefaultText": "You can use approximate location if you prefer so.\nFollow these steps to enable location :\n1. Swipe down from the top of the screen\n2. Touch and hold Location . If you don't find Location : Tap Edit or Settings. Then drag Location into your Quick Settings \n3. Tap App location permissions Under 'Allowed all the time', 'Allowed only while in use', and 'Not allowed', find the apps that can use your phone's location \n4. To change the app's permissions, tap it. Then, choose the location access for the app",
-    "locationDefaultTextIOS" : "You must enable Location to use this app. You can use approximate location if you prefer so.\nFollow these steps to enable location : \n1. Go to Settings > Privacy & Security > Location Services.\n2. Make sure that Location Services is on.\n3. Scroll down to find Whatodo app.\n4. Tap the app and select the While Using the App option (or Always)",
+    "locationDefaultText": "Vous pouvez utiliser l'emplacement approximatif si vous le préférez.\nSuivez les étapes suivantes pour activer l'emplacement :\n1. Balayez vers le bas depuis le haut de l'écran :\n2. Touchez et maintenez la touche Emplacement. Si vous ne trouvez pas Localisation : touchez Modifier ou Paramètres. Faites ensuite glisser l'option Localisation dans vos Paramètres rapides :\n3. Sous 'Autorisé en permanence', 'Autorisé uniquement en cours d'utilisation' et 'Non autorisé', recherchez les applications qui peuvent utiliser l'emplacement de votre téléphone \n4. Pour modifier les autorisations de l'application, appuyez dessus. Choisissez ensuite l'accès à la localisation pour l'application",
+    "locationDefaultTextIOS" : "Vous devez activer la localisation pour utiliser cette application. Vous pouvez utiliser une localisation approximative si vous le souhaitez. \nSuivez les étapes suivantes pour activer la localisation : \n1. Allez dans Réglages > Confidentialité et sécurité > Services de localisation.\n2. Assurez-vous que les services de localisation sont activés.\n3. Faites défiler vers le bas pour trouver l'application Whatodo.\n4. Appuyez sur l'application et sélectionnez l'option Pendant l'utilisation de l'application (ou Toujours).",
 
     "purchaseText1" : "Fais toi plaisir en pensant à ton",
     "purchaseText2": "bien être.",
@@ -39,13 +39,13 @@
     "token": "Jeton",
     "tokens": "Jetons",
 
-    "review": "avis",
+    "reviews": "avis",
 
-    "errorOpening": "Une erreur est survenue. Votre token n'a pas été débité. Merci de réessayer",
+    "errorOpening": "Une erreur est survenue. Votre jeton n'a pas été débité. Merci de réessayer",
 
-    "hello": "Bonjour",
-    "enjoyYour": "! Profite de ta",
-    "new": "nouvelle",
+    "hello": "Hello",
+    "enjoyYour": "Profite de ta",
+    "enjoyYour2": "nouvelle",
     "adventure": "aventure",
     "activities": "Activités",
     "movingType": "Moyen de se déplacer",
@@ -59,10 +59,10 @@
     "clickHere": "Cliquer ici",
     "letsGo": "C'est parti!",
 
-    "super": "Super!",
+    "nice": "Super!",
     "bravo": "Bravo",
     "user": "L'utilisateur",
-    "earnRegisteredToken": "s'est bien inscrit, tu gagnes 1 token!",
+    "earnRegisteredToken": "s'est bien inscrit, tu gagnes 1 jeton!",
 
     "snacking": "Petite faim",
     "bar": "Bar",
@@ -111,7 +111,7 @@
     "invitFriendPending": "Inscription de votre ami en attente. Vous serez notifié lorsque votre ami sera inscrit.",
     "emailAlreadySponsored": "Cet email est déjà associé à un parrainage",
 
-    "loginHeadline": "Enjoy unique self-guided tour experiences",
+    "loginHeadline": "Profite des meilleurs activitées tout autour de toi",
 
     "loginFb": "Continuer avec Facebook",
     "loginApple": "Continuer avec Apple",

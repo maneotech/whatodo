@@ -100,9 +100,14 @@ class Constants {
   static const String tokenIcon = "assets/icons/token.png";
   static const String helpIcon = "assets/icons/help.png";
   static const String mapIcon = "assets/icons/map.png";
+  static const String whatodoIcon = "assets/icons/whatodo.png";
+  static const String historyIcon = "assets/icons/history.png";
+  static const String addPeopleIcon = "assets/icons/add-people.png";
+  static const String tvIcon = "assets/icons/tv.png";
 
   static const String termsUrl = "https://maneotech.fr/terms-of-service.html";
   static const String policyUrl = "https://maneotech.fr/policy.html";
-  static const String urlPictureGoogleApi = "https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyBv2zOoqxBElmBJH4jFBieXnoDXqy_YRkw&maxwidth=800&photoreference=";
+  static const String urlPictureGoogleApi =
+      "https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyBv2zOoqxBElmBJH4jFBieXnoDXqy_YRkw&maxwidth=800&photoreference=";
   static const String purchaseRouteName = "shop";
 }

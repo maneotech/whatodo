@@ -67,7 +67,7 @@ class _AppBarComponentState extends State<AppBarComponent> {
               onTap: () => showSponsorship(),
               child: Row(
                 children: const [
-                  Icon(Icons.add_circle, color: Colors.black),
+                  ImageIcon(AssetImage(Constants.addPeopleIcon), color: Colors.black),
                   Padding(
                     padding: EdgeInsets.only(left: 5.0, right: 5.0),
                     child: Text("+1",
@@ -94,7 +94,7 @@ class _AppBarComponentState extends State<AppBarComponent> {
   Row getDisableVideoAd() {
     return Row(
       children: [
-        const Icon(Icons.tv, color: Colors.grey),
+        const ImageIcon(AssetImage(Constants.tvIcon), color: Colors.grey),
         Padding(
           padding: const EdgeInsets.only(left: 5.0, right: 5.0),
           child: Text("+1", style: Constants.lockedTextStyle),
@@ -110,7 +110,7 @@ class _AppBarComponentState extends State<AppBarComponent> {
   Row getEnableVideoAd() {
     return Row(
       children: const [
-        Icon(Icons.tv, color: Colors.black),
+        ImageIcon(AssetImage(Constants.tvIcon), color: Colors.black),
         Padding(
           padding: EdgeInsets.only(left: 5.0, right: 5.0),
           child: Text("+1", style: Constants.activityHeaderTextStyle),

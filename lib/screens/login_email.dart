@@ -64,7 +64,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
 
   signInWithEmail() async {
     if (FormValidation.isFormValid(
-        null, controllerEmail.text, controllerPassword.text)) {
+        null, controllerEmail.text, controllerPassword.text, context)) {
       UserLoginModel userLogin =
           UserLoginModel(controllerEmail.text, controllerPassword.text);
 

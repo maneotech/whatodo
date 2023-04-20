@@ -1,21 +1,30 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../constants/constant.dart';
 import '../repositories/shared_pref.dart';
 
 class LocaleProvider with ChangeNotifier {
-  Locale _locale = const Locale("en");
+  Locale _locale = Locale(Platform.localeName.substring(0, 2));
+
   Locale get locale => _locale;
 
   LocaleProvider() {
     init();
   }
   init() async {
+    if (_locale.languageCode != "fr" && _locale.languageCode != "en" && _locale.languageCode != "es" ) {
+      _locale = const Locale("en");
+    }
+
     await getLanguageFromDisk();
   }
 
   void setLocale(Locale locale) {
-    if (locale.languageCode != 'en' && locale.languageCode != 'fr' && locale.languageCode != 'es') {
+    if (locale.languageCode != 'en' &&
+        locale.languageCode != 'fr' &&
+        locale.languageCode != 'es') {
       return;
     }
 

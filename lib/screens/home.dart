@@ -44,12 +44,17 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    setActivityBlocs(false);
-    //setPriceBlocs();
-    setMovingBlocs();
-    getHome();
 
-    Provider.of<LocationProvider>(context, listen: false).getLocationFromDisk();
+    //addPostFrameCallback fix LocationProvider crash issue
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      setActivityBlocs(false);
+      //setPriceBlocs();
+      setMovingBlocs();
+      getHome();
+
+      Provider.of<LocationProvider>(context, listen: false)
+          .getLocationFromDisk();
+    });
   }
 
   @override
@@ -69,15 +74,16 @@ class _HomeScreenState extends State<HomeScreen> {
             "${AppLocalizations.of(context)!.hello} ${Provider.of<UserProvider>(context).firstname} ! ${AppLocalizations.of(context)!.enjoyYour}"),
         Row(
           children: [
-            Text(AppLocalizations.of(context)!.new),
+            Text(AppLocalizations.of(context)!.enjoyYour2),
             Text(
-              AppLocalizations.of(context)!.adventure,
+              " ${AppLocalizations.of(context)!.adventure}",
               style: const TextStyle(
                   fontWeight: FontWeight.w700, color: Constants.secondaryColor),
             ),
           ],
         ),
-        getTitleSectionRow(AppLocalizations.of(context)!.activities, selectedActivities, 5),
+        getTitleSectionRow(
+            AppLocalizations.of(context)!.activities, selectedActivities, 5),
         SizedBox(
           height: 75,
           child: Row(
@@ -97,16 +103,18 @@ class _HomeScreenState extends State<HomeScreen> {
             children: priceBlocs,
           ),
         ),*/
-        getTitleSectionRow(AppLocalizations.of(context)!.movingType, selectedMovingTypes, 3),
+        getTitleSectionRow(
+            AppLocalizations.of(context)!.movingType, selectedMovingTypes, 3),
         SizedBox(
           height: 75,
           child: Row(
             children: movingBlocs,
           ),
         ),
-        const Padding(
+        Padding(
           padding: Constants.paddingActivityTitle,
-          child: ActivityHeaderText(text: AppLocalizations.of(context)!.movingTime),
+          child: ActivityHeaderText(
+              text: AppLocalizations.of(context)!.movingTime),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -129,7 +137,8 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Padding(
           padding: Constants.paddingActivityTitle,
-          child: ActivityHeaderText(text: AppLocalizations.of(context)!.location),
+          child:
+              ActivityHeaderText(text: AppLocalizations.of(context)!.location),
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -146,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
             getSeparator(AppLocalizations.of(context)!.or),
             GestureDetector(
               onTap: () => getLocation(),
-              child: const InputContainer(
+              child: InputContainer(
                   title: AppLocalizations.of(context)!.clickHere,
                   color: Constants.primaryColor,
                   textController: null,
@@ -157,8 +166,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 30.0),
-          child:
-              ActionButton(onTap: () => goToOpening(), title: AppLocalizations.of(context)!.letsGo),
+          child: ActionButton(
+              onTap: () => goToOpening(),
+              title: AppLocalizations.of(context)!.letsGo),
         )
       ]),
     );
@@ -181,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
         mounted) {
       AlertService.showAlertDialogOneButton(
           context,
-          AppLocalizations.of(context)!.super,
+          AppLocalizations.of(context)!.nice,
           AppLocalizations.of(context)!.bravo,
           "${AppLocalizations.of(context)!.user} ${homeModel.lastSponsorshipEmail} ${AppLocalizations.of(context)!.earnRegisteredToken}",
           () => Navigator.of(context).pop());
@@ -268,7 +278,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Padding getTitleSectionRow(String title, List list, int numberMax) {
-    String selectedText = list.length < 2 ? AppLocalizations.of(context)!.selected : AppLocalizations.of(context)!.selecteds;
+    String selectedText = list.length < 2
+        ? AppLocalizations.of(context)!.selected
+        : AppLocalizations.of(context)!.selecteds;
 
     return Padding(
       padding: Constants.paddingActivityTitle,
@@ -287,23 +299,23 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
+      children: const [
         SizedBox(
           height: Constants.heightContainer,
           child: Padding(
-            padding: const EdgeInsets.only(
+            padding:  EdgeInsets.only(
               left: 10,
               right: 10,
             ),
-            child: Center(
+            /*child: Center(
               child: Text(
                 text,
                 style: Constants.normalBlackTextStyle,
               ),
-            ),
+            ),*/
           ),
         ),
-        const Padding(
+         Padding(
           padding: EdgeInsets.only(top: 10),
           child: Text("", style: Constants.normalBlackTextStyle),
         )
@@ -431,8 +443,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool checkMoving() {
     if (selectedMovingTypes.isEmpty) {
-      ToastService.showError(
-          AppLocalizations.of(context)!.selectOneMoving);
+      ToastService.showError(AppLocalizations.of(context)!.selectOneMoving);
       return false;
     }
     return true;
@@ -441,8 +452,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool checkTime() {
     if ((controllerHours.text == "0" || controllerHours.text == "00") &&
         (controllerMinutes.text == "0" || controllerMinutes.text == "00")) {
-      ToastService.showError(
-          AppLocalizations.of(context)!.selectTime);
+      ToastService.showError(AppLocalizations.of(context)!.selectTime);
       return false;
     }
 
