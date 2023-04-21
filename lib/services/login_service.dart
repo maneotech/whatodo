@@ -16,7 +16,7 @@ class LoginService {
         ResponseUser responseUser = ResponseUser.fromReqBody(res.body);
 
         //fix notify listener not called
-        Navigator.pushReplacementNamed(context, '/');
+        Navigator.of(context).popUntil(ModalRoute.withName('/'));
         //end of fix
 
         await Provider.of<AuthProvider>(context, listen: false)
@@ -30,12 +30,12 @@ class LoginService {
     } else {
       ResponseError body = ResponseError.fromReqBody(res.body);
       if (body.error == 102) {
-        ToastService.showError(AppLocalizations.of(context)!.emailOrPasswordIncorrect);
+        ToastService.showError(
+            AppLocalizations.of(context)!.emailOrPasswordIncorrect);
       } else if (body.error == 58) {
         ToastService.showError(AppLocalizations.of(context)!.emailAlreadyUsed);
       } else {
-        ToastService.showError(
-            AppLocalizations.of(context)!.internalError);
+        ToastService.showError(AppLocalizations.of(context)!.internalError);
       }
     }
   }

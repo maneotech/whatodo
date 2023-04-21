@@ -184,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   checkForHomeInfos(HomeResponse homeModel) async {
     await Provider.of<UserProvider>(context, listen: false)
-        .setGetHomeResponse(homeModel.enableAdVideo, homeModel.token);
+        .setGetHomeResponse(homeModel.enableAdVideo, homeModel.user);
 
     if (homeModel.lastSponsorshipEmail != null &&
         homeModel.lastSponsorshipEmail!.isNotEmpty &&
@@ -303,7 +303,7 @@ class _HomeScreenState extends State<HomeScreen> {
         SizedBox(
           height: Constants.heightContainer,
           child: Padding(
-            padding:  EdgeInsets.only(
+            padding: EdgeInsets.only(
               left: 10,
               right: 10,
             ),
@@ -315,7 +315,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),*/
           ),
         ),
-         Padding(
+        Padding(
           padding: EdgeInsets.only(top: 10),
           child: Text("", style: Constants.normalBlackTextStyle),
         )

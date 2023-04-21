@@ -43,11 +43,12 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  setGetHomeResponse(bool enableAdVideo, int? token) {
+  setGetHomeResponse(bool enableAdVideo, UserModel? user) {
     _enableAdVideo = enableAdVideo;
 
-    if (token != null) {
-      _token = token;
+    if (user != null) {
+      _token = user.token;
+      _firstname = user.firstname;
 
       if (_token < 0) {
         _token = 0;

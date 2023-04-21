@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:whatodo/models/user.dart';
+
 class HomeResponse {
   final String? lastSponsorshipEmail;
   final bool enableAdVideo;
-  final int token;
+  final UserModel user;
 
-  HomeResponse(this.lastSponsorshipEmail, this.enableAdVideo, this.token);
+  HomeResponse(this.lastSponsorshipEmail, this.enableAdVideo, this.user);
 
   factory HomeResponse.fromReqBody(String body) {
     Map<String, dynamic> json = jsonDecode(body);
@@ -13,7 +15,9 @@ class HomeResponse {
     return HomeResponse(
       json['lastSponsorshipEmail'],
       json['enableAdVideo'],
-      json['token']
+      UserModel.fromReqBody(
+        jsonEncode(json['user']),
+      ),
     );
   }
 }
