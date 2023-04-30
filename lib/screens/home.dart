@@ -106,7 +106,6 @@ class _HomeScreenState extends State<HomeScreen> {
               children: activityBlocs2,
             ),
           ),
-
           getTitleSectionRow(
               AppLocalizations.of(context)!.movingType, selectedMovingTypes, 3),
           SizedBox(
@@ -447,8 +446,8 @@ class _HomeScreenState extends State<HomeScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    OpeningScreen(requestPlace: requestPlace)),
+              builder: (context) => OpeningScreen(requestPlace: requestPlace),
+            ),
           );
         }
       }

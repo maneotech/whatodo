@@ -28,6 +28,13 @@ class OpeningScreen extends StatefulWidget {
 class _OpeningScreenState extends State<OpeningScreen> {
   late Timer _timer;
   ResultPlaceModel? _resultPlaceModel;
+
+  @override
+  void initState() {
+    super.initState();
+    loadingData(context);
+  }
+
   @override
   void dispose() {
     _timer.cancel();
@@ -36,7 +43,6 @@ class _OpeningScreenState extends State<OpeningScreen> {
 
   @override
   Widget build(BuildContext context) {
-    loadingData(context);
     return Scaffold(
       body: Container(
           width: MediaQuery.of(context).size.width,

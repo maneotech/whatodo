@@ -41,6 +41,12 @@ class _PlaceResultScreenState extends State<PlaceResultScreen> {
   }
 
   @override
+  void dispose() {
+    mapController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(

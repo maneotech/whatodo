@@ -114,11 +114,9 @@ class SplashScreen extends StatelessWidget {
     return Consumer<AuthProvider>(
       builder: (context, value, child) {
         if (value.jwt.isEmpty) {
-          return AuthScreens(key: UniqueKey());
+          return const AuthScreens();
         } else {
-          return RootScreens(
-            key: Key(value.jwt),
-          );
+          return const RootScreens();
         }
       },
     );
