@@ -1,13 +1,12 @@
 {
     "internalError": "Une erreur est survenue. Veuillez réessayer",
-    "emailOrPasswordIncorrect" : "Email ou mot de passe incorrect",
+    "emailOrPasswordIncorrect": "Email ou mot de passe incorrect",
     "emailAlreadyUsed": "Cet email est déjà utilisé",
-    "firstnameEmpty" : "Le prénom ne peut pas être vide",
-    "emailEmpty" : "L'email ne peut pas être vide",
+    "firstnameEmpty": "Le prénom ne peut pas être vide",
+    "emailEmpty": "L'email ne peut pas être vide",
     "emailNotValid": "L'email saisi n'est pas conforme",
-    "passwordIncorrect" : "Le mot de passe saisi doit faire au moins 8 caractères avec au moins une majuscule, un caractère spécial et un chiffre",
-    "passwordUnMatch" : "Les mots de passe ne correspondent pas",
-
+    "passwordIncorrect": "Le mot de passe saisi doit faire au moins 8 caractères avec au moins une majuscule, un caractère spécial et un chiffre",
+    "passwordUnMatch": "Les mots de passe ne correspondent pas",
     "accountSignup": "Création de compte",
     "firstname": "Prénom",
     "enterFirstname": "Entrez votre prénom",
@@ -21,28 +20,23 @@
     "backToLogin": "Revenir à la page de connexion",
     "accountHasBeenCreated": "Votre compte a bien été créé. Veuillez vous connecter",
     "loginWithEmail": "Connexion avec email",
-    "login" : "Se connecter",
+    "login": "Se connecter",
     "notRegisteredYet": "Pas encore inscrit ? Cliquer ici pour vous inscrire",
-
     "enableLocation": "Vous devez activer la localisation",
     "howToEnableLocation": "Comment activer la localisation ?",
     "locationDefaultText": "Vous pouvez utiliser l'emplacement approximatif si vous le préférez.\nSuivez les étapes suivantes pour activer l'emplacement :\n1. Balayez vers le bas depuis le haut de l'écran :\n2. Touchez et maintenez la touche Emplacement. Si vous ne trouvez pas Localisation : touchez Modifier ou Paramètres. Faites ensuite glisser l'option Localisation dans vos Paramètres rapides :\n3. Sous 'Autorisé en permanence', 'Autorisé uniquement en cours d'utilisation' et 'Non autorisé', recherchez les applications qui peuvent utiliser l'emplacement de votre téléphone \n4. Pour modifier les autorisations de l'application, appuyez dessus. Choisissez ensuite l'accès à la localisation pour l'application",
-    "locationDefaultTextIOS" : "Vous devez activer la localisation pour utiliser cette application. Vous pouvez utiliser une localisation approximative si vous le souhaitez. \nSuivez les étapes suivantes pour activer la localisation : \n1. Allez dans Réglages > Confidentialité et sécurité > Services de localisation.\n2. Assurez-vous que les services de localisation sont activés.\n3. Faites défiler vers le bas pour trouver l'application Whatodo.\n4. Appuyez sur l'application et sélectionnez l'option Pendant l'utilisation de l'application (ou Toujours).",
-
-    "purchaseText1" : "Fais toi plaisir en pensant à ton",
+    "locationDefaultTextIOS": "Vous devez activer la localisation pour utiliser cette application. Vous pouvez utiliser une localisation approximative si vous le souhaitez. \nSuivez les étapes suivantes pour activer la localisation : \n1. Allez dans Réglages > Confidentialité et sécurité > Services de localisation.\n2. Assurez-vous que les services de localisation sont activés.\n3. Faites défiler vers le bas pour trouver l'application Whatodo.\n4. Appuyez sur l'application et sélectionnez l'option Pendant l'utilisation de l'application (ou Toujours).",
+    "purchaseText1": "Fais toi plaisir en pensant à ton",
     "purchaseText2": "bien être.",
-    "purchaseText3" : "Offre de lancement, nos deux meilleures promotions, -15% et -30%, bientôt indisponible.",
+    "purchaseText3": "Offre de lancement, nos deux meilleures promotions, -15% et -30%, bientôt indisponible.",
     "restorePurchase": "Restaurer les achats précédents",
     "terms": "CGU",
     "policy": "Politique de confidentialité",
-
     "token": "Jeton",
     "tokens": "Jetons",
-
     "reviews": "avis",
-
     "errorOpening": "Une erreur est survenue. Votre jeton n'a pas été débité. Merci de réessayer",
-
+    "errorNoResult": "Aucun lieu n'est actuellement ouvert. Veuillez changer vos critères de recherche et réessayer",
     "hello": "Hello",
     "enjoyYour": "Profite de ta",
     "enjoyYour2": "nouvelle",
@@ -52,43 +46,39 @@
     "movingTime": "Durée de déplacement",
     "hour": "Heure",
     "minutes": "Minutes",
-
     "location": "Localisation",
     "currentLocation": "Ma position actuelle",
     "or": "OU",
     "clickHere": "Cliquer ici",
     "letsGo": "C'est parti!",
-
     "nice": "Super!",
     "bravo": "Bravo",
     "user": "L'utilisateur",
     "earnRegisteredToken": "s'est bien inscrit, tu gagnes 1 jeton!",
-
     "snacking": "Petite faim",
     "bar": "Bar",
     "restaurant": "Restaurant",
     "discovering": "Découvrir",
     "shopping": "Shopping",
     "random": "Aléatoire",
-
     "byWalk": "A pied",
     "byBicycle": "A vélo",
     "byCar": "En voiture",
-
     "selected": "sélectionnée",
     "selecteds": "sélectionnées",
-
-    "selectOneActivity" : "Veuillez choisir au moins une activité",
+    "selectOneActivity": "Veuillez choisir au moins une activité",
     "selectOneMoving": "Veuillez choisir au moins un moyen de transport souhaité",
     "selectTime": "Veuillez indiquer un temps minimal pour le trajet souhaité",
     "selectPosition": "Veuillez ajouter votre position",
-
+    "acceptedPlaces": "Lieux acceptés",
+    "suggestedPlaces": "Lieux proposés",
     "noHistory": "Vous n'avez actuellement aucun historique",
     "yes": "Oui",
     "no": "Non",
     "deleteActivityTitle": "Supprimer cette activité",
     "deleteActivityDesc": "Êtes-vous sûr(e) de supprimer cette activité ?",
-
+    "acceptActivityTitle": "Ajouter cette activité",
+    "acceptActivityDesc": "Êtes-vous sûr(e) de vouloir accepter cette activité ?",
     "faq": "Foire Aux Questions",
     "faqq1": "Le résultat proposé est-il optimisé ?",
     "faqa1": "Oui, notre application mobile utilise des algorithmes avancés et des données de qualité premium pour garantir des résultats optimisés et précis à chaque recherche.",
@@ -99,7 +89,6 @@
     "faqq4": "Comment changer de compte ?",
     "logout": "Se déconnecter",
     "logoutConfirm": "Êtes-vous sûr(e) de vouloir vous déconnecter ?",
-
     "earnFreeToken": "Gagnez un jeton gratuit!",
     "sponsorshipText1": "C'est facile!",
     "sponsorshipText2": "1. Saisissez l'adresse email de votre ami",
@@ -110,23 +99,23 @@
     "enterEmailFriendError": "Veuillez saisir l'email de votre ami",
     "invitFriendPending": "Inscription de votre ami en attente. Vous serez notifié lorsque votre ami sera inscrit.",
     "emailAlreadySponsored": "Cet email est déjà associé à un parrainage",
-
     "loginHeadline": "Profite des meilleures activités tout autour de toi",
-
     "loginFb": "Continuer avec Facebook",
     "loginApple": "Continuer avec Apple",
     "loginGoogle": "Continuer avec Google",
     "loginEmail": "Continuer avec un Email",
-
     "informations": "Informations",
     "wantThisPlace": "Souhaitez-vous visiter cet endroit ?",
     "placeAddedHistory": "Ce lieu a été ajouté à votre historique",
-
     "seeMaps": "Voir dans Maps",
     "cannotOpenMap": "Impossible d'ouvrir la map",
-
     "history": "Historique",
+    "watchAllAdVideo": "Il faut regarder la vidéo en entière pour bénéficier d'un jeton gratuit",
 
-    "watchAllAdVideo": "Il faut regarder la vidéo en entière pour bénéficier d'un jeton gratuit"
-
+    "welcomeWhatodo": "Bienvenue sur Whatodo",
+    "whatodoHowItWorks": "Whatodo, comment ça marche ?",
+    "helper1": "1. Rempli tes critères en moins de 30 secondes!",
+    "helper2": "2. Clique sur 'C'est parti!' et utilise un jeton",
+    "helper3": "3. Whatodo te propose un lieu, à toi de jouer le jeu et de partir le découvrir!"
+    
 }

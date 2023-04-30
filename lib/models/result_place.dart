@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:whatodo/constants/constant.dart';
 
@@ -18,6 +19,7 @@ class ResultPlaceModel {
   GeneratedOptions generatedOptions;
   String? urlPictureReference;
   DateTime updatedAt;
+  bool accepted;
 
   ResultPlaceModel(
       this.id,
@@ -31,26 +33,32 @@ class ResultPlaceModel {
       this.userRatingsTotals,
       this.generatedOptions,
       this.urlPictureReference,
-      this.updatedAt);
+      this.updatedAt,
+      this.accepted);
 
   factory ResultPlaceModel.fromReqBody(String body) {
     Map<String, dynamic> json = jsonDecode(body);
 
     GeneratedOptions generatedOptions = GeneratedOptions(
-      ActivityType.values[json['generatedOptions']['activityType']],
-      MovingType.values[json['generatedOptions']['movingType']],
-      json['generatedOptions']['maxHour'],
-      json['generatedOptions']['maxMin']
-      //PriceType.values[json['generatedOptions']['priceType']],
-    );
+        ActivityType.values[json['generatedOptions']['activityType']],
+        MovingType.values[json['generatedOptions']['movingType']],
+        json['generatedOptions']['maxHour'],
+        json['generatedOptions']['maxMin']
+        //PriceType.values[json['generatedOptions']['priceType']],
+        );
 
     String? pitureUrl;
 
     if (json['place']['photos'] != null &&
         json['place']['photos'].length > 0 &&
         json['place']['photos'][0]['photo_reference'] != null) {
-      pitureUrl = Constants.urlPictureGoogleApi +
-          json['place']['photos'][0]['photo_reference'];
+      if (Platform.isIOS) {
+        pitureUrl = Constants.urlPictureGoogle +
+            json['place']['photos'][0]['photo_reference'] + Constants.iosKey;
+      } else {
+        pitureUrl = Constants.urlPictureGoogle +
+            json['place']['photos'][0]['photo_reference'] + Constants.androidKey;
+      }
     }
     return ResultPlaceModel(
         json['_id'],
@@ -63,7 +71,8 @@ class ResultPlaceModel {
         List<String>.from(json['place']['types']),
         json['place']['user_ratings_total'],
         generatedOptions,
-      pitureUrl,
-      DateTime.parse(json['updatedAt']));
+        pitureUrl,
+        DateTime.parse(json['updatedAt']),
+        json['accepted']);
   }
 }

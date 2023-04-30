@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whatodo/providers/auth.dart';
@@ -9,13 +12,25 @@ import 'package:whatodo/screens/login.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'components/app_bar.dart';
 import 'components/bottom_bar.dart';
 import 'constants/constant.dart';
 import 'providers/locale.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => LocaleProvider()),
@@ -36,44 +51,32 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  void didChangeDependencies() async {
-    await context.read<AuthProvider>().init();
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final ThemeData theme = ThemeData(fontFamily: "Hellix");
 
-    return Consumer<LocaleProvider>(
-      builder: (context, provider, snapshot) {
-        return MaterialApp(
-          theme: theme,
-          locale: provider.locale,
-          navigatorKey: NavigationService.navigatorKey,
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('en', ''), // English, no country code
-            Locale('fr', ''), // French, no country code
-            Locale('es', ''), // French, no country code
-          ],
-          home: Consumer<AuthProvider>(
-            builder: (context, value, child) {
-              if (value.jwt.isEmpty) {
-                return const AuthScreens();
-              } else {
-                return const RootScreens();
-              }
-            },
-          ),
-        );
+    return MaterialApp(
+      theme: theme,
+      locale: Provider.of<LocaleProvider>(context).locale,
+      debugShowCheckedModeBanner: false,
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(
+            analytics: FirebaseAnalytics.instance), // <-- here
+      ],
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''), // English, no country code
+        Locale('fr', ''), // French, no country code
+        Locale('es', ''), // French, no country code
+      ],
+      routes: {
+        '/': (context) => const SplashScreen(),
       },
+      initialRoute: '/',
     );
   }
 
@@ -103,6 +106,25 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AuthProvider>(
+      builder: (context, value, child) {
+        if (value.jwt.isEmpty) {
+          return AuthScreens(key: UniqueKey());
+        } else {
+          return RootScreens(
+            key: Key(value.jwt),
+          );
+        }
+      },
+    );
+  }
+}
+
 class AuthScreens extends StatefulWidget {
   const AuthScreens({super.key});
 
@@ -113,9 +135,10 @@ class AuthScreens extends StatefulWidget {
 class _AuthScreensState extends State<AuthScreens> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: DefaultTextStyle(
-          style: Constants.defaultTextStyle, child: LoginScreen()),
+          style: Constants.defaultTextStyle,
+          child: LoginScreen(key: UniqueKey())),
     );
   }
 }
@@ -174,8 +197,4 @@ class _RootScreensState extends State<RootScreens> {
       currentPage = index;
     });
   }
-}
-
-class NavigationService {
-  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 }

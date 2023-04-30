@@ -25,7 +25,7 @@ class FormValidation {
                 r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~;]).{8,}$')
             .hasMatch(password) ==
         false) {
-      ToastService.showError(AppLocalizations.of(context)!.passwordIncorrect);
+      ToastService.showError(AppLocalizations.of(context)!.passwordIncorrect, longLength: true);
       return false;
     } else if (password != password) {
       ToastService.showError(AppLocalizations.of(context)!.passwordUnMatch);

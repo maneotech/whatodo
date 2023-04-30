@@ -1,13 +1,12 @@
 {
     "internalError": "Se ha producido un error. Vuelva a intentarlo",
-    "emailOrPasswordIncorrect" : "Correo electrónico o contraseña incorrectos",
+    "emailOrPasswordIncorrect": "Correo electrónico o contraseña incorrectos",
     "emailAlreadyUsed": "Este correo electrónico ya está en uso",
-    "firstnameEmpty" : "El nombre no puede estar vacío",
-    "emailEmpty" : "Correo electrónico no puede estar vacío",
+    "firstnameEmpty": "El nombre no puede estar vacío",
+    "emailEmpty": "Correo electrónico no puede estar vacío",
     "emailNotValid": "Correo electrónico no es conforme",
-    "passwordIncorrect" : "La contraseña introducida debe tener al menos 8 caracteres, con al menos una letra mayúscula, un carácter especial y un número.",
-    "passwordUnMatch" : "Las contraseñas no coinciden",
-
+    "passwordIncorrect": "La contraseña introducida debe tener al menos 8 caracteres, con al menos una letra mayúscula, un carácter especial y un número.",
+    "passwordUnMatch": "Las contraseñas no coinciden",
     "accountSignup": "Creación de una cuenta",
     "firstname": "Nombre",
     "enterFirstname": "Introduzca su nombre",
@@ -21,28 +20,23 @@
     "backToLogin": "Volver a la página de inicio de sesión",
     "accountHasBeenCreated": "Su cuenta ha sido creada. Inicie sesión",
     "loginWithEmail": "Iniciar sesión con el correo electrónico",
-    "login" : "Conectarse",
+    "login": "Conectarse",
     "notRegisteredYet": "¿Aún no se ha registrado? Haga clic aquí para registrarse",
-
     "enableLocation": "Debe activar la localización",
     "howToEnableLocation": "¿Cómo activar la localización?",
     "locationDefaultText": "Puede utilizar la ubicación aproximada si lo prefiere.\nSiga estos pasos para activar la ubicación :\n1. Desliza el dedo hacia abajo desde la parte superior de la pantalla\n2. Mantenga pulsado Ubicación . Si no encuentras Ubicación : Toca Editar o Ajustes. A continuación, arrastre Ubicación a los Ajustes rápidos \n3. Toque Permisos de ubicación de la aplicación En 'Permitido todo el tiempo', 'Permitido sólo mientras está en uso' y 'No permitido', busque las aplicaciones que pueden utilizar la ubicación de su teléfono \n4. Para cambiar los permisos de la aplicación, tócala. A continuación, seleccione el acceso a la ubicación de la aplicación",
-    "locationDefaultTextIOS" : "Debe activar la ubicación para utilizar esta aplicación. Puede utilizar la ubicación aproximada si lo prefiere.\nSiga estos pasos para habilitar la ubicación : \n1. Ve a Ajustes > Privacidad y Seguridad > Servicios de Localización.\n2. Asegúrese de que los Servicios de Localización están activados.\n3. Desplácese hacia abajo para encontrar la aplicación Whatodo. Toca la aplicación y selecciona la opción Mientras usas la aplicación (o Siempre).",
-
-    "purchaseText1" : "Hazte un favor y piensa en tu pensando en tu",
+    "locationDefaultTextIOS": "Debe activar la ubicación para utilizar esta aplicación. Puede utilizar la ubicación aproximada si lo prefiere.\nSiga estos pasos para habilitar la ubicación : \n1. Ve a Ajustes > Privacidad y Seguridad > Servicios de Localización.\n2. Asegúrese de que los Servicios de Localización están activados.\n3. Desplácese hacia abajo para encontrar la aplicación Whatodo. Toca la aplicación y selecciona la opción Mientras usas la aplicación (o Siempre).",
+    "purchaseText1": "Hazte un favor y piensa en tu pensando en tu",
     "purchaseText2": "bienestar.",
-    "purchaseText3" : "Oferta de lanzamiento, nuestras dos mejores promociones, -15% y -30%, pronto no disponibles.",
+    "purchaseText3": "Oferta de lanzamiento, nuestras dos mejores promociones, -15% y -30%, pronto no disponibles.",
     "restorePurchase": "Restaurar compras anteriores",
     "terms": "CGU",
     "policy": "Política de privacidad",
-
     "token": "Ficha",
     "tokens": "Fichas",
-
     "reviews": "opiniones",
-
     "errorOpening": "Se ha producido un error. Su ficha no ha sido cargada. Vuelva a intentarlo",
-
+    "errorNoResult": "En estos momentos no hay ninguna oficina abierta. Cambie los criterios de búsqueda e inténtelo de nuevo",
     "hello": "Hola",
     "enjoyYour": "Disfrute de su",
     "enjoyYour2": "nueva",
@@ -52,43 +46,39 @@
     "movingTime": "Duración del viaje",
     "hour": "Hora",
     "minutes": "minutos",
-
     "location": "Ubicación",
     "currentLocation": "Mi posición actual",
     "or": "o",
     "clickHere": "Pulse aquí",
     "letsGo": "¡Vamos!",
-
     "nice": "¡Estupendo!",
     "bravo": "Bravo",
     "user": "El usuario",
     "earnRegisteredToken": "está bien registrado, ¡ganas 1 ficha!",
-
     "snacking": "Poca hambre",
     "bar": "Bar",
     "restaurant": "Restaurante",
     "discovering": "Descubra",
     "shopping": "Compras",
     "random": "Al azar",
-
     "byWalk": "A pie",
     "byBicycle": "En bicicleta",
     "byCar": "En coche",
-
     "selected": "seleccionada",
     "selecteds": "seleccionadas",
-
-    "selectOneActivity" : "Seleccione al menos una actividad",
+    "selectOneActivity": "Seleccione al menos una actividad",
     "selectOneMoving": "Seleccione al menos un medio de transporte",
     "selectTime": "Indique un tiempo mínimo para el trayecto deseado",
     "selectPosition": "Añada su cargo",
-
+    "acceptedPlaces": "Lugares aceptados",
+    "suggestedPlaces": "Lugares propuestos",
     "noHistory": "Actualmente no tiene historial",
     "yes": "Si",
     "no": "No",
     "deleteActivityTitle": "Suprimir esta actividad",
     "deleteActivityDesc": "¿Está seguro de que desea eliminar esta actividad?",
-
+    "acceptActivityTitle": "Aceptar esta actividad",
+    "acceptActivityDesc": "¿Está seguro de que desea aceptar esta actividad?",
     "faq": "Preguntas frecuentes",
     "faqq1": "¿Está optimizado el resultado propuesto?",
     "faqa1": "Sí, nuestra aplicación móvil utiliza algoritmos avanzados y datos de primera calidad para garantizar resultados optimizados y precisos en cada búsqueda.",
@@ -99,7 +89,6 @@
     "faqq4": "¿Cómo cambio mi cuenta?",
     "logout": "Desconectando",
     "logoutConfirm": "¿Seguro que quieres desconectarte?",
-
     "earnFreeToken": "Gane una ficha gratis",
     "sponsorshipText1": "¡Es muy fácil!",
     "sponsorshipText2": "1. Introduce la dirección de correo electrónico de tu amigo",
@@ -110,23 +99,21 @@
     "enterEmailFriendError": "Introduce el correo electrónico de tu amigo",
     "invitFriendPending": "Registro de su amigo pendiente. Recibirás una notificación cuando tu amigo esté registrado.",
     "emailAlreadySponsored": "Este correo electrónico ya está asociado a un patrocinio",
-
     "loginHeadline": "Disfrute de las mejores actividades a su alrededor",
-
     "loginFb": "Continuar con Facebook",
     "loginApple": "Continuar con Apple",
     "loginGoogle": "Continuar con Google",
     "loginEmail": "Continuar con un correo electrónico",
-
     "informations": "Información",
     "wantThisPlace": "¿Le gustaría visitar este lugar?",
     "placeAddedHistory": "Esta ubicación se ha añadido a tu historial",
-
     "seeMaps": "Ver en Mapas",
     "cannotOpenMap": "No se puede abrir el mapa",
-
     "history": "Historia",
-
-    "watchAllAdVideo": "Tienes que ver todo el vídeo para conseguir una ficha gratis"
-
+    "watchAllAdVideo": "Tienes que ver todo el vídeo para conseguir una ficha gratis",
+    "welcomeWhatodo": "Bienvenido a Whatodo",
+    "whatodoHowItWorks": "Whatodo, ¿cómo funciona?",
+    "helper1": "1. ¡Complete sus criterios en menos de 30 segundos!",
+    "helper2": "2. Haz clic en '¡Vamos!' y utiliza una ficha",
+    "helper3": "3. Whatodo te ofrece un lugar, ¡tienes que jugar y descubrirlo!"
 }

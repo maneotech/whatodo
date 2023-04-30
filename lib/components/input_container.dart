@@ -69,10 +69,20 @@ class InputContainer extends StatelessWidget {
         );
 
       case InputContainerType.icon:
-        return const Icon(Icons.gps_fixed, size: 32, color: Colors.white);
+        return const ImageIcon(
+          AssetImage(
+            Constants.locationIcon,
+          ),
+          color: Colors.white,
+        );
 
       default:
-        return const Icon(Icons.gps_fixed, size: 32, color: Colors.white);
+        return const ImageIcon(
+          AssetImage(
+            Constants.locationIcon,
+          ),
+          color: Colors.white,
+        );
     }
   }
 }

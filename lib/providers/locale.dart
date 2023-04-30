@@ -1,9 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 
-import '../constants/constant.dart';
-import '../repositories/shared_pref.dart';
 
 class LocaleProvider with ChangeNotifier {
   Locale _locale = Locale(Platform.localeName.substring(0, 2));
@@ -13,15 +10,15 @@ class LocaleProvider with ChangeNotifier {
   LocaleProvider() {
     init();
   }
-  init() async {
+  init() {
     if (_locale.languageCode != "fr" && _locale.languageCode != "en" && _locale.languageCode != "es" ) {
       _locale = const Locale("en");
     }
 
-    await getLanguageFromDisk();
+    //await getLanguageFromDisk();
   }
 
-  void setLocale(Locale locale) {
+  /*void setLocale(Locale locale) {
     if (locale.languageCode != 'en' &&
         locale.languageCode != 'fr' &&
         locale.languageCode != 'es') {
@@ -30,9 +27,9 @@ class LocaleProvider with ChangeNotifier {
 
     _locale = locale;
     notifyListeners();
-  }
+  }*/
 
-  getLanguageFromDisk() async {
+  /*getLanguageFromDisk() async {
     SharedPref sharedPref = SharedPref();
     String? jsonString = await sharedPref.read(Constants.sharedPrefKeyLanguage);
 
@@ -54,5 +51,5 @@ class LocaleProvider with ChangeNotifier {
     }
 
     await saveLanguageToDisk(languageCode);
-  }
+  }*/
 }

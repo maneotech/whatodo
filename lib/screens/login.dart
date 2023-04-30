@@ -117,7 +117,9 @@ class _LoginState extends State<LoginScreen> {
 
       loginWithThirdPart(userModel, UserThirdPart.facebook);
     } else {
-      ToastService.showError(AppLocalizations.of(context)!.internalError);
+      if (mounted) {
+        ToastService.showError(AppLocalizations.of(context)!.internalError);
+      }
     }
   }
 

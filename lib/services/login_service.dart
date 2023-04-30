@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
+import 'package:whatodo/main.dart';
 import 'package:whatodo/services/toast.dart';
 
 import '../models/response/response_error.dart';
@@ -16,7 +17,13 @@ class LoginService {
         ResponseUser responseUser = ResponseUser.fromReqBody(res.body);
 
         //fix notify listener not called
-        Navigator.of(context).popUntil(ModalRoute.withName('/'));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => const RootScreens(),
+          ),
+        );
+
         //end of fix
 
         await Provider.of<AuthProvider>(context, listen: false)
@@ -31,7 +38,7 @@ class LoginService {
       ResponseError body = ResponseError.fromReqBody(res.body);
       if (body.error == 102) {
         ToastService.showError(
-            AppLocalizations.of(context)!.emailOrPasswordIncorrect);
+            AppLocalizations.of(context)!.emailOrPasswordIncorrect, longLength: true);
       } else if (body.error == 58) {
         ToastService.showError(AppLocalizations.of(context)!.emailAlreadyUsed);
       } else {

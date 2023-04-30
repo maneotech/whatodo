@@ -11,6 +11,7 @@ import '../constants/constant.dart';
 class PurchaseScreen extends StatelessWidget {
   const PurchaseScreen({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

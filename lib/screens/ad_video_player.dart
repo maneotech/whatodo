@@ -79,7 +79,7 @@ class _AdVideoPlayerState extends State<AdVideoPlayer> {
     } else {
       ToastService.showError(AppLocalizations.of(context)!.internalError);
       if (mounted) {
-        Navigator.of(context).popUntil(ModalRoute.withName('/'));
+        Navigator.of(context).popUntil((route) => route.isFirst);
       }
       return null;
     }

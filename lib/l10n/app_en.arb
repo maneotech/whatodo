@@ -41,6 +41,7 @@
     "reviews": "reviews",
 
     "errorOpening": "An error has occured. Your token has not been charged. Please try again",
+    "errorNoResult": "No places are currently open. Please change your search criteria and try again",
 
     "hello": "Hello",
     "enjoyYour": "Enjoy your",
@@ -82,11 +83,15 @@
     "selectTime": "Please specify a minimal time to reach the place",
     "selectPosition": "Please add your location",
 
+    "acceptedPlaces" : "Accepted locations",
+    "suggestedPlaces": "Suggested locations",
     "noHistory": "You do not have a history yet",
     "yes": "Yes",
     "no": "No",
     "deleteActivityTitle": "Delete this activity",
     "deleteActivityDesc": "Are you sure you want to delete this activity ?",
+    "acceptActivityTitle": "Accept this activity",
+    "acceptActivityDesc": "Are you sure you want to accept this activity ?",
 
     "faq": "Frequently asked questions",
     "faqq1": "Is the proposed result optimized?",
@@ -126,6 +131,11 @@
 
     "history": "History",
 
-    "watchAllAdVideo": "Your must watch the full video to get a free token"
+    "watchAllAdVideo": "Your must watch the full video to get a free token",
 
+    "welcomeWhatodo": "Welcome to Whatodo",
+    "whatodoHowItWorks": "Whatodo, how does it work?",
+    "helper1": "1. Complete your criteria in less than 30 seconds!",
+    "helper2": "2. Click on 'Here we go!' and use a token",
+    "helper3": "3. Whatodo offers you a place, you have to play the game and discover it!"
 }

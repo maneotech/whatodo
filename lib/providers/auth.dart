@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:whatodo/services/base_api.dart';
 
 import '../constants/constant.dart';
 import '../repositories/shared_pref.dart';
@@ -9,6 +8,10 @@ class AuthProvider with ChangeNotifier {
   String get jwt => _jwt;
 
   static String bearerToken = "";
+
+  AuthProvider() {
+    init();
+  }
 
   init() async {
     await getJwtFromDisk();

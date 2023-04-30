@@ -22,7 +22,7 @@ class BaseAPI {
 
   static Uri getPlacePath = Uri.parse("$api/place/one");
   static Uri acceptPlacePath = Uri.parse("$api/place/accept");
-  static Uri acceptedPlacesPath = Uri.parse("$api/place/accepted");
+  static Uri allPlacesPath = Uri.parse("$api/place/all");
   static Uri refusePlacesPath = Uri.parse("$api/place/refuse");
 
   static Uri startVideoUrl = Uri.parse("$api/ad/video/start");
@@ -33,9 +33,6 @@ class BaseAPI {
 
   static Uri sponsorshipNotifiedUrl = Uri.parse("$api/ad/sponsorship/notify");
   static Uri createSponsorshipUrl = Uri.parse("$api/ad/sponsorship/create");
-
-  static String googleApiKey = "AIzaSyBv2zOoqxBElmBJH4jFBieXnoDXqy_YRkw";
-
 
 
   /* ************** SIGNIN / LOGIN ***************/
@@ -78,8 +75,8 @@ class BaseAPI {
         .post(acceptPlacePath, headers: AuthProvider.getHeaders(), body: json);
   }
 
-  static Future<Response> getAcceptedPlaces() async {
-    return await http.Client().get(acceptedPlacesPath, headers: AuthProvider.getHeaders());
+  static Future<Response> getAllPlaces() async {
+    return await http.Client().get(allPlacesPath, headers: AuthProvider.getHeaders());
   }
 
   static Future<Response> refusePlace(String docId) async {

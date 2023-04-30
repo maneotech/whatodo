@@ -6,6 +6,7 @@ class Constants {
   static const String sharedPrefKeyLat = "lat";
   static const String sharedPrefKeyLng = "lng";
   static const String sharedPrefKeyAddress = "address";
+  static const String sharedPrefKeyFirstOpenApp = "firstopen";
 
   static const TextStyle defaultTextStyle = TextStyle(
       fontSize: 15.0, fontWeight: FontWeight.normal, color: Colors.black);
@@ -104,10 +105,17 @@ class Constants {
   static const String historyIcon = "assets/icons/history.png";
   static const String addPeopleIcon = "assets/icons/add-people.png";
   static const String tvIcon = "assets/icons/tv.png";
+  static const String timeIcon = "assets/icons/time.png";
+  static const String locationIcon = "assets/icons/location.png";
 
   static const String termsUrl = "https://maneotech.fr/terms-of-service.html";
   static const String policyUrl = "https://maneotech.fr/policy.html";
-  static const String urlPictureGoogleApi =
-      "https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyBv2zOoqxBElmBJH4jFBieXnoDXqy_YRkw&maxwidth=800&photoreference=";
+  static const String urlPictureGoogle =
+      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=";
+
+
+  static const String androidKey = "&key=AIzaSyCGnbHNMOKZjlpDW0xiEgAHPxLagEhuTOE";
+  static const String iosKey = "&key=AIzaSyCGnbHNMOKZjlpDW0xiEgAHPxLagEhuTOE";
+
   static const String purchaseRouteName = "shop";
 }

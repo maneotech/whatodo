@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
+import 'package:whatodo/models/response/response_error.dart';
 import 'package:whatodo/providers/user.dart';
 import 'package:whatodo/screens/place_result.dart';
 import 'package:whatodo/services/toast.dart';
@@ -97,10 +98,15 @@ class _OpeningScreenState extends State<OpeningScreen> {
         goToPlaceResultScreen(_resultPlaceModel!);
       }
     } else {
-      ToastService.showError(AppLocalizations.of(context)!.errorOpening);
+      var body = ResponseError.fromReqBody(res.body);
+      if (body.error == 701) {
+        ToastService.showError(AppLocalizations.of(context)!.errorNoResult);
+      } else {
+        ToastService.showError(AppLocalizations.of(context)!.errorOpening);
+      }
 
       if (mounted) {
-        Navigator.pop(context);
+        Navigator.popUntil(context, (route) => route.isFirst);
       }
     }
   }

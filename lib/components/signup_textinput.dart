@@ -7,7 +7,6 @@ class SignupTextInput extends StatefulWidget {
   final bool isPassword;
   final TextEditingController controller;
 
-
   const SignupTextInput(
       {super.key,
       required this.title,
@@ -20,6 +19,13 @@ class SignupTextInput extends StatefulWidget {
 }
 
 class _SignupTextInputState extends State<SignupTextInput> {
+  bool _obscureText = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureText = widget.isPassword ? true: false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,20 +37,37 @@ class _SignupTextInputState extends State<SignupTextInput> {
           Text(widget.title, style: Constants.signupTitle),
           TextFormField(
             controller: widget.controller,
-            obscureText: widget.isPassword,
+            obscureText: _obscureText,
             decoration: InputDecoration(
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () => onDelete(),
-              ),
+              suffixIcon: getSuffixIcon(),
               labelText: widget.label,
               floatingLabelBehavior: FloatingLabelBehavior.never,
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
             ),
           )
         ],
       ),
     );
+  }
+
+  IconButton getSuffixIcon() {
+    if (widget.isPassword) {
+      return IconButton(
+        icon: const Icon(Icons.visibility, color: Colors.grey,),
+        onPressed: () => onClickVisibility(),
+      );
+    } else {
+      return IconButton(
+        icon: const Icon(Icons.close),
+        onPressed: () => onDelete(),
+      );
+    }
+  }
+
+  onClickVisibility(){
+    setState(() {
+      _obscureText = !_obscureText;
+    }); 
   }
 
   onDelete() {

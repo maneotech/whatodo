@@ -56,6 +56,9 @@ dependencies:
   url_launcher: ^6.1.10
   sign_in_with_apple: ^4.3.0
   in_app_review: ^2.0.6
+  firebase_analytics: ^10.2.1
+  firebase_core: ^2.10.0
+  firebase_crashlytics: ^3.1.1
 
 dev_dependencies:
   flutter_test:
@@ -84,7 +87,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/sounds/
-    - assets/videos/
+
   fonts:
     - family: Hellix
       fonts:

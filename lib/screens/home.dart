@@ -5,7 +5,10 @@ import 'package:whatodo/constants/constant.dart';
 import 'package:whatodo/models/home_response.dart';
 import 'package:whatodo/models/request_place.dart';
 import 'package:whatodo/providers/location.dart';
+import 'package:whatodo/screens/duration_picker.dart';
+import 'package:whatodo/screens/helper_.dart';
 import 'package:whatodo/screens/opening.dart';
+import 'package:whatodo/screens/purchase_screen.dart';
 import 'package:whatodo/screens/require_location_info.dart';
 import 'package:whatodo/services/alert.dart';
 import 'package:whatodo/services/toast.dart';
@@ -15,6 +18,7 @@ import '../components/activity_header_text.dart';
 import '../components/input_container.dart';
 import '../providers/user.dart';
 import '../services/base_api.dart';
+import '../services/utils.dart';
 import '../utils/enum_filters.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -26,8 +30,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  TextEditingController controllerHours = TextEditingController(text: "0");
-  TextEditingController controllerMinutes = TextEditingController(text: "15");
+  //TextEditingController controllerHours = TextEditingController(text: "0");
+  //TextEditingController controllerMinutes = TextEditingController(text: "15");
+
+  int maxMin = 15;
+
   TextEditingController controllerAddress =
       TextEditingController(text: "Aucune adresse");
 
@@ -69,109 +76,122 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(
-            "${AppLocalizations.of(context)!.hello} ${Provider.of<UserProvider>(context).firstname} ! ${AppLocalizations.of(context)!.enjoyYour}"),
-        Row(
-          children: [
-            Text(AppLocalizations.of(context)!.enjoyYour2),
-            Text(
-              " ${AppLocalizations.of(context)!.adventure}",
-              style: const TextStyle(
-                  fontWeight: FontWeight.w700, color: Constants.secondaryColor),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+              "${AppLocalizations.of(context)!.hello} ${Provider.of<UserProvider>(context).firstname} ! ${AppLocalizations.of(context)!.enjoyYour}"),
+          Row(
+            children: [
+              Text(AppLocalizations.of(context)!.enjoyYour2),
+              Text(
+                " ${AppLocalizations.of(context)!.adventure}",
+                style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: Constants.secondaryColor),
+              ),
+            ],
+          ),
+          getTitleSectionRow(
+              AppLocalizations.of(context)!.activities, selectedActivities, 5),
+          SizedBox(
+            height: 75,
+            child: Row(
+              children: activityBlocs1,
             ),
-          ],
-        ),
-        getTitleSectionRow(
-            AppLocalizations.of(context)!.activities, selectedActivities, 5),
-        SizedBox(
-          height: 75,
-          child: Row(
-            children: activityBlocs1,
           ),
-        ),
-        SizedBox(
-          height: 75,
-          child: Row(
-            children: activityBlocs2,
-          ),
-        ),
-        /*getTitleSectionRow("Tarif", selectedPrices, 2),
-        SizedBox(
-          height: 75,
-          child: Row(
-            children: priceBlocs,
-          ),
-        ),*/
-        getTitleSectionRow(
-            AppLocalizations.of(context)!.movingType, selectedMovingTypes, 3),
-        SizedBox(
-          height: 75,
-          child: Row(
-            children: movingBlocs,
-          ),
-        ),
-        Padding(
-          padding: Constants.paddingActivityTitle,
-          child: ActivityHeaderText(
-              text: AppLocalizations.of(context)!.movingTime),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            InputContainer(
-                title: AppLocalizations.of(context)!.hour,
-                color: Constants.secondaryColor,
-                textController: controllerHours,
-                type: InputContainerType.number,
-                width: 80),
-            getSeparator(":"),
-            InputContainer(
-                title: AppLocalizations.of(context)!.minutes,
-                color: Constants.thirdColor,
-                textController: controllerMinutes,
-                type: InputContainerType.number,
-                width: 80),
-          ],
-        ),
-        Padding(
-          padding: Constants.paddingActivityTitle,
-          child:
-              ActivityHeaderText(text: AppLocalizations.of(context)!.location),
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: InputContainer(
-                  title: AppLocalizations.of(context)!.currentLocation,
-                  color: Constants.thirdColor,
-                  textController: controllerAddress,
-                  type: InputContainerType.address,
-                  width: null),
+          SizedBox(
+            height: 75,
+            child: Row(
+              children: activityBlocs2,
             ),
-            getSeparator(AppLocalizations.of(context)!.or),
-            GestureDetector(
-              onTap: () => getLocation(),
-              child: InputContainer(
-                  title: AppLocalizations.of(context)!.clickHere,
-                  color: Constants.primaryColor,
-                  textController: null,
-                  type: InputContainerType.icon,
-                  width: 80),
+          ),
+
+          getTitleSectionRow(
+              AppLocalizations.of(context)!.movingType, selectedMovingTypes, 3),
+          SizedBox(
+            height: 75,
+            child: Row(
+              children: movingBlocs,
             ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 30.0),
-          child: ActionButton(
-              onTap: () => goToOpening(),
-              title: AppLocalizations.of(context)!.letsGo),
-        )
-      ]),
+          ),
+          Padding(
+            padding: Constants.paddingActivityTitle,
+            child: ActivityHeaderText(
+                text: AppLocalizations.of(context)!.movingTime),
+          ),
+          SizedBox(
+            height: 75,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ActivityContainer(
+                    title:
+                        "< ${maxMin.toString()} ${AppLocalizations.of(context)!.minutes}",
+                    color: Constants.secondaryColor,
+                    iconPath: Constants.timeIcon,
+                    onTap: () => showDurationPicker(),
+                    changeColorOnTap: false,
+                    isActive: false),
+              ],
+            ),
+          ),
+          Padding(
+            padding: Constants.paddingActivityTitle,
+            child: ActivityHeaderText(
+                text: AppLocalizations.of(context)!.location),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: InputContainer(
+                    title: AppLocalizations.of(context)!.currentLocation,
+                    color: Constants.thirdColor,
+                    textController: controllerAddress,
+                    type: InputContainerType.address,
+                    width: null),
+              ),
+              getSeparator(AppLocalizations.of(context)!.or),
+              GestureDetector(
+                onTap: () => getLocation(),
+                child: InputContainer(
+                    title: AppLocalizations.of(context)!.clickHere,
+                    color: Constants.primaryColor,
+                    textController: null,
+                    type: InputContainerType.icon,
+                    width: 80),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 30.0),
+            child: ActionButton(
+                onTap: () => goToOpening(),
+                title: AppLocalizations.of(context)!.letsGo),
+          ),
+        ],
+      ),
     );
+  }
+
+  showDurationPicker() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => DurationPisckerScreen(
+          selectDuration: updateDuration,
+        ),
+      ),
+    );
+  }
+
+  updateDuration(int minutes) {
+    setState(() {
+      maxMin = minutes;
+    });
   }
 
   getHome() async {
@@ -197,6 +217,18 @@ class _HomeScreenState extends State<HomeScreen> {
           () => Navigator.of(context).pop());
 
       await BaseAPI.sponsorshipHasBeenNotified(homeModel.lastSponsorshipEmail!);
+    }
+
+    //check for first openapp
+
+    bool isFirstOpening = await UtilService.isFirstOpenApp();
+    if (mounted && isFirstOpening) {
+      showDialog(
+        context: context,
+        builder: (BuildContext bc) {
+          return const HelperScreen();
+        },
+      );
     }
   }
 
@@ -389,32 +421,42 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   goToOpening() async {
-    double? lat = Provider.of<LocationProvider>(context, listen: false).lat;
-    double? lng = Provider.of<LocationProvider>(context, listen: false).lng;
+    if (Provider.of<UserProvider>(context, listen: false).token > 0) {
+      double? lat = Provider.of<LocationProvider>(context, listen: false).lat;
+      double? lng = Provider.of<LocationProvider>(context, listen: false).lng;
 
-    if (checkAtLeastOneActivity() &&
-        /*checkPrice() &&*/
-        checkMoving() &&
-        checkTime() &&
-        checkLat(lat, lng)) {
-      /*  String currentAddress =
+      if (checkAtLeastOneActivity() &&
+          /*checkPrice() &&*/
+          checkMoving() &&
+          checkTime() &&
+          checkLat(lat, lng)) {
+        /*  String currentAddress =
           Provider.of<LocationProvider>(context, listen: false).currentAddress!;*/
 
-      RequestPlace requestPlace = RequestPlace(
-        selectedActivities,
-        //selectedPrices,
-        selectedMovingTypes,
-        lat!,
-        lng!,
-        int.parse(controllerHours.text),
-        int.parse(controllerMinutes.text),
-      );
+        RequestPlace requestPlace = RequestPlace(
+          selectedActivities,
+          //selectedPrices,
+          selectedMovingTypes,
+          lat!,
+          lng!,
+          0,
+          maxMin,
+        );
 
+        if (context.mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    OpeningScreen(requestPlace: requestPlace)),
+          );
+        }
+      }
+    } else {
       if (context.mounted) {
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => OpeningScreen(requestPlace: requestPlace)),
+          MaterialPageRoute(builder: (context) => const PurchaseScreen()),
         );
       }
     }
@@ -450,8 +492,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   bool checkTime() {
-    if ((controllerHours.text == "0" || controllerHours.text == "00") &&
-        (controllerMinutes.text == "0" || controllerMinutes.text == "00")) {
+    if (maxMin.toString() == "0") {
       ToastService.showError(AppLocalizations.of(context)!.selectTime);
       return false;
     }

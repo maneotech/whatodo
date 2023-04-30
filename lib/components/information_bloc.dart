@@ -72,7 +72,7 @@ class InformationBloc extends StatelessWidget {
   }
 
   refusePlace(BuildContext context) {
-    Navigator.of(context).popUntil(ModalRoute.withName('/'));
+        Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
   acceptPlace(BuildContext context) async {
@@ -84,7 +84,7 @@ class InformationBloc extends StatelessWidget {
       await proceedInAppReview();
 
       if (context.mounted) {
-        Navigator.of(context).popUntil(ModalRoute.withName('/'));
+        Navigator.of(context).popUntil((route) => route.isFirst);
       }
     } else {
       ToastService.showError(AppLocalizations.of(context)!.internalError);

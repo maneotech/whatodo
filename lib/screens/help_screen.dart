@@ -84,7 +84,9 @@ class HelpScreen extends StatelessWidget {
 
   disconnect(BuildContext context) async {
     //fix notify listener not called
-    Navigator.pushReplacementNamed(context, '/');
+    Navigator.popUntil(context, (route) => route.isFirst); 
+    Navigator.pushReplacementNamed(context, '/'); 
+
     //end of fix
 
     await Provider.of<AuthProvider>(context, listen: false).logout();

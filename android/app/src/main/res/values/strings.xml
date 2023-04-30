@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Whatodo - Around Me</string>
-    <string name="facebook_app_id">482236380784584</string>
-    <string name="fb_login_protocol_scheme">fb482236380784584</string>
-    <string name="facebook_client_token">dd3061c450456441fd5d68e5cdea427d</string>
+    <string name="facebook_app_id">898483591252705</string>
+    <string name="fb_login_protocol_scheme">fb898483591252705</string>
+    <string name="facebook_client_token">cd3b4e8f25d77dd0d3afe3067d536496</string>
 </resources>

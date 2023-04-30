@@ -10,12 +10,15 @@ import 'information_bloc_squares.dart';
 
 class HistoryBloc extends StatelessWidget {
   final ResultPlaceModel resultPlaceModel;
-  final Function onDeleteActivity;
+  final bool? isDeleteIcon;
+  final Function onClickIcon;
 
-  const HistoryBloc(
-      {super.key,
-      required this.resultPlaceModel,
-      required this.onDeleteActivity});
+  const HistoryBloc({
+    super.key,
+    required this.resultPlaceModel,
+    required this.isDeleteIcon,
+    required this.onClickIcon,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -58,20 +61,25 @@ class HistoryBloc extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-          top: 0,
-          right: 0,
-          child: GestureDetector(
-            onTap: () => onDeleteActivity(),
-            child: const Icon(
-              Icons.remove_circle,
-              color: Colors.black,
-              size: 12,
+        if (isDeleteIcon != null)
+          Positioned(
+            top: 0,
+            right: 0,
+            child: GestureDetector(
+              onTap: () => onClickIcon(),
+              child: Icon(
+                getIcon(),
+                color: Colors.black,
+                size: 12,
+              ),
             ),
           ),
-        ),
       ],
     );
+  }
+
+  IconData getIcon(){
+    return isDeleteIcon! ? Icons.remove_circle : Icons.add_circle;
   }
 
   Text getDateText(BuildContext context) {
